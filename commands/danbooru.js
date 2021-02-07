@@ -1,0 +1,42 @@
+const Discord = require("discord.js");
+const logs = require('../modules/logger');
+const { DBKey } = require('../settings/config.json');
+const Booru = require('../modules/booru');
+
+const booru = new Booru(DBKey, 'SigmaTheFox');
+
+module.exports = {
+  name: `danbooru`,
+  aliases: [`db`, `danb`, `dbooru`],
+  execute(ayanami, message, args) {
+
+    // Checks if the channel is set to NSFW.
+    if (!message.channel.nsfw && message.channel.type !== "dm") {
+      message.react("💢");
+      return message.reply("Commander, please go in the lewds channel or DMs for this.");
+    }
+
+    if (args.length >= 1) return message.reply("You can't use any tags with Danbooru, to use tags use Gelbooru or Rule34");
+
+    // Searches the booru using the argument provided by the message author.
+    booru.search("db", ['-shota', '-loli'])
+      .then(image => {
+        // Creates an embed that sends the image.
+        if (image.URL.includes('webm' || 'mp4')) {
+          return message.channel.send(image.URL);
+        } else {
+          const embed = new Discord.MessageEmbed()
+            .setAuthor(`Danbooru`)
+            .setDescription(`[Image URL](${image.booruURL})`)
+            .setImage(image.URL)
+            .setColor(45055);
+          return message.channel.send({ embed });
+        }
+        // Catches errors and responds to them (sometimes).
+      })
+      .catch(err => {
+        logs.error(err);
+        return message.reply(`I'm sorry commander... I didn't find anything for **${args[0]}**.`);
+      });
+  }
+};

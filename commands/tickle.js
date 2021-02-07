@@ -1,0 +1,45 @@
+module.exports = {
+  name: `tickle`,
+  aliases: [`tickles`],
+  execute(ayanami, message, args) {
+    const Discord = require('discord.js');
+    const { randomKey } = require('../settings/config.json');
+    const Emote = require("../emojis.json");
+    const bully = ayanami.emojis.cache.get(Emote.surebully);
+    const Gifs = require("../gifs.json");
+    const RandomOrg = require("random-org");
+    const logs = require('../modules/logger');
+    const random = new RandomOrg({ apiKey: randomKey });
+
+    //let imageURL = Gifs.tickle[Math.floor(Math.random() * Gifs.tickle.length)];
+    const user = `**${args.join(' ')}**` || `<@${message.mentions.users.first().id}>`;
+
+    random.generateIntegers({ min: 0, max: Gifs.tickle.length - 1, n: 1 })
+      .then(function (r) {
+        let imageURL = Gifs.tickle[r.random.data];
+        logs.info(`Generated number for tickle command: ${r.random.data}`);
+
+        function sendEmbed() {
+          const embed = new Discord.MessageEmbed()
+            .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setDescription(description)
+            .setImage(imageURL)
+            .setColor(45055);
+          return message.channel.send({ embed });
+        }
+
+        // Sends the embed with the randomly generated image/gif.
+        if (user === "****" || !user) {
+          var description = `Tickle tickle tickle!!! ${bully} [Source](${imageURL})`
+          sendEmbed();
+        } else {
+          var description = `<@${message.author.id}> Tickles ${user} ${bully} [Source](${imageURL})`
+          sendEmbed();
+        }
+      }).catch(err => {
+        logs.error(err)
+        console.error(err)
+        return message.reply('There was an error, please try again in a few minutes')
+      })
+  }
+}

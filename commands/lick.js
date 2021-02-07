@@ -1,0 +1,43 @@
+module.exports = {
+  name: `lick`,
+  aliases: [`licks`, `shlurp`],
+  execute(ayanami, message, args) {
+    const Discord = require('discord.js');
+    const Gifs = require("../gifs.json");
+    const { randomKey } = require('../settings/config.json');
+    const RandomOrg = require("random-org");
+    const logs = require('../modules/logger');
+    const random = new RandomOrg({ apiKey: randomKey });
+
+    //let imageURL = Gifs.lick[Math.floor(Math.random() * Gifs.lick.length)];
+    const user = `**${args.join(' ')}**` || `<@${message.mentions.users.first().id}>`;
+
+    random.generateIntegers({ min: 0, max: Gifs.lick.length - 1, n: 1 })
+      .then(function (r) {
+        let imageURL = Gifs.lick[r.random.data];
+        logs.info(`Generated number for lick command: ${r.random.data}`);
+
+        function sendEmbed() {
+          const embed = new Discord.MessageEmbed()
+            .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setDescription(description)
+            .setImage(imageURL)
+            .setColor(45055);
+          return message.channel.send({ embed });
+        }
+
+        // Sends the embed with the randomly generated image/gif.
+        if (user === "****" || !user) {
+          var description = `You taste delicious. [Source](${imageURL})`
+          sendEmbed();
+        } else {
+          var description = `<@${message.author.id}> Licks ${user} [Source](${imageURL})`
+          sendEmbed();
+        }
+      }).catch(err => {
+        logs.error(err)
+        console.error(err)
+        return message.reply('There was an error, please try again in a few minutes')
+      })
+  }
+}
