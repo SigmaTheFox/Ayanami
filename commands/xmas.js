@@ -4,7 +4,7 @@ const logs = require('../modules/logger')
 
 module.exports = {
     name: "xmas",
-    category: "event",
+    category: "random",
     description: "You will become Santa!",
     aliases: ["santa", "christmas"],
     locked: false,

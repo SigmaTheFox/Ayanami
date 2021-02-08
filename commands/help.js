@@ -22,12 +22,12 @@ module.exports = {
         }
         if (!embeds[cmd.category][Math.floor(counts[cmd.category] / 25)]) {
           embeds[cmd.category].push(new MessageEmbed()
-            .setTitle(`${cmd.category.toUpperCase()} ${Math.floor(counts[cmd.category] / 25) + 1}`)
+            .setTitle(`${cmd.category.toUpperCase()} ${Math.floor(counts[cmd.category] / 25) == 0 ? "" : Math.floor(counts[cmd.category] / 25) + 1}`)
             .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL())
             .setColor(45055)
           )
         }
-        embeds[cmd.category][Math.floor(counts[cmd.category] / 25)].addField(cmd.name, cmd.description ? cmd.description : "\u200b")
+        embeds[cmd.category][Math.floor(counts[cmd.category] / 25)].addField(cmd.name, cmd.description ? cmd.description : "\u200b", true)
         counts[cmd.category]++
       })
 
