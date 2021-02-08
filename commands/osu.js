@@ -11,6 +11,8 @@ var osuApi = new osu.Api(osuKey, {
 
 module.exports = {
     name: `osu`,
+    category: "games",
+    description: "View your or someone else's OSU! stats.",
     usage: `<username>`,
     async execute(ayanami, message, args) {
         const username = args.join(" ");

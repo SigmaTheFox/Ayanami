@@ -2,6 +2,8 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: "warn",
+    category: "admin",
+    description: "Warn a user. This will send a message in the admin logs channel.",
     args: true,
     usage: "<@User to give a warning> <reason>",
     execute(ayanami, message, args) {

@@ -2,6 +2,8 @@ const { RolesDB } = require("../modules/dbObjects");
 
 module.exports = {
     name: 'roleadd',
+    category: "admin",
+    description: "Add a reaction role to the database.",
     aliases: ['rolesadd', 'radd', 'ra'],
     args: true,
     usage: "<emote | Role Name (Case Sensitive)>",

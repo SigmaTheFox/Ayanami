@@ -5,6 +5,8 @@ const logs = require('../modules/logger');
 
 module.exports = {
     name: "weather",
+    category: "utility",
+    description: "I'll tell you what the weather's like.",
     args: true,
     usage: '<City name>" (you can also add the State Code and Country Code, separate with " | ". As an example <New York | US> or <Portland | OR | US>)',
     async execute(ayanami, message, args) {

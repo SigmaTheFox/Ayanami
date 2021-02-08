@@ -2,6 +2,8 @@ const { OsuDB } = require("../modules/dbObjects");
 
 module.exports = {
     name: `osuset`,
+    category: "games",
+    description: "You can store your OSU! username for future use with this command.",
     args: true,
     usage: `<username>`,
     async execute(ayanami, message, args) {

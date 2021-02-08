@@ -8,6 +8,8 @@ module.exports = {
     name: "google",
     aliases: ["g", "gm", "googleimage", "googleimg"],
     args: true,
+    category: "utility",
+    description: "I'll look for an image of what you typed.",
     usage: "<Search word>",
     async execute(ayanami, message, args) {
         async function search(word) {

@@ -1,5 +1,7 @@
 module.exports = {
   name: `reload`,
+  category: "admin",
+  description: "**BOT OWNER ONLY** Reload a command.",
   args: true,
   usage: `<command name>`,
   execute(ayanami, message, args) {

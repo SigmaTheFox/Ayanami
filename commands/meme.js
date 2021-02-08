@@ -1,5 +1,7 @@
 module.exports = {
   name: `meme`,
+  category: "random",
+  description: "Get a random meme from Reddit.",
   aliases: [`memes`],
   execute(ayanami, message, args) {
     const Discord = require('discord.js');

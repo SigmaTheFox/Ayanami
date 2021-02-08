@@ -1,5 +1,7 @@
 module.exports = {
   name: `hug`,
+  category: "random",
+  description: "Give someone a hug.",
   aliases: [`hugs`],
   execute(ayanami, message, args) {
     // Imports the emojis database file and gives them a name used to call them.

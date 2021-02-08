@@ -3,6 +3,8 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: "unmute",
     args: true,
+    category: "admin",
+    description: "Unmute a user.",
     usage: "<@User to mute>",
     execute(ayanami, message, args) {
         let target = message.mentions.members.first();

@@ -4,6 +4,8 @@ const logs = require('../modules/logger')
 
 module.exports = {
   name: "spoopify",
+  category: "event",
+  description: "I will make you very spooky.",
   aliases: ["spoop"],
   locked: true,
   event: "Halloween",

@@ -6,6 +6,8 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'source',
+    category: "utility",
+    description: "Find the ketchup of an image.",
     aliases: ['sauce'],
     async execute(ayanami, message, args) {
         if (message.attachments.size == 0 && !args.length) return message.reply("Please attach an image or enter a link to an image.");

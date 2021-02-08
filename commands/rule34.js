@@ -6,6 +6,8 @@ const booru = new Booru();
 
 module.exports = {
     name: `rule34`,
+    category: "nsfw",
+    description: "Really? Gelbooru wasn't enough?",
     aliases: [`r34`],
     execute(ayanami, message, args) {
 

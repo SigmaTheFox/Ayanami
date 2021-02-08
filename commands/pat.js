@@ -1,5 +1,7 @@
 module.exports = {
   name: `pat`,
+  category: "random",
+  description: "Pat and everything's find again.",
   aliases: [`pats`, `headpat`, `patpat`],
   execute(ayanami, message, args) {
     const Discord = require('discord.js');

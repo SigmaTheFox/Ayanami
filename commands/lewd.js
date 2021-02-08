@@ -1,5 +1,7 @@
 module.exports = {
   name: `lewd`,
+  category: "random",
+  description: "NOOO! This is too lewd!",
   execute(ayanami, message, args) {
     // Imports the emojis database file and gives them a name used to call them.
     const Gifs = require("../gifs.json");

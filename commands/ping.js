@@ -1,5 +1,7 @@
 module.exports = {
   name: `ping`,
+  category: "random",
+  description: "Pong!",
   execute(ayanami, message, args) {
     message.channel.send("pong...")
     .then(m => {

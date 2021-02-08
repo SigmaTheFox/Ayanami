@@ -2,6 +2,8 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: "mute",
+    category: "admin",
+    description: "Mute a user",
     args: true,
     usage: "<@User to mute> <reason>",
     execute(ayanami, message, args) {

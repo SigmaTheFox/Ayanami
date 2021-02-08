@@ -7,6 +7,8 @@ const booru = new Booru(GBKey);
 
 module.exports = {
     name: `gelbooru`,
+    category: "nsfw",
+    description: "Use this one instead of Danbooru for tags.",
     aliases: [`gb`, `gelb`, `gbooru`],
     execute(ayanami, message, args) {
 

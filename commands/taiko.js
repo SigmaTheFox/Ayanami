@@ -34,6 +34,8 @@ Tags.sync();
 
 module.exports = {
     name: `taiko`,
+    category: "games",
+    description: "View your or someone else's OSU!Taiko stats.",
     usage: `<username>`,
     async execute(ayanami, message, args) {
         const username = args.join(" ");

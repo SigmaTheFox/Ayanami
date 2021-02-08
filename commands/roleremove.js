@@ -2,6 +2,8 @@ const { RolesDB } = require("../modules/dbObjects");
 
 module.exports = {
     name: 'roleremove',
+    category: "admin",
+    description: "Remove a reaction role from the database.",
     aliases: ['roledelete', 'roledel', 'roledestroy', 'rd'],
     args: true,
     usage: "emote",

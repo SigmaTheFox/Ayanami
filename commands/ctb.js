@@ -34,6 +34,8 @@ Tags.sync();
 
 module.exports = {
     name: `ctb`,
+    category: "games",
+    description: "View your or someone else's OSU!Catch the beat stats.",
     aliases: ['catchthebeat'],
     usage: `<username>`,
     async execute(ayanami, message, args) {

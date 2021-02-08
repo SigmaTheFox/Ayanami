@@ -7,6 +7,8 @@ const booru = new Booru(DBKey, 'SigmaTheFox');
 
 module.exports = {
   name: `danbooru`,
+  category: "nsfw",
+  description: "I see what you're doing there.\n**Use 'rating:explicit', 'rating:quetionable' or 'rating:safe' to get a random image of the respective category.**",
   aliases: [`db`, `danb`, `dbooru`],
   execute(ayanami, message, args) {
 

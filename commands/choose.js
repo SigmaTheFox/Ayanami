@@ -1,5 +1,7 @@
 module.exports = {
     name: "choose",
+    category: "utility",
+    description: "I'll pick for you.",
     aliases: ["pick", "random"],
     args: true,
     usage: "<option 1> | <option 2> ...",
