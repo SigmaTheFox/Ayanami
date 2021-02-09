@@ -12,7 +12,6 @@ module.exports = {
         var embed;
         var roleCheck = ayanami.guilds.cache.get("724873614104461322").members.cache.get(message.author.id).roles.cache
 
-        if (roleCheck.find(r => r.name === "Read rules")) return message.author.send("Please verify yourself first on the server before using this command.");
         if (!args[0].toLowerCase().includes("-")) return message.reply("Please use `//recommend -help` to get help on how to use the command.");
 
         // Check first argument
@@ -28,7 +27,8 @@ module.exports = {
                         { name: "Anonymosity", value: "-user: Show your username in the recommendation.\n-anon: Send the recommendation as anonymous." },
                         { name: "Example", value: "//recommend -server -user Add this emote to the server." }
                     )
-                return message.author.send({ embed: help });
+                return message.author.send({ embed: help })
+                .catch(() => {return message.channel.send("Your DMs seem to be blocked, make sure you allow them in the server privacy settings")})
                 break;
             case "-server":
             case "-s":
@@ -40,6 +40,7 @@ module.exports = {
             case "-render":
             case "-r":
                 if (!roleCheck.find(r => r.name === "NSFW")) return message.author.send("You need the NSFW role to recommend renders.")
+                .catch(() => {return message.channel.send("Your DMs seem to be blocked, make sure you allow them in the server privacy settings")})
                 channel = ayanami.channels.cache.get("779289003504566273");
                 embed = new MessageEmbed()
                     .setTitle("Render Recommendation")
@@ -63,7 +64,7 @@ module.exports = {
         args = args.splice(2, args.length).join(" ")
         embed = embed.setDescription(args);
 
-        if (!args) return message.reply("Please write a suggestion.");
+        if (!args) return message.reply("Please write a suggestion.")
         if (message.attachments.size >= 1) embed = embed.setImage(message.attachments.first().url);
         channel.send(embed)
 
