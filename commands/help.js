@@ -31,10 +31,11 @@ module.exports = {
         counts[cmd.category]++
       })
 
-      if (message.channel.type !== "dm") message.channel.send("Ok Commander. Check your DMs.")
+      if (message.channel.type !== "dm") message.channel.send("Ok Commander. Check your DMs.\n*In case you're not getting anything... Check if you have DMs allowed in the server privacy settings*")
       for (const key of Object.keys(embeds)) {
         embeds[key].forEach(e => {
           message.author.send(e)
+          .catch(() => { return })
         })
       }
     } catch (error) {
