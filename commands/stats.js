@@ -1,13 +1,13 @@
 const Discord = require("discord.js");
 const { freemem, totalmem } = require("os");
 
-function secondsToHms(d) {
-    d = Number(d);
-    let h = Math.floor(d / 3600);
-    let m = Math.floor(d % 3600 / 60);
-    let s = Math.floor(d % 3600 % 60);
+function secondsToHms(t) {
+    t = Number(t);
+    let d = Math.floor(t / 86400);
+    let h = Math.floor((t % 86400) / 3600);
+    let m = Math.floor(((t % 86400) % 3600) / 60);
 
-    return `${("0" + h).slice(-2)}:${("0" + m).slice(-2)}:${("0" + s).slice(-2)}`
+    return `${("0" + d).slice(-2)}:${("0" + h).slice(-2)}:${("0" + m).slice(-2)}`
 }
 
 module.exports = {
