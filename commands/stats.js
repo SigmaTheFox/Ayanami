@@ -21,7 +21,7 @@ module.exports = {
      * @param {String[]} args 
      */
     async execute(ayanami, message, args) {
-        let guild = message.guild;
+        let guild = ayanami.guilds.cache.get("724873614104461322");
         let { heapTotal, heapUsed, rss } = process.memoryUsage()
         heapTotal = heapTotal / 1000000;
         heapUsed = heapUsed / 1000000;
