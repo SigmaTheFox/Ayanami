@@ -12,6 +12,8 @@ module.exports = {
         var embed;
         var roleCheck = ayanami.guilds.cache.get("724873614104461322").members.cache.get(message.author.id).roles.cache
 
+        if (!roleCheck.find(r => r.name === "Muted")) return message.author.send("You seem to be muted on the server. To prevent abuse, Muted users can't use this command.")
+
         if (!args[0].toLowerCase().includes("-")) return message.reply("Please use `//recommend -help` to get help on how to use the command.");
 
         // Check first argument
@@ -51,21 +53,21 @@ module.exports = {
         switch (args[1].toLowerCase()) {
             case "-user":
             case "-u":
-                embed = embed
+                embed
                     .setAuthor(message.author.username, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
                 break;
             case "-anon":
             case "-a":
-                embed = embed
+                embed
                     .setAuthor("Anonymous", "https://cdn.discordapp.com/attachments/340814937435668480/783290091313037332/question-mark-768x768.png")
                 break;
         }
 
         args = args.splice(2, args.length).join(" ")
-        embed = embed.setDescription(args);
+        embed.setDescription(args);
 
         if (!args) return message.reply("Please write a suggestion.")
-        if (message.attachments.size >= 1) embed = embed.setImage(message.attachments.first().url);
+        if (message.attachments.size >= 1) embed.setImage(message.attachments.first().url);
         channel.send(embed)
 
     }
