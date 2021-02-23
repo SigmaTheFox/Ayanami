@@ -27,20 +27,20 @@ module.exports = {
         rss = rss / 1000000;
 
         let usedMem = (totalmem() - freemem()) / 1000000000,
-        totalMem = totalmem() / 1000000000
+            totalMem = totalmem() / 1000000000
 
         let userCount = ayanami.users.cache.filter(u => !u.bot).size,
-        commandCount = ayanami.commands.size
+            commandCount = ayanami.commands.size
 
         const embed = new Discord.MessageEmbed()
-        .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL(true))
-        .setTitle("Ayanami Stats")
-        .setColor(45055)
-        .addFields([
-            { name: "System Info", value: `•\u2000\**System memory usage**: ${usedMem.toFixed(2)}/${totalMem.toFixed(2)}GB\n•\u2000\**Process memory Usage**: ${rss.toFixed(2)}MB\n•\u2000\**Heap Total**: ${heapTotal.toFixed(2)}MB\n•\u2000\**Heap Used**: ${heapUsed.toFixed(2)}MB`, inline: true },
-            { name: "Bot Info", value: `•\u2000\**Uptime**: ${secondsToHms(process.uptime())}\n•\u2000\**Cached Users**: ${userCount}\n•\u2000\**Commands**: ${commandCount}`, inline: true }
-        ])
-        .setFooter("Created and Maintained by SigmaTheFox")
+            .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL(true))
+            .setTitle("Ayanami Stats")
+            .setColor(45055)
+            .addFields([
+                { name: "System Info", value: `•\u2000\**System memory usage**: ${usedMem.toFixed(2)}/${totalMem.toFixed(2)}GB\n•\u2000\**Process memory Usage**: ${rss.toFixed(2)}MB\n•\u2000\**Heap Total**: ${heapTotal.toFixed(2)}MB\n•\u2000\**Heap Used**: ${heapUsed.toFixed(2)}MB`, inline: true },
+                { name: "Bot Info", value: `•\u2000\**Uptime**: ${secondsToHms(process.uptime())}\n•\u2000\**Cached Users**: ${userCount}\n•\u2000\**Commands**: ${commandCount}`, inline: true }
+            ])
+            .setFooter("Created and Maintained by SigmaTheFox")
         message.channel.send(embed)
     }
 }
