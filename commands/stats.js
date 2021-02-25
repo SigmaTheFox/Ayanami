@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { freemem, totalmem } = require("os");
 
 function secondsToHms(t) {
     t = Number(t);
@@ -27,9 +26,6 @@ module.exports = {
         heapUsed = heapUsed / 1000000;
         rss = rss / 1000000;
 
-        let usedMem = (totalmem() - freemem()) / 1000000000,
-            totalMem = totalmem() / 1000000000
-
         let userCount = ayanami.users.cache.filter(u => !u.bot).size,
             commandCount = ayanami.commands.size;
 
@@ -44,9 +40,16 @@ module.exports = {
             .setThumbnail("https://cdn.discordapp.com/attachments/813773403562573875/813800677255020544/unknown.png")
             .setColor(45055)
             .addFields([
-                { name: "System Info", value: `•\u2000\System memory usage: ${usedMem.toFixed(2)}/${totalMem.toFixed(2)}GB\n•\u2000\Process memory Usage: ${rss.toFixed(2)}MB\n•\u2000\Heap Total: ${heapTotal.toFixed(2)}MB\n•\u2000\Heap Used: ${heapUsed.toFixed(2)}MB`, inline: true },
-                { name: "Bot Info", value: `•\u2000\Uptime: ${secondsToHms(process.uptime())}\n•\u2000\Cached Users: ${userCount}\n•\u2000\Commands: ${commandCount}`, inline: true },
-                { name: "Server info", value: `•\u2000\Creation date: ${serverCreated}\n•\u2000\Channel count: ${channelCount}\n•\u2000\Emotes count: ${emoteCount}\n•\u2000\Roles count: ${roleCount}` }
+                { name: "•\u2000\Process Memory Usage", value: `${rss.toFixed(2)}MB`, inline: true },
+                { name: "•\u2000\Heap Total", value: `${heapTotal.toFixed(2)}MB`, inline: true },
+                { name: "•\u2000\Heap Used", value: `${heapUsed.toFixed(2)}MB`, inline: true },
+                { name: "•\u2000\Bot Uptime", value: secondsToHms(process.uptime()), inline: true },
+                { name: "•\u2000\Cached Users", value: userCount, inline: true },
+                { name: "•\u2000\Commands", value: commandCount, inline: true },
+                { name: "•\u2000\Server Channel Count", value: channelCount, inline: true },
+                { name: "•\u2000\Server Emote Count", value: emoteCount, inline: true},
+                { name: "•\u2000\Server Role Count", value: roleCount, inline: true },
+                { name: "•\u2000\Server Creation Date", value: serverCreated, inline: true }
             ])
             .setFooter(`Permanent server invite link: ${permaLink}`)
         message.channel.send(embed)
