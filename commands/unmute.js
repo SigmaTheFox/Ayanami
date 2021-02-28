@@ -5,7 +5,7 @@ module.exports = {
     args: true,
     category: "admin",
     description: "Unmute a user.",
-    usage: "<@User to mute>",
+    usage: "<@User>",
     execute(ayanami, message, args) {
         let target = message.mentions.members.first();
         let channel = ayanami.channels.cache.get("783733205114421309");

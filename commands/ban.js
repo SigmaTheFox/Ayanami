@@ -5,7 +5,7 @@ module.exports = {
     args: true,
     category: "admin",
     description: "Hit someone with the ban hammer.",
-    usage: "<@user to ban> <reason>",
+    usage: "<@User> <reason>",
     execute(ayanami, message, args) {
         if (!message.member.hasPermission("BAN_MEMBERS")) return message.reply("You don't have permission to use this command.")
         

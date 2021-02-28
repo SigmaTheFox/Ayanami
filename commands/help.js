@@ -1,11 +1,14 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const logger = require("../modules/logger");
+const { prefix } = require("../settings/config.json");
+
 
 module.exports = {
   name: `help`,
   aliases: [`commands`],
   category: "utility",
   description: "This command",
+  usage: "(command name)",
   /**
    * @param {Client} ayanami 
    * @param {Message} message 
@@ -32,10 +35,29 @@ module.exports = {
       })
 
       if (message.channel.type !== "dm") message.channel.send("Ok Commander. Check your DMs.\n*In case you're not getting anything... Check if you have DMs allowed in the server privacy settings*")
+
+      if (args.length) {
+        let commandName = args[0].toLowerCase()
+        let cmd = ayanami.commands.get(commandName)
+          || ayanami.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+        if (!cmd) return message.reply(`There is no command called **${commandName}**.`);
+
+        let embed = new MessageEmbed()
+          .setTitle(`${commandName.toUpperCase()} HELP`)
+          .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL())
+          .setColor(45055)
+        if (cmd.aliases) embed.addField("Aliases", cmd.aliases.join(", "));
+        if (cmd.description) embed.addField("Description", cmd.description);
+        if (cmd.usage) embed.addField("Usage", `${prefix}${cmd.name} ${cmd.usage}`)
+
+        return message.author.send(embed).catch(() => { return })
+      }
+
       for (const key of Object.keys(embeds)) {
         embeds[key].forEach(e => {
           message.author.send(e)
-          .catch(() => { return })
+            .catch(() => { return })
         })
       }
     } catch (error) {

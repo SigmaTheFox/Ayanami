@@ -3,6 +3,7 @@ module.exports = {
   category: "random",
   description: "Bully someone with tickles!",
   aliases: [`tickles`],
+  usage: "(@User)",
   execute(ayanami, message, args) {
     const Discord = require('discord.js');
     const { randomKey } = require('../settings/config.json');

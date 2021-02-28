@@ -3,6 +3,7 @@ module.exports = {
   category: "random",
   description: "You might think cudding is lewd, but no, cuddling is our energy source!",
   aliases: [`cuddles`],
+  usage: "(@User)",
   execute(ayanami, message, args) {
     // Imports the emojis database file and gives them a name used to call them.
     const Gifs = require("../gifs.json");

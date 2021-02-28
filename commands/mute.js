@@ -5,7 +5,7 @@ module.exports = {
     category: "admin",
     description: "Mute a user",
     args: true,
-    usage: "<@User to mute> <reason>",
+    usage: "<@User> <reason>",
     execute(ayanami, message, args) {
         let target = message.mentions.members.first();
         let reason = args.splice(1, args.length).join(" ");

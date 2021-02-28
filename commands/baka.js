@@ -2,6 +2,7 @@ module.exports = {
   name: `baka`,
   category: "random",
   description: "It's not like I... Whatever.",
+  usage: "(@User)",
   execute(ayanami, message, args) {
     // Imports the emojis database file and gives them a name used to call them.
     const Gifs = require("../gifs.json");

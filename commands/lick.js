@@ -3,6 +3,7 @@ module.exports = {
   category: "random",
   description: "Lick your friends.",
   aliases: [`licks`, `shlurp`],
+  usage: "(@User)",
   execute(ayanami, message, args) {
     const Discord = require('discord.js');
     const Gifs = require("../gifs.json");

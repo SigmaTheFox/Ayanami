@@ -10,6 +10,7 @@ module.exports = {
     category: "nsfw",
     description: "Use this one instead of Danbooru for tags.",
     aliases: [`gb`, `gelb`, `gbooru`],
+    usage: "(Tag1) (Tag2) (Tag3) ...",
     execute(ayanami, message, args) {
 
         // Checks if the channel is set to NSFW.

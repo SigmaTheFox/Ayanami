@@ -3,6 +3,7 @@ module.exports = {
   aliases: [`bday`],
   category: "random",
   description: "Wish someone a happy birthday.",
+  usage: "(@User)",
   execute(ayanami, message, args) {
     const Discord = require('discord.js');
     const { birthday } = require("../gifs.json");

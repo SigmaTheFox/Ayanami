@@ -6,7 +6,7 @@ module.exports = {
     description: "Recommend a change to the server or a new render. Use `-help` as type to get further help.",
     aliases: ["suggest"],
     args: true,
-    usage: "-<type of recommendation> -<anonymosity> <recommendation>\nUse //recommend -help for further instructions.",
+    usage: "-<type of recommendation> -<anonymosity> <recommendation>",
     async execute(ayanami, message, args) {
         var channel;
         var embed;

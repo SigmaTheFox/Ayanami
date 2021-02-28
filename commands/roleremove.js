@@ -6,7 +6,7 @@ module.exports = {
     description: "Remove a reaction role from the database.",
     aliases: ['roledelete', 'roledel', 'roledestroy', 'rd'],
     args: true,
-    usage: "emote",
+    usage: "<emote>",
     async execute(ayanami, message, args) {
         var emoteName;
         var regex = /<:.+:\d+>/

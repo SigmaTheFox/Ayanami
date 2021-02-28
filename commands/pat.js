@@ -3,6 +3,7 @@ module.exports = {
   category: "random",
   description: "Pat and everything's find again.",
   aliases: [`pats`, `headpat`, `patpat`],
+  usage: "(@User)",
   execute(ayanami, message, args) {
     const Discord = require('discord.js');
     const Gifs = require("../gifs.json");

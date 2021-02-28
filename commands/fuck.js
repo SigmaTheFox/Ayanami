@@ -2,6 +2,7 @@ module.exports = {
     name: `fuck`,
     category: "nsfw",
     description: "Fuck someone either out of love or because you're feeling horny.",
+    usage: "(@User)",
     execute(ayanami, message, args) {
         // Imports the emojis database file and gives them a name used to call them.
         const Gifs = require("../gifs.json");

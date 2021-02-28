@@ -5,7 +5,7 @@ module.exports = {
     category: "admin",
     description: "Warn a user. This will send a message in the admin logs channel.",
     args: true,
-    usage: "<@User to give a warning> <reason>",
+    usage: "<@User> <reason>",
     execute(ayanami, message, args) {
         let target = message.mentions.members.first();
         let reason = args.splice(1, args.length).join(" ");

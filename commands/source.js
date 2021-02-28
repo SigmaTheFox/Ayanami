@@ -9,6 +9,7 @@ module.exports = {
     category: "utility",
     description: "Find the ketchup of an image.",
     aliases: ['sauce'],
+    usage: "<Image URL/Image attachment>",
     async execute(ayanami, message, args) {
         if (message.attachments.size == 0 && !args.length) return message.reply("Please attach an image or enter a link to an image.");
 

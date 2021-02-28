@@ -9,6 +9,7 @@ module.exports = {
     category: "nsfw",
     description: "Really? Gelbooru wasn't enough?",
     aliases: [`r34`],
+    usage: "(Tag 1) (Tag 2) ...",
     execute(ayanami, message, args) {
 
         // Checks if the channel is set to NSFW.

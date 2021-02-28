@@ -6,7 +6,7 @@ module.exports = {
     description: "Add a reaction role to the database.",
     aliases: ['rolesadd', 'radd', 'ra'],
     args: true,
-    usage: "<emote | Role Name (Case Sensitive)>",
+    usage: "<emote> | <Role Name (Case Sensitive)>",
     async execute(ayanami, message, args) {
         var emoteName;
         var regex = /<:.+:\d+>/
