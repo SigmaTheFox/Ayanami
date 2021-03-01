@@ -42,7 +42,7 @@ module.exports = {
         if (!cmd) return message.reply(`There is no command called **${commandName}**.`);
 
         let embed = new MessageEmbed()
-          .setTitle(`${commandName.toUpperCase()} HELP`)
+          .setTitle(`${cmd.name.toUpperCase()} HELP`)
           .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL())
           .setColor(45055)
         if (cmd.aliases) embed.addField("Aliases", cmd.aliases.join(", "));
