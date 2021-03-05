@@ -24,7 +24,7 @@ module.exports = {
     booru.search("db", ['-shota', '-loli'])
       .then(image => {
         // Creates an embed that sends the image.
-        if (image.URL.includes('webm' || 'mp4')) {
+        if (image.URL.includes('webm') || image.URL.includes('mp4')) {
           return message.channel.send(image.URL);
         } else {
           const embed = new Discord.MessageEmbed()

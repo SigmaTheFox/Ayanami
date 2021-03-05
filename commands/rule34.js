@@ -26,7 +26,7 @@ module.exports = {
         // Searches the booru using the arguments provided by the message author.
         booru.search('r34', args.concat(["-loli", "-young", "-gore", "-amputee", "-furry", "-shota", "-anthro"]))
             .then(image => {                    // Creates an embed that sends the image.
-                if (image.URL.includes('webm' || 'mp4')) {
+                if (image.URL.includes('webm') || image.URL.includes('mp4')) {
                     return message.channel.send(image.URL)
                 } else {
                     const embed = new Discord.MessageEmbed()

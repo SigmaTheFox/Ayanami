@@ -28,7 +28,7 @@ module.exports = {
         booru.search('gb', args.concat(["-loli", "-young", "-gore", "-amputee", "-furry", "-anthro", "-rating:safe"]))
             .then(image => {
                 // Creates an embed that sends the image.
-                if (image.URL.includes('webm' || 'mp4')) {
+                if (image.URL.includes('webm') || image.URL.includes('mp4')) {
                     return message.channel.send(image.URL)
                 } else {
                     const embed = new Discord.MessageEmbed()
