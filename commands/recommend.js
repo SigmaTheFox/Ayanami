@@ -8,21 +8,18 @@ module.exports = {
     args: true,
     usage: "-<type of recommendation> -<anonymosity> <recommendation>",
     async execute(ayanami, message, args) {
-        var channel;
-        var embed;
-        var roleCheck = ayanami.guilds.cache.get("724873614104461322").members.cache.get(message.author.id).roles.cache
+        let channel, embed,
+            roleCheck = ayanami.guilds.cache.get("724873614104461322").members.cache.get(message.author.id).roles.cache
 
-        if (!roleCheck.find(r => r.name === "Muted")) return message.author.send("You seem to be muted on the server. To prevent abuse, Muted users can't use this command.")
-
+        if (!roleCheck.find(r => r.name === "Muted")) return message.author.send("You seem to be muted on the server. To prevent abuse, Muted users can't use this command.");
         if (!args[0].toLowerCase().includes("-")) return message.reply("Please use `//recommend -help` to get help on how to use the command.");
 
-        // Check first argument
         switch (args[0].toLowerCase()) {
             case "-help":
             case "-h":
-                var help = new MessageEmbed()
+                let help = new MessageEmbed()
                     .setTitle("Recommend guide")
-                    .setAuthor(message.author.username, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+                    .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
                     .setColor(45055)
                     .addFields(
                         { name: "Types", value: "-help: The list you're looking at now.\n-server: Recommend server changes.\n-render: Recommend renders." },
@@ -30,7 +27,7 @@ module.exports = {
                         { name: "Example", value: "//recommend -server -user Add this emote to the server." }
                     )
                 return message.author.send({ embed: help })
-                .catch(() => {return message.channel.send("Your DMs seem to be blocked, make sure you allow them in the server privacy settings")})
+                    .catch(() => { return message.channel.send("Your DMs seem to be blocked, make sure you allow them in the server privacy settings") })
                 break;
             case "-server":
             case "-s":
@@ -41,8 +38,7 @@ module.exports = {
                 break;
             case "-render":
             case "-r":
-                if (!roleCheck.find(r => r.name === "NSFW")) return message.author.send("You need the NSFW role to recommend renders.")
-                .catch(() => {return message.channel.send("Your DMs seem to be blocked, make sure you allow them in the server privacy settings")})
+                if (!roleCheck.find(r => r.name === "NSFW")) return message.channel.send("You need the NSFW role to recommend renders.");
                 channel = ayanami.channels.cache.get("779289003504566273");
                 embed = new MessageEmbed()
                     .setTitle("Render Recommendation")
@@ -53,22 +49,20 @@ module.exports = {
         switch (args[1].toLowerCase()) {
             case "-user":
             case "-u":
-                embed
-                    .setAuthor(message.author.username, message.author.displayAvatarURL({ format: 'png', size: 2048 }))
+                embed.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }));
                 break;
             case "-anon":
             case "-a":
-                embed
-                    .setAuthor("Anonymous", "https://cdn.discordapp.com/attachments/340814937435668480/783290091313037332/question-mark-768x768.png")
+                embed.setAuthor("Anonymous", "https://cdn.discordapp.com/attachments/340814937435668480/783290091313037332/question-mark-768x768.png");
                 break;
         }
-
         args = args.splice(2, args.length).join(" ")
         embed.setDescription(args);
 
-        if (!args) return message.reply("Please write a suggestion.")
+        if (!args) return message.reply("Please write a suggestion.");
         if (message.attachments.size >= 1) embed.setImage(message.attachments.first().url);
         channel.send(embed)
-
+            .then(msg => msg.react("✅"))
+            .then(msg => msg.react("❎"));
     }
 }
