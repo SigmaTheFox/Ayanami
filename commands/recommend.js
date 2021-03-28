@@ -1,4 +1,4 @@
-const { MessageEmbed, Client, Message } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: "recommend",
@@ -60,12 +60,15 @@ module.exports = {
 
         if (!args) return message.reply("Please write a suggestion.");
         if (message.attachments.size >= 1) embed.setImage(message.attachments.first().url);
-        channel.send(embed)
-            .then(msg => msg.react("✅"))
-            .then(msg => msg.react("❎"))
-            .then(() => {
-                if (message.channel.type === "text") return message.delete();
-                else return message.react("👍");
-            })
+
+        try {
+            let msg = await channel.send(embed)
+            await msg.react("✅");
+            await msg.react("❎");
+            if (message.channel.type === "text") return message.delete();
+            else return message.react("👍");
+        } catch (err) {
+            console.error(err);
+        }
     }
 }
