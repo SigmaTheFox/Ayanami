@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Client, Message } = require('discord.js');
 
 module.exports = {
     name: "recommend",
@@ -7,11 +7,18 @@ module.exports = {
     aliases: ["suggest"],
     args: true,
     usage: "-<type of recommendation> -<anonymosity> <recommendation>",
+    /**
+     * 
+     * @param {Client} ayanami 
+     * @param {Message} message 
+     * @param {*} args 
+     * @returns 
+     */
     async execute(ayanami, message, args) {
         let channel, embed,
             roleCheck = ayanami.guilds.cache.get("724873614104461322").members.cache.get(message.author.id).roles.cache
 
-        if (!roleCheck.find(r => r.name === "Muted")) return message.author.send("You seem to be muted on the server. To prevent abuse, Muted users can't use this command.");
+        if (!roleCheck.find(r => r.name === "Muted")) return message.channel.send("You seem to be muted on the server. To prevent abuse, Muted users can't use this command.");
         if (!args[0].toLowerCase().includes("-")) return message.reply("Please use `//recommend -help` to get help on how to use the command.");
 
         switch (args[0].toLowerCase()) {
@@ -19,15 +26,14 @@ module.exports = {
             case "-h":
                 let help = new MessageEmbed()
                     .setTitle("Recommend guide")
-                    .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
+                    .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL({ dynamic: true }))
                     .setColor(45055)
                     .addFields(
                         { name: "Types", value: "-help: The list you're looking at now.\n-server: Recommend server changes.\n-render: Recommend renders." },
                         { name: "Anonymosity", value: "-user: Show your username in the recommendation.\n-anon: Send the recommendation as anonymous." },
                         { name: "Example", value: "//recommend -server -user Add this emote to the server." }
                     )
-                return message.author.send({ embed: help })
-                    .catch(() => { return message.channel.send("Your DMs seem to be blocked, make sure you allow them in the server privacy settings") })
+                return message.channel.send({ embed: help });
                 break;
             case "-server":
             case "-s":
@@ -49,7 +55,7 @@ module.exports = {
         switch (args[1].toLowerCase()) {
             case "-user":
             case "-u":
-                embed.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }));
+                embed.setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL({ dynamic: true }));
                 break;
             case "-anon":
             case "-a":
@@ -63,6 +69,10 @@ module.exports = {
         if (message.attachments.size >= 1) embed.setImage(message.attachments.first().url);
         channel.send(embed)
             .then(msg => msg.react("✅"))
-            .then(msg => msg.react("❎"));
+            .then(msg => msg.react("❎"))
+            .then(() => {
+                if (message.channel.type === "text") return message.delete();
+                else return message.react("👍");
+            })
     }
 }
