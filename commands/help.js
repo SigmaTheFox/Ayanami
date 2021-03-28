@@ -35,9 +35,9 @@ module.exports = {
       })
 
       if (args.length) {
-        let commandName = args[0].toLowerCase()
-        let cmd = ayanami.commands.get(commandName)
-          || ayanami.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+        let commandName = args[0].toLowerCase(),
+          cmd = ayanami.commands.get(commandName)
+            || ayanami.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
         if (!cmd) return message.reply(`There is no command called **${commandName}**.`);
 
@@ -48,9 +48,9 @@ module.exports = {
         if (cmd.aliases) embed.addField("Aliases", cmd.aliases.join(", "));
         if (cmd.description) embed.addField("Description", cmd.description);
         if (cmd.usage) embed.addField("Usage", `${prefix}${cmd.name} ${cmd.usage}`)
-        
+
         if (message.channel.type !== "dm") message.channel.send("Ok Commander. Check your DMs.")
-        return message.author.send(embed).catch(() => { message.reply("Your DMs seem to be blocked.") })
+        return message.author.send(embed).catch(() => message.reply("Your DMs seem to be blocked."))
       }
 
       if (message.channel.type !== "dm") message.channel.send("Ok Commander. Check your DMs.\n*In case you're not getting anything... Check if you have DMs allowed in the server privacy settings*")

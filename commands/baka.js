@@ -23,7 +23,7 @@ module.exports = {
 
         function sendEmbed() {
           const embed = new Discord.MessageEmbed()
-            .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL({ dynamic: true }))
             .setDescription(description)
             .setImage(imageURL)
             .setColor(45055);
