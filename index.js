@@ -52,10 +52,11 @@ ayanami.once('ready', async () => {
 
 ayanami.on("messageReactionAdd", (react, user) => {
     if (user.bot) return;
-    const member = react.message.guild.members.cache.get(user.id);
-    const findRole = react.message.guild.roles.cache;
 
     if (react.message.channel.name === "roles") {
+        const member = react.message.guild.members.cache.get(user.id);
+        const findRole = react.message.guild.roles.cache;
+
         RolesDB.findOne({ where: { emote: react.emoji.name } })
             .then(Role => {
                 if (!Role) return;
@@ -66,10 +67,11 @@ ayanami.on("messageReactionAdd", (react, user) => {
 
 ayanami.on("messageReactionRemove", (react, user) => {
     if (user.bot) return;
-    const member = react.message.guild.members.cache.get(user.id);
-    const findRole = react.message.guild.roles.cache;
 
     if (react.message.channel.name === "roles") {
+        const member = react.message.guild.members.cache.get(user.id);
+        const findRole = react.message.guild.roles.cache;
+        
         RolesDB.findOne({ where: { emote: react.emoji.name } })
             .then(Role => {
                 if (!Role) return;

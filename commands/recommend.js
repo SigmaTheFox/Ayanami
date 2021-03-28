@@ -48,7 +48,7 @@ module.exports = {
         switch (args[1].toLowerCase()) {
             case "-user":
             case "-u":
-                embed.setAuthor(ayanami.user.username, ayanami.user.displayAvatarURL({ dynamic: true }));
+                embed.setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }));
                 break;
             case "-anon":
             case "-a":
