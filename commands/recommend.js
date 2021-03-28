@@ -7,18 +7,11 @@ module.exports = {
     aliases: ["suggest"],
     args: true,
     usage: "-<type of recommendation> -<anonymosity> <recommendation>",
-    /**
-     * 
-     * @param {Client} ayanami 
-     * @param {Message} message 
-     * @param {*} args 
-     * @returns 
-     */
     async execute(ayanami, message, args) {
         let channel, embed,
             roleCheck = ayanami.guilds.cache.get("724873614104461322").members.cache.get(message.author.id).roles.cache
 
-        if (!roleCheck.find(r => r.name === "Muted")) return message.channel.send("You seem to be muted on the server. To prevent abuse, Muted users can't use this command.");
+        if (roleCheck.find(r => r.name === "Muted")) return message.channel.send("You seem to be muted on the server. To prevent abuse, Muted users can't use this command.");
         if (!args[0].toLowerCase().includes("-")) return message.reply("Please use `//recommend -help` to get help on how to use the command.");
 
         switch (args[0].toLowerCase()) {
