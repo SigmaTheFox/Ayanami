@@ -51,6 +51,7 @@ ayanami.once('ready', async () => {
 });
 
 ayanami.on("messageReactionAdd", (react, user) => {
+    if (user.bot) return;
     const member = react.message.guild.members.cache.get(user.id);
     const findRole = react.message.guild.roles.cache;
 
@@ -64,6 +65,7 @@ ayanami.on("messageReactionAdd", (react, user) => {
 })
 
 ayanami.on("messageReactionRemove", (react, user) => {
+    if (user.bot) return;
     const member = react.message.guild.members.cache.get(user.id);
     const findRole = react.message.guild.roles.cache;
 
