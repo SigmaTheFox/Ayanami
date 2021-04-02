@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const logger = require("../modules/logger");
 
 module.exports = {
     name: "ban",
@@ -21,6 +22,12 @@ module.exports = {
             .setTimestamp()
 
         message.guild.members.ban(target, { reason: reason })
+        .then(ayanami.users.cache.delete(target.id))
+        .catch(e => {
+            logger.error(e);
+            console.error(e);
+            return message.reply(`Failed to ban user ${target.user.tag}`);
+        })
         channel.send(embed)
     }
 }
