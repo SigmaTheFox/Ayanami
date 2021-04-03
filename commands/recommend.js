@@ -62,7 +62,7 @@ module.exports = {
         if (message.attachments.size >= 1) embed.setImage(message.attachments.first().url);
 
         try {
-            let msg = await channel.send(embed)
+            let msg = await channel.send({ embed: embed })
             await msg.react("✅");
             await msg.react("❎");
             if (message.channel.type === "text") return message.delete();

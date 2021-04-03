@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Message, Client } = require('discord.js');
 const logger = require("../modules/logger");
 
 module.exports = {
@@ -7,7 +7,15 @@ module.exports = {
     category: "admin",
     description: "Hit someone with the ban hammer.",
     usage: "<@User> <reason>",
+    /**
+     * 
+     * @param {Client} ayanami 
+     * @param {Message} message 
+     * @param {*} args 
+     * @returns 
+     */
     execute(ayanami, message, args) {
+        if (message.channel.type !== "text") return message.reply("Tis command can't be used in DMs.")
         if (!message.member.hasPermission("BAN_MEMBERS")) return message.reply("You don't have permission to use this command.")
 
         let target = message.mentions.members.first();
@@ -17,17 +25,21 @@ module.exports = {
         let embed = new MessageEmbed()
             .setTitle("Ban")
             .setColor("#FF0000")
-            .setAuthor(target.user.tag, target.user.displayAvatarURL({ format: 'png', size: 2048 }))
+            .setAuthor(target.user.tag, target.user.displayAvatarURL({ dynamic: true }))
             .addField("Reason", `**${reason}**`)
             .setTimestamp()
 
-        message.guild.members.ban(target, { reason: reason })
-            .then(ayanami.users.cache.delete(target.id))
+        message.guild.members.ban(target, { reason: reason, days: 1 })
+            .then(user => {
+                channel.send({ embed: embed });
+                ayanami.users.cache.delete(user.id || user);
+                logger.log(`Banned user ${user.username || user.id || user}`);
+                console.log(`Banned user ${user.username || user.id || user}`);
+            })
             .catch(e => {
                 logger.error(e);
                 console.error(e);
                 return message.reply(`Failed to ban user ${target.user.tag}`);
             })
-        channel.send(embed)
     }
 }
