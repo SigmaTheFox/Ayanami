@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const logger = require("../modules/logger");
 
 module.exports = {
     name: "warn",
@@ -22,5 +23,15 @@ module.exports = {
             .setTimestamp()
 
         channel.send({ embed: embed })
+            .then(() => {
+                message.react("✅");
+                logger.log(`Warned ${target.user.tag} - ${target.user.id}`);
+                console.log(`Warned ${target.user.tag} - ${target.user.id}`);
+            })
+            .catch(e => {
+                message.react("❎");
+                logger.error(e);
+                console.error(e);
+            })
     }
 }

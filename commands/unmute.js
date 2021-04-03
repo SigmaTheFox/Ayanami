@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const logger = require("../modules/logger");
 
 module.exports = {
     name: "unmute",
@@ -22,6 +23,17 @@ module.exports = {
             .setTimestamp()
 
         target.roles.remove(muteRole)
-        channel.send({ embed: embed })
+            .then(() => {
+                message.react("✅");
+                channel.send({ embed: embed });
+                logger.log(`Unmuted ${target.user.tag} - ${target.user.id}`);
+                console.log(`Unmuted ${target.user.tag} - ${target.user.id}`);
+            })
+            .catch(e => {
+                message.react("❎");
+                logger.error(e);
+                console.error(e);
+                return message.reply(`Failed to unmute ${target.user.tag}`);
+            })
     }
 }
