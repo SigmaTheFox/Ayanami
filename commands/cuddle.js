@@ -9,7 +9,6 @@ module.exports = {
     const Gifs = require("../gifs.json");
     const Discord = require('discord.js');
     const Emote = require("../emojis.json");
-    const logs = require('../modules/logger');
     const { randomKey } = require('../settings/config.json');
     const heart = ayanami.emojis.cache.get(Emote.ayanamiheart);
     const RandomOrg = require("random-org");
@@ -22,7 +21,7 @@ module.exports = {
       .then(function (result) {
         let imageURL = Gifs.cuddle[result.random.data];
 
-        logs.info(`Generated number for cuddle command: ${result.random.data}`);
+         ayanami.logger.info(`Generated number for cuddle command: ${result.random.data}`);
 
         function sendEmbed() {
           const embed = new Discord.MessageEmbed()
@@ -42,7 +41,7 @@ module.exports = {
           sendEmbed();
         }
       }).catch(err => {
-        logs.error(err)
+         ayanami.logger.error(err)
         console.error(err)
         return message.reply('There was an error, please try again in a few minutes')
       })

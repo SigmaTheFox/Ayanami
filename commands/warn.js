@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const logger = require("../modules/logger");
 
 module.exports = {
     name: "warn",
@@ -8,7 +7,7 @@ module.exports = {
     args: true,
     usage: "<@User> <reason>",
     execute(ayanami, message, args) {
-        if (message.channel.type !== "text") return message.reply("Tis command can't be used in DMs.")
+        if (message.channel.type !== "text") return message.reply("This command can't be used in DMs.")
         if (!message.member.hasPermission("KICK_MEMBERS")) return message.reply("You don't have permission to use this command.")
 
         let target = message.mentions.members.first();
@@ -25,12 +24,12 @@ module.exports = {
         channel.send({ embed: embed })
             .then(() => {
                 message.react("✅");
-                logger.log(`Warned ${target.user.tag} - ${target.user.id}`);
+                 ayanami.logger.log(`Warned ${target.user.tag} - ${target.user.id}`);
                 console.log(`Warned ${target.user.tag} - ${target.user.id}`);
             })
             .catch(e => {
                 message.react("❎");
-                logger.error(e);
+                 ayanami.logger.error(e);
                 console.error(e);
             })
     }

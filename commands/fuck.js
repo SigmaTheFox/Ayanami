@@ -10,7 +10,6 @@ module.exports = {
         const Emote = require("../emojis.json");
         const { randomKey } = require('../settings/config.json');
         const RandomOrg = require("random-org");
-        const logs = require('../modules/logger');
         const random = new RandomOrg({ apiKey: randomKey });
 
         if (!message.channel.nsfw && message.channel.type !== "dm") {
@@ -24,7 +23,7 @@ module.exports = {
         random.generateIntegers({ min: 0, max: Gifs.fuck.length - 1, n: 1 })
             .then(function (r) {
                 let imageURL = Gifs.fuck[r.random.data];
-                logs.info(`Generated number for fuck command: ${r.random.data}`);
+                 ayanami.logger.info(`Generated number for fuck command: ${r.random.data}`);
 
                 function sendEmbed() {
                     const embed = new Discord.MessageEmbed()
@@ -47,7 +46,7 @@ module.exports = {
                     sendEmbed();
                 }
             }).catch(err => {
-                logs.error(err)
+                 ayanami.logger.error(err)
                 console.error(err)
                 return message.reply('There was an error, please try again in a few minutes')
             })

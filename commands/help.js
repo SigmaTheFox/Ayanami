@@ -1,5 +1,4 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
-const logger = require("../modules/logger");
 const { prefix } = require("../settings/config.json");
 
 
@@ -63,7 +62,7 @@ module.exports = {
     } catch (error) {
       message.channel.send("There was an error.");
       console.error(error);
-      return logger.error(error);
+      return  ayanami.logger.error(error);
     }
   }
 };

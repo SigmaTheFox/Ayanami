@@ -9,7 +9,6 @@ module.exports = {
     const { randomKey } = require('../settings/config.json');
     const Gifs = require("../gifs.json");
     const RandomOrg = require("random-org");
-    const logs = require('../modules/logger');
     const random = new RandomOrg({ apiKey: randomKey });
 
     //let imageURL = Gifs.poke[Math.floor(Math.random() * Gifs.poke.length)];
@@ -18,7 +17,7 @@ module.exports = {
     random.generateIntegers({ min: 0, max: Gifs.poke.length - 1, n: 1 })
       .then(function (r) {
         let imageURL = Gifs.poke[r.random.data];
-        logs.info(`Generated number for poke command: ${r.random.data}`);
+         ayanami.logger.info(`Generated number for poke command: ${r.random.data}`);
 
         function sendEmbed() {
           const embed = new Discord.MessageEmbed()
@@ -38,7 +37,7 @@ module.exports = {
           sendEmbed();
         }
       }).catch(err => {
-        logs.error(err)
+         ayanami.logger.error(err)
         console.error(err)
         return message.reply('There was an error, please try again in a few minutes')
       })

@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const config = require("./settings/config.json");
-const logs = require('./modules/logger');
 const { RolesDB } = require("./modules/dbObjects");
 
 // Creates a new client and a commands collection.
@@ -15,6 +14,7 @@ const ayanami = new Discord.Client({
 });
 
 ayanami.commands = new Discord.Collection();
+ayanami.logger = require('./modules/logger');
 
 // Reads the commands directory and filters out everything that does not end with '.js'.
 const commandFile = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -25,7 +25,7 @@ for (const file of commandFile) {
 
 // This loop reads the /events/ folder and attaches each event file to the appropriate event.
 fs.readdir("./events/", (err, files) => {
-    if (err) return logs.error(err);
+    if (err) return  ayanami.logger.error(err);
     files.forEach(file => {
         if (!file.endsWith(".js")) return;
 
@@ -41,13 +41,13 @@ fs.readdir("./events/", (err, files) => {
 // Obviously the bot login.
 ayanami.login(config.token).catch(err => {
     console.error(err);
-    logs.error(err);
+     ayanami.logger.error(err);
 });
 
 ayanami.once('ready', async () => {
     ayanami.channels.cache.filter(c => c.name === "roles").each(channel => channel.messages.fetch())
     console.log(`Taste the power of the demon...!`);
-    logs.trace(`Taste the power of the demon...!`);
+     ayanami.logger.trace(`Taste the power of the demon...!`);
 });
 
 ayanami.on("messageReactionAdd", (react, user) => {

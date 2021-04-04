@@ -11,7 +11,6 @@ module.exports = {
     const { randomKey } = require('../settings/config.json');
     const heart = ayanami.emojis.cache.get(Emote.ayanamiheart);
     const RandomOrg = require("random-org");
-    const logs = require('../modules/logger');
     const random = new RandomOrg({ apiKey: randomKey });
 
     const user = `**${args.join(' ')}**` || `<@${message.mentions.users.first().id}>`;
@@ -19,7 +18,7 @@ module.exports = {
     random.generateIntegers({ min: 0, max: birthday.length - 1, n: 1 })
       .then(function (r) {
         let imageURL = birthday[r.random.data];
-        logs.info(`Generated number for birthday command: ${r.random.data}`);
+         ayanami.logger.info(`Generated number for birthday command: ${r.random.data}`);
 
         function sendEmbed() {
           const embed = new Discord.MessageEmbed()
@@ -43,7 +42,7 @@ module.exports = {
           sendEmbed();
         }
       }).catch(err => {
-        logs.error(err)
+         ayanami.logger.error(err)
         console.error(err)
         return message.reply('There was an error, please try again in a few minutes')
       })

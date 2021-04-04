@@ -11,7 +11,6 @@ module.exports = {
     const Emote = require("../emojis.json");
     const patpat = ayanami.emojis.cache.get(Emote.dvapatpat);
     const RandomOrg = require("random-org");
-    const logs = require('../modules/logger');
     const random = new RandomOrg({ apiKey: randomKey });
 
     //let imageURL = Gifs.pat[Math.floor(Math.random() * Gifs.pat.length)];
@@ -20,7 +19,7 @@ module.exports = {
     random.generateIntegers({ min: 0, max: Gifs.pat.length - 1, n: 1 })
       .then(function (r) {
         let imageURL = Gifs.pat[r.random.data];
-        logs.info(`Generated number for pat command: ${r.random.data}`);
+         ayanami.logger.info(`Generated number for pat command: ${r.random.data}`);
 
         function sendEmbed() {
           const embed = new Discord.MessageEmbed()
@@ -40,7 +39,7 @@ module.exports = {
           sendEmbed();
         }
       }).catch(err => {
-        logs.error(err)
+         ayanami.logger.error(err)
         console.error(err)
         return message.reply('There was an error, please try again in a few minutes')
       })

@@ -1,6 +1,5 @@
 const sagiri = require('sagiri');
 const { sauceKey } = require('../settings/config.json');
-const logs = require('../modules/logger');
 const client = sagiri(sauceKey);
 const { MessageEmbed } = require('discord.js');
 
@@ -42,7 +41,7 @@ module.exports = {
 
         } catch (err) {
             console.error(err);
-            logs.error(err);
+             ayanami.logger.error(err);
             return message.reply("There was an error.");
         }
 

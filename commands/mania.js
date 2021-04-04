@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const osu = require('node-osu');
 const { osuKey } = require('../settings/config.json');
-const logs = require('../modules/logger');
 const osuIcon = "https://cdn.discordapp.com/attachments/310843189357445122/813338443173986314/1200px-OsuLogo_2015.svg.png";
 
 var osuApi = new osu.Api(osuKey, {
@@ -81,7 +80,7 @@ module.exports = {
                                 .setColor('#ff66aa')
                             return message.channel.send({ embed });
                         }).catch(err => {
-                            logs.error(err)
+                             ayanami.logger.error(err)
                             return message.channel.send(`The user **${osuUser}** was not found!`);
                         });
                     } catch (err) {

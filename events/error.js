@@ -1,4 +1,4 @@
 module.exports = (ayanami, err) => {
-    const logs = require('../modules/logger');
-    logs.error(err);
+    console.error(err);
+    ayanami.logger.error(err);
 }

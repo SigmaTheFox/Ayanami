@@ -1,6 +1,4 @@
-const logs = require('../modules/logger');
-
 module.exports = (ayanami) => {
-    logs.error(`Reconnecting...`);
+    ayanami.logger.error(`Reconnecting...`);
     console.log(`Reconnecting...`);
 }

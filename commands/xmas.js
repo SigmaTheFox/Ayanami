@@ -1,6 +1,5 @@
 const Canvas = require("canvas");
 const Discord = require("discord.js");
-const logs = require('../modules/logger')
 
 module.exports = {
     name: "xmas",
@@ -36,7 +35,7 @@ module.exports = {
         const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'xmas.jpg');
         message.reply(`Merry Christmas Commander!!!`, { files: [attachment] })
             .then(result => {
-                logs.info(`${message.author.username} requested a xmas image`);
+                 ayanami.logger.info(`${message.author.username} requested a xmas image`);
                 message.channel.stopTyping();
             });
     }

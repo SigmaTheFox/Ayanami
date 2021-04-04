@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const logs = require('../modules/logger');
 const { DBKey } = require('../settings/config.json');
 const Booru = require('../modules/booru');
 
@@ -37,7 +36,7 @@ module.exports = {
         // Catches errors and responds to them (sometimes).
       })
       .catch(err => {
-        logs.error(err);
+         ayanami.logger.error(err);
         return message.reply(`I'm sorry commander... I didn't find anything for **${args[0]}**.`);
       });
   }

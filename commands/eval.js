@@ -1,5 +1,4 @@
 const { ownerID } = require("../settings/config.json");
-const logger = require("../modules/logger");
 
 function clean(text) {
     if (typeof (text) === "string")

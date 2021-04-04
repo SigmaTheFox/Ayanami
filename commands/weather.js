@@ -1,7 +1,6 @@
 const { OpenWeather } = require("../settings/config.json")
 const fetch = require('node-fetch');
 const { MessageEmbed } = require('discord.js');
-const logs = require('../modules/logger');
 
 module.exports = {
     name: "weather",
@@ -61,7 +60,7 @@ module.exports = {
             return message.channel.send({ embed })
         } catch (error) {
             message.reply("I couldn't find the specified location.")
-            logs.error(error)
+             ayanami.logger.error(error)
             return console.error(error)
         }
     }

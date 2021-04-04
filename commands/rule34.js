@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const logs = require('../modules/logger');
 const Booru = require('../modules/booru');
 
 const booru = new Booru();
@@ -39,7 +38,7 @@ module.exports = {
 
                 // Catches errors and responds to them (sometimes).
             }).catch(err => {
-                logs.error(err)
+                 ayanami.logger.error(err)
                 return message.reply(`I'm sorry commander... I didn't find anything for **${args.join(", ")}**.`);
             })
     }

@@ -10,7 +10,6 @@ module.exports = {
     const { randomKey } = require('../settings/config.json');
     const { baka } = require("../emojis.json");
     const RandomOrg = require("random-org");
-    const logs = require('../modules/logger');
     const random = new RandomOrg({ apiKey: randomKey });
 
     //let imageURL = Gifs.baka[Math.floor(Math.random() * Gifs.baka.length)];
@@ -19,7 +18,7 @@ module.exports = {
     random.generateIntegers({ min: 0, max: Gifs.baka.length - 1, n: 1 })
       .then(function (result) {
         let imageURL = Gifs.baka[result.random.data];
-        logs.info(`Generated number for baka command: ${result.random.data}`);
+         ayanami.logger.info(`Generated number for baka command: ${result.random.data}`);
 
         function sendEmbed() {
           const embed = new Discord.MessageEmbed()
@@ -39,7 +38,7 @@ module.exports = {
           sendEmbed();
         }
       }).catch(err => {
-        logs.error(err)
+         ayanami.logger.error(err)
         console.error(err)
         return message.reply('There was an error, please try again in a few minutes')
       })

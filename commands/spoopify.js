@@ -1,6 +1,5 @@
 const Canvas = require("canvas");
 const Discord = require('discord.js');
-const logs = require('../modules/logger')
 
 module.exports = {
   name: "spoopify",
@@ -28,7 +27,7 @@ module.exports = {
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'spoopy.jpg');
     message.reply(`You're very spoopy now!`, { files: [attachment] })
       .then(result => {
-        logs.info(`${message.author.username} requested a spoop image`);
+         ayanami.logger.info(`${message.author.username} requested a spoop image`);
         message.channel.stopTyping();
       })
   }

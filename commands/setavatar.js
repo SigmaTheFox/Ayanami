@@ -7,7 +7,6 @@ module.exports = {
     execute(ayanami, message, args) {
         const config = require("../settings/config.json");
         const avatarURL = args.join(" ");
-        const logs = require('../modules/logger');
 
         if (message.author.id !== config.ownerID)
             return message.reply("You're not my owner!");
@@ -15,7 +14,7 @@ module.exports = {
         ayanami.user.setAvatar(avatarURL)
             .then(user => message.reply("Successfully changed avatar."))
             .catch((err) => {
-                logs.error(err);
+                 ayanami.logger.error(err);
                 message.reply("You're trying to change the avatar too quickly.")
             });
     }

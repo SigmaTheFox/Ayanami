@@ -1,4 +1,3 @@
-const logs = require('../modules/logger');
 const config = require("../settings/config.json");
 
 module.exports = (ayanami, message) => {
@@ -65,7 +64,7 @@ module.exports = (ayanami, message) => {
     try {
         command.execute(ayanami, message, args);
     } catch (err) {
-        logs.error(err);
+         ayanami.logger.error(err);
         message.reply('There was an error trying to execute that command!');
     }
 }
