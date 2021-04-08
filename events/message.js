@@ -1,18 +1,18 @@
 const config = require("../settings/config.json");
 
-module.exports = (ayanami, message) => {
+module.exports = async (ayanami, message) => {
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
     if (message.channel.name === 'verification' && message.content.toLowerCase() === 'i accept the rules!') {
-        const member = message.guild.members.cache.get(message.author.id);
+        const member = await message.guild.members.fetch(message.author.id);
         const findRole = message.guild.roles.cache;
         member.roles.remove(findRole.find(r => r.name === 'Read rules'));
         member.roles.add(findRole.find(r => r.name === "Fox"));
         message.delete()
     }
 
-    
+
     // Responds when saying "Thanks ayanami"
     if ((/(^|\s)THANKS?(\s|$)/gi).test(message.content)
         && /(^|\s)AYANAMI(\s|$)/gi.test(message.content)) {
@@ -64,7 +64,7 @@ module.exports = (ayanami, message) => {
     try {
         command.execute(ayanami, message, args);
     } catch (err) {
-         ayanami.logger.error(err);
+        ayanami.logger.error(err);
         message.reply('There was an error trying to execute that command!');
     }
 }
