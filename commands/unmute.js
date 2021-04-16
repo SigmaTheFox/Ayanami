@@ -14,7 +14,9 @@ module.exports = {
         let channel = ayanami.channels.cache.get("783733205114421309");
         let muteRole = message.guild.roles.cache.find(r => r.name === "Muted");
 
+        if (target.roles.highest.position >= message.member.roles.highest.position) return message.channel.send("This user has higher permissions than you.");
         if (!target.roles.cache.find(r => r.name === "Muted")) return message.channel.send("This user isn't muted.");
+        if (!muteRole) return message.channel.send("There is no `Muted` role in this server.");
 
         let embed = new MessageEmbed()
             .setTitle("Unmuted")

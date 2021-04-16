@@ -26,6 +26,8 @@ module.exports = {
         if (target.id === message.guild.ownerID) return message.channel.send("You can't Mute the server owner.");
         if (target.id === ayanami.user.id) return message.channel.send("Commander... Please don't Mute me.");
         if (target.roles.highest.position >= message.member.roles.highest.position) return message.channel.send("This user has higher permissions than you.");
+        if (target.roles.cache.find(r => r.name === "Muted")) return message.channel.send("This member is already Muted.");
+        if (!muteRole) return message.channel.send("There is no `Muted` role in this server.");
 
         target.roles.add(muteRole, reason)
             .then(() => {
