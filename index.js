@@ -3,6 +3,8 @@ const fs = require("fs");
 const config = require("./settings/config.json");
 const { RolesDB } = require("./modules/dbObjects");
 
+let intents = ["GUILDS", "GUILD_MEMBERS", "GUILD_BANS", "GUILD_EMOJIS", "GUILD_PRESENCES",
+    "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS"];
 // Creates a new client and a commands collection.
 const ayanami = new Discord.Client({
     presence: {
@@ -10,6 +12,11 @@ const ayanami = new Discord.Client({
             type: "PLAYING",
             name: "Use //help"
         }
+    },
+    messageCacheMaxSize: 50,
+    messageEditHistoryMaxSize: 2,
+    ws: {
+        intents
     }
 });
 
@@ -25,7 +32,7 @@ for (const file of commandFile) {
 
 // This loop reads the /events/ folder and attaches each event file to the appropriate event.
 fs.readdir("./events/", (err, files) => {
-    if (err) return  ayanami.logger.error(err);
+    if (err) return ayanami.logger.error(err);
     files.forEach(file => {
         if (!file.endsWith(".js")) return;
 
@@ -41,13 +48,13 @@ fs.readdir("./events/", (err, files) => {
 // Obviously the bot login.
 ayanami.login(config.token).catch(err => {
     console.error(err);
-     ayanami.logger.error(err);
+    ayanami.logger.error(err);
 });
 
 ayanami.once('ready', async () => {
     ayanami.channels.cache.filter(c => c.name === "roles").each(channel => channel.messages.fetch())
     console.log(`Taste the power of the demon...!`);
-     ayanami.logger.trace(`Taste the power of the demon...!`);
+    ayanami.logger.trace(`Taste the power of the demon...!`);
 });
 
 ayanami.on("messageReactionAdd", async (react, user) => {
@@ -71,7 +78,7 @@ ayanami.on("messageReactionRemove", async (react, user) => {
     if (react.message.channel.name === "roles") {
         const member = await react.message.guild.members.fetch(user.id);
         const findRole = react.message.guild.roles.cache;
-        
+
         RolesDB.findOne({ where: { emote: react.emoji.name } })
             .then(Role => {
                 if (!Role) return;
