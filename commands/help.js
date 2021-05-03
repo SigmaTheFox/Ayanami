@@ -112,6 +112,7 @@ module.exports = {
 
     let { embeds, embedCount } = sortCommands(ayanami, message.author)
     let helpMenu = new Menu(message.channel, message.author.id, createMenuPagesArray(embeds, embedCount), 300000)
-    helpMenu.start()
+    helpMenu.start();
+    message.delete();
   }
 }
