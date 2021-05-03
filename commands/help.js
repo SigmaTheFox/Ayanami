@@ -2,14 +2,26 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 const { prefix } = require("../settings/config.json");
 const { Menu } = require("discord.js-menu");
 
+function DMCommandList(client, channel) {
+  let content = [];
+
+  content.push("Here are all my commands, Commander:");
+  content.push("```JSON\n" + client.commands.map(cmd => cmd.name).join(", ") + "```");
+  content.push(`To get further information about a command, you can use \`${prefix}help [command name]!\``);
+
+  channel.send(content, { split: true })
+}
+
 function sortCommands(client, author) {
   let embeds = {}, fieldCounts = {}, embedCount = -1;
-  
+
   client.commands.forEach(cmd => {
-    if (!embeds[cmd.category]) { // Create the category in the embeds and counts objects
+    // Create the category in the embeds and counts objects
+    if (!embeds[cmd.category]) {
       embeds[cmd.category] = []
       fieldCounts[cmd.category] = 0
-    } // If a category's embed has more than 25 fields, create a new embed
+    }
+    // If a category's embed has more than 25 fields, create a new embed
     if (!embeds[cmd.category][Math.floor(fieldCounts[cmd.category] / 25)]) {
       embeds[cmd.category].push(new MessageEmbed()
         .setTitle(`${cmd.category.toUpperCase()} ${Math.floor(fieldCounts[cmd.category] / 25) == 0 ? "" : Math.floor(fieldCounts[cmd.category] / 25) + 1}`)
@@ -21,6 +33,7 @@ function sortCommands(client, author) {
     embeds[cmd.category][Math.floor(fieldCounts[cmd.category] / 25)].addField(cmd.name, cmd.description ? cmd.description : "\u200b", true)
     fieldCounts[cmd.category]++
   })
+
   return {
     embeds, embedCount
   }
@@ -65,7 +78,7 @@ module.exports = {
   aliases: [`commands`],
   category: "utility",
   description: "This command",
-  usage: "(command name)",
+  usage: "[command name]",
   /**
    * @param {Client} ayanami 
    * @param {Message} message 
@@ -88,9 +101,14 @@ module.exports = {
       if (cmd.usage) embed.addField("Usage", `${prefix}${cmd.name} ${cmd.usage}`)
 
       return message.author.send({ embed })
-      .then(() => { if (message.channel.type !== "dm") message.channel.send("Ok Commander. Check your DMs.") })
-      .catch(message.reply("Your DMs seem to be blocked."))
+        .then(() => {
+          if (message.channel.type === "dm") return;
+          message.channel.send("Ok Commander. Check your DMs.")
+        })
+        .catch(() => message.reply("Your DMs seem to be blocked."))
     }
+
+    if (message.channel.type === "dm") return DMCommandList(ayanami, message.channel)
 
     let { embeds, embedCount } = sortCommands(ayanami, message.author)
     let helpMenu = new Menu(message.channel, message.author.id, createMenuPagesArray(embeds, embedCount), 300000)
