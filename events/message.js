@@ -63,6 +63,8 @@ module.exports = async (ayanami, message) => {
     // This will execute the command and if there was an error it'll tell the user.
     try {
         command.execute(ayanami, message, args);
+        console.log(`${message.author.tag} used command: "${command.name}"`);
+        ayanami.logger.log(`[${message.author.id} - ${message.author.tag}] used command: "${command.name}"`);
     } catch (err) {
         ayanami.logger.error(err);
         message.reply('There was an error trying to execute that command!');
