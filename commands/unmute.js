@@ -21,7 +21,8 @@ module.exports = {
         let embed = new MessageEmbed()
             .setTitle("Unmuted")
             .setColor("#00FF00")
-            .setAuthor(target.user.tag, target.user.displayAvatarURL({ dynamic: true }))
+            .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
+            .addField("Member", `**${target.user.tag}** (${target.user.id})`)
             .setDescription(`${target.user.username} has been unmuted.`)
             .setTimestamp()
 
