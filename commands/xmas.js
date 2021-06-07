@@ -6,7 +6,7 @@ module.exports = {
     category: "random",
     description: "You will become Santa!",
     aliases: ["santa", "christmas"],
-    locked: false,
+    locked: true,
     event: "Christmas",
     async execute(ayanami, message, args) {
         message.channel.startTyping();
