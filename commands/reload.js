@@ -24,7 +24,6 @@ module.exports = {
       if (!args[1]) return message.reply("Commander... Please specify a command to reload.")
       if (!ayanami.commands.has(args[1])) return message.reply("This command does not exist.");
 
-      // The path is relative to the current folder.
       delete require.cache[require.resolve(`./${args[1]}.js`)];
 
       ayanami.commands.delete(args[1]);
@@ -38,6 +37,7 @@ module.exports = {
 
       delete require.cache[require.resolve(`./${args[1]}.js`)];
       ayanami.commands.delete(args[1]);
+      message.reply(`I unloaded **${args[1]}** for you... Commander`);
     }
   }
 }
