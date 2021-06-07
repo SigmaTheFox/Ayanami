@@ -7,13 +7,14 @@ module.exports = {
     args: true,
     category: "utility",
     description: "Get an invite link to a Discord VC activity.\nVery unstable as it's not fully implemented yet, might not always work as intended.",
-    usage: "<activity> (VC ID)",
+    usage: "<activity> (VC ID)\nUse `//activity list` to see all valid activities.",
     async execute(ayanami, message, args) {
         if (message.channel.type !== "text") return message.channel.send("You can only use this command in the server.");
 
         try {
             let [activity, id] = args;
-            if (!id && message.member?.voice) id = message.member.voice.channelID
+            if (activity.toLowerCase() === "list") return message.channel.send(Object.keys(list).map(name => `\`${name}\``).join(", "));
+            if (!id && message.member?.voice?.channel) id = message.member.voice.channel.id
 
             let channel;
             try {
