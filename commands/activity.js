@@ -1,0 +1,46 @@
+const { Invite } = require("discord.js");
+const list = require("../settings/activities.json");
+
+module.exports = {
+    name: "activity",
+    aliases: ["activities"],
+    args: true,
+    category: "utility",
+    description: "Get an invite link to a Discord VC activity.\nVery unstable as it's not fully implemented yet, might not always work as intended.",
+    usage: "<activity> [VC ID]",
+    async execute(ayanami, message, args) {
+        if (message.channel.type !== "text") return message.channel.send("You can only use this command in the server.");
+
+        try {
+            let [activity, id] = args;
+            if (!id && message.member?.voice) id = message.member.voice.channelID
+
+            let channel;
+            try {
+                channel = await ayanami.channels.fetch(id);
+            } catch {
+                return message.channel.send("The provided ID is invalid.\nEnable `Developer Mode` in the Behavior settings to be able to copy IDs.");
+            }
+
+            if (!activity || !Object.keys(list).includes(activity)) return message.channel.send(`The provided activity isnis invalid.\nValid activities:\n${Object.keys(list).map(name => `\`${name}\``).join(", ")}`);
+            if (channel.type !== "voice") return message.channel.send("You have to provide a VC ID.");
+
+            let res = await ayanami.api.channels(id).invites.post({
+                data: {
+                    "max_age": 604800,
+                    "max_uses": 0,
+                    "target_application_id": list[activity].id,
+                    "target_type": 2,
+                    "temporary": false
+                }
+            });
+            let inv = new Invite(ayanami, res);
+
+            message.channel.send(`**${list[activity].name}:**${inv.url}`);
+        } catch (err) {
+            console.error(err);
+            ayanami.logger.error(err);
+            return message.channel.send("There was an error, try again later. If the issue persists, contact Sigma.")
+        }
+    }
+}
