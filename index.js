@@ -3,7 +3,7 @@ const fs = require("fs");
 const config = require("./settings/config.json");
 const { RolesDB } = require("./modules/dbObjects");
 
-let intents = ["GUILDS", "GUILD_MEMBERS", "GUILD_BANS", "GUILD_EMOJIS", "GUILD_PRESENCES",
+let intents = ["GUILDS", "GUILD_MEMBERS", "GUILD_BANS", "GUILD_EMOJIS", "GUILD_VOICE_STATES", "GUILD_PRESENCES",
     "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS"];
 // Creates a new client and a commands collection.
 const ayanami = new Discord.Client({
