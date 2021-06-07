@@ -20,7 +20,7 @@ module.exports = {
             try {
                 channel = await ayanami.channels.fetch(id);
             } catch {
-                return message.channel.send("The provided ID is invalid.\nEnable `Developer Mode` in the Behavior settings to be able to copy IDs.");
+                return message.channel.send("The provided ID is invalid.\nJoin a VC before using this command or enable `Developer Mode` in the Behavior settings to copy a VC ID.");
             }
 
             if (!activity || !Object.keys(list).includes(activity)) return message.channel.send(`The provided activity isnis invalid.\nValid activities:\n${Object.keys(list).map(name => `\`${name}\``).join(", ")}`);
