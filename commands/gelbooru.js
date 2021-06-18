@@ -15,7 +15,7 @@ module.exports = {
         // Checks if the channel is set to NSFW.
         if (!message.channel.nsfw && message.channel.type !== "dm") {
             message.react('💢');
-            return message.reply('Commander, please go in the lewds channel or DMs for this.');
+            return message.reply('Commander, please go to the lewds channel or DMs for this.');
         }
 
         // Stops people from using Loli and Gore as a tag.
