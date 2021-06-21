@@ -1,27 +1,20 @@
 const config = require("../settings/config.json");
+const { AyanamiCute, AyanamiThanks } = require("../settings/text.json");
 
 module.exports = async (ayanami, message) => {
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
-    if (message.channel.name === 'verification' && message.content.toLowerCase() === 'i accept the rules!') {
-        const member = await message.guild.members.fetch(message.author.id);
-        const findRole = message.guild.roles.cache;
-        member.roles.remove(findRole.find(r => r.name === 'Read rules'));
-        member.roles.add(findRole.find(r => r.name === "Fox"));
-        message.delete()
-    }
-
-
+    
     // Responds when saying "Thanks ayanami"
     if ((/(^|\s)THANKS?(\s|$)/gi).test(message.content)
         && /(^|\s)AYANAMI(\s|$)/gi.test(message.content)) {
-        message.reply("You're welcome commander!");
+        message.channel.send(AyanamiThanks);
     }
     // Responds when saying that ayanami is cute
     if (/(^|\s)AYANAMI(\s|$)/gi.test(message.content)
         && /(^|\s)CUTE(\s|$)/gi.test(message.content)) {
-        message.reply("Commander... You think Ayanami is cute? It's fine if you say that.")
+        message.channel.send(AyanamiCute);
     }
 
 
