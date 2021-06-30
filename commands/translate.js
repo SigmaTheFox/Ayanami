@@ -6,7 +6,7 @@ module.exports = {
     aliases: ["tl"],
     args: true,
     category: "utility",
-    description: "I'll translate a sentence for you.",
+    description: "I'll translate a sentence to English for you.",
     usage: "<Sentence>",
     async execute(ayanami, message, args) {
         let input = args.join(" ");
