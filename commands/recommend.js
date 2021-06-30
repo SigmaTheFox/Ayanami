@@ -59,16 +59,18 @@ module.exports = {
             default:
                 return message.channel.send(`${args[1]} isn't a valid anonymosity type. Use //recommend -help for an example.`);
         }
-        args = args.splice(2, args.length).join(" ")
-        embed.setDescription(args);
+        suggestion = args.splice(2, args.length).join(" ")
+        embed.setDescription(suggestion);
 
-        if (!args) return message.reply("Please write a suggestion.");
+        if (!suggestion) return message.reply("Please write a suggestion.");
         if (message.attachments.size >= 1) embed.setImage(message.attachments.first().url);
 
         try {
-            let msg = await channel.send({ embed: embed })
-            //await msg.react("✅");
-            //await msg.react("❎");
+            let msg = await channel.send({ embed: embed });
+            if (args[0] === "-render" || args[0] === "-r") {
+                await msg.react("✅");
+                await msg.react("❎");
+            }
             if (message.channel.type === "text") return message.delete();
             else return message.react("👍");
         } catch (err) {
