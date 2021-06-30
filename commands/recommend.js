@@ -28,7 +28,6 @@ module.exports = {
                         { name: "Example", value: "//recommend -server -user Add this emote to the server." }
                     )
                 return message.channel.send({ embed: help });
-                break;
             case "-server":
             case "-s":
                 channel = ayanami.channels.cache.get("724916543250497617");
@@ -44,6 +43,8 @@ module.exports = {
                     .setTitle("Render Recommendation")
                     .setColor(45055)
                 break;
+            default:
+                return message.channel.send(`${args[0]} isn't a valid recommendation type. Use //recommend -help for an example.`);
         }
 
         switch (args[1].toLowerCase()) {
@@ -55,6 +56,8 @@ module.exports = {
             case "-a":
                 embed.setAuthor("Anonymous", "https://cdn.discordapp.com/attachments/340814937435668480/783290091313037332/question-mark-768x768.png");
                 break;
+            default:
+                return message.channel.send(`${args[1]} isn't a valid anonymosity type. Use //recommend -help for an example.`);
         }
         args = args.splice(2, args.length).join(" ")
         embed.setDescription(args);
@@ -64,8 +67,8 @@ module.exports = {
 
         try {
             let msg = await channel.send({ embed: embed })
-            await msg.react("✅");
-            await msg.react("❎");
+            //await msg.react("✅");
+            //await msg.react("❎");
             if (message.channel.type === "text") return message.delete();
             else return message.react("👍");
         } catch (err) {
