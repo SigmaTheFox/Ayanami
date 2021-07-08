@@ -5,7 +5,7 @@ module.exports = {
     category: "admin",
     description: "Mute a user",
     args: true,
-    usage: "<@User> <reason>",
+    usage: "<@User or User ID> <reason>",
     async execute(ayanami, message, args) {
         if (message.channel.type !== "text") return message.reply("This command can't be used in DMs.")
         if (!message.member.hasPermission("MANAGE_ROLES")) return message.reply("You don't have permission to use this command.")
@@ -30,18 +30,25 @@ module.exports = {
             .addField("Reason", `**${reason}**`)
             .setTimestamp()
 
-        target.roles.add(muteRole, reason)
-            .then(() => {
-                message.react("✅");
-                channel.send({ embed: embed });
-                ayanami.logger.log(`Muted ${target.user.tag} - ${target.user.id}`)
-                console.log(`Muted ${target.user.tag} - ${target.user.id}`);
-            })
-            .catch(e => {
-                message.react("❎");
-                ayanami.logger.error(e);
-                console.error(e);
-                return message.reply(`Failed to mute ${target.user.tag}`);
-            })
+        try {
+            await target.user.send("You've been muted on Sigma's Den for reason: " + reason);
+        } catch (err) {
+            console.log(`${user.username || user.id || user} has the DMs blocked. Couldn't send mute message.`);
+            ayanami.logger.log(`${user.username || user.id || user} has the DMs blocked. Couldn't send mute message.`);
+        } finally {
+            target.roles.add(muteRole, reason)
+                .then(() => {
+                    message.react("✅");
+                    channel.send({ embed: embed });
+                    ayanami.logger.log(`Muted ${target.user.tag} - ${target.user.id}`)
+                    console.log(`Muted ${target.user.tag} - ${target.user.id}`);
+                })
+                .catch(e => {
+                    message.react("❎");
+                    ayanami.logger.error(e);
+                    console.error(e);
+                    return message.reply(`Failed to mute ${target.user.tag}`);
+                })
+        }
     }
 }

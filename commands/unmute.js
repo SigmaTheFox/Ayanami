@@ -5,7 +5,7 @@ module.exports = {
     args: true,
     category: "admin",
     description: "Unmute a user.",
-    usage: "<@User>",
+    usage: "<@User or User ID>",
     async execute(ayanami, message, args) {
         if (message.channel.type !== "text") return message.reply("This command can't be used in DMs.")
         if (!message.member.hasPermission("MANAGE_ROLES")) return message.reply("You don't have permission to use this command.")
@@ -26,18 +26,25 @@ module.exports = {
             .setDescription(`${target.user.username} has been unmuted.`)
             .setTimestamp()
 
-        target.roles.remove(muteRole)
-            .then(() => {
-                message.react("✅");
-                channel.send({ embed: embed });
-                ayanami.logger.log(`Unmuted ${target.user.tag} - ${target.user.id}`);
-                console.log(`Unmuted ${target.user.tag} - ${target.user.id}`);
-            })
-            .catch(e => {
-                message.react("❎");
-                ayanami.logger.error(e);
-                console.error(e);
-                return message.reply(`Failed to unmute ${target.user.tag}`);
-            })
+        try {
+            await target.user.send("You've been unmuted from Sigma's Den.");
+        } catch (err) {
+            console.log(`${user.username || user.id || user} has the DMs blocked. Couldn't send unmute message.`);
+            ayanami.logger.log(`${user.username || user.id || user} has the DMs blocked. Couldn't send unmute message.`);
+        } finally {
+            target.roles.remove(muteRole)
+                .then(() => {
+                    message.react("✅");
+                    channel.send({ embed: embed });
+                    ayanami.logger.log(`Unmuted ${target.user.tag} - ${target.user.id}`);
+                    console.log(`Unmuted ${target.user.tag} - ${target.user.id}`);
+                })
+                .catch(e => {
+                    message.react("❎");
+                    ayanami.logger.error(e);
+                    console.error(e);
+                    return message.reply(`Failed to unmute ${target.user.tag}`);
+                })
+        }
     }
 }
