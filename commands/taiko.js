@@ -78,7 +78,7 @@ module.exports = {
                                 })
                                 .setThumbnail(`https://a.ppy.sh/${user.id}`)
                                 .setColor('#ff66aa')
-                            return message.channel.send({ embed });
+                            return message.channel.send({ embeds: [embed] });
                         }).catch(err => {
                              ayanami.logger.error(err)
                             return message.channel.send(`The user **${osuUser}** was not found!`);

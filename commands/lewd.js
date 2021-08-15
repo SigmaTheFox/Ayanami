@@ -24,7 +24,7 @@ module.exports = {
           .setDescription(`NO!!! This is too lewd!!! ${lewd} [Source](${imageURL})`)
           .setImage(imageURL)
           .setColor(45055);
-        return message.channel.send({ embed });
+        return message.channel.send({ embeds: [embed] });
       }).catch(err => {
          ayanami.logger.error(err)
         console.error(err)

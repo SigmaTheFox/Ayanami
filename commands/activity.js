@@ -9,7 +9,7 @@ module.exports = {
     description: "Get an invite link to a Discord VC activity.\nVery unstable as it's not fully implemented yet, might not always work as intended.",
     usage: "<activity> (VC ID)\nUse `//activity list` to see all valid activities.",
     async execute(ayanami, message, args) {
-        if (message.channel.type !== "text") return message.channel.send("You can only use this command in the server.");
+        if (message.channel.type !== "GUILD_TEXT") return message.channel.send("You can only use this command in the server.");
 
         try {
             let [activity, id] = args;
@@ -24,7 +24,7 @@ module.exports = {
             }
 
             if (!activity || !Object.keys(list).includes(activity)) return message.channel.send(`The provided activity isnis invalid.\nValid activities:\n${Object.keys(list).map(name => `\`${name}\``).join(", ")}`);
-            if (channel.type !== "voice") return message.channel.send("You have to provide a VC ID.");
+            if (channel.isVoice()) return message.channel.send("You have to provide a VC ID.");
 
             let res = await ayanami.api.channels(id).invites.post({
                 data: {

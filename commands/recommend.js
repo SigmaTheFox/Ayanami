@@ -27,7 +27,7 @@ module.exports = {
                         { name: "Anonymosity", value: "-user: Show your username in the recommendation.\n-anon: Send the recommendation as anonymous." },
                         { name: "Example", value: "//recommend -server -user Add this emote to the server." }
                     )
-                return message.channel.send({ embed: help });
+                return message.channel.send({ embeds: [help] });
             case "-server":
             case "-s":
                 channel = ayanami.channels.cache.get("724916543250497617");
@@ -66,12 +66,12 @@ module.exports = {
         if (message.attachments.size >= 1) embed.setImage(message.attachments.first().url);
 
         try {
-            let msg = await channel.send({ embed: embed });
+            let msg = await channel.send({ embeds: [embed] });
             if (args[0] === "-render" || args[0] === "-r") {
                 await msg.react("✅");
                 await msg.react("❎");
             }
-            if (message.channel.type === "text") return message.delete();
+            if (message.channel.type === "GUILD_TEXT") return message.delete();
             else return message.react("👍");
         } catch (err) {
             console.error(err);

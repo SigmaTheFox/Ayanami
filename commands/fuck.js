@@ -12,7 +12,7 @@ module.exports = {
         const RandomOrg = require("random-org");
         const random = new RandomOrg({ apiKey: randomKey });
 
-        if (!message.channel.nsfw && message.channel.type !== "dm") {
+        if (!message.channel.nsfw && message.channel.type !== "DM") {
             message.react("💢");
             return message.reply("Commander... I know that you like exhibitionism... But please go have sex in the NSFW channel.");
         }
@@ -31,7 +31,7 @@ module.exports = {
                         .setDescription(description)
                         .setImage(imageURL)
                         .setColor(45055);
-                    return message.channel.send({ embed });
+                    return message.channel.send({ embeds: [embed] });
                 }
 
                 // Sends the embed with the randomly generated image/gif.

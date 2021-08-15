@@ -11,8 +11,8 @@ module.exports = {
         var emoteName;
         var regex = /<:.+:\d+>/
 
-        if (message.channel.type == "dm") return message.reply("You can only use this command in the server.");
-        if (!message.member.hasPermission("MANAGE_ROLES")) return message.reply("You don't have permission to use this command.");
+        if (message.channel.type === "DM") return message.reply("You can only use this command in the server.");
+        if (!message.member.permissions.has("MANAGE_ROLES")) return message.reply("You don't have permission to use this command.");
 
         const splitArgs = args.join(" ").split(" | ")
         var emote = splitArgs[0],

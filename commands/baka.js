@@ -18,7 +18,7 @@ module.exports = {
     random.generateIntegers({ min: 0, max: Gifs.baka.length - 1, n: 1 })
       .then(function (result) {
         let imageURL = Gifs.baka[result.random.data];
-         ayanami.logger.info(`Generated number for baka command: ${result.random.data}`);
+        ayanami.logger.info(`Generated number for baka command: ${result.random.data}`);
 
         function sendEmbed() {
           const embed = new Discord.MessageEmbed()
@@ -26,7 +26,7 @@ module.exports = {
             .setDescription(description)
             .setImage(imageURL)
             .setColor(45055);
-          message.channel.send({ embed });
+          message.channel.send({ embeds: [embed] });
         }
 
         // Sends the embed with the randomly generated image/gif.
@@ -38,7 +38,7 @@ module.exports = {
           sendEmbed();
         }
       }).catch(err => {
-         ayanami.logger.error(err)
+        ayanami.logger.error(err)
         console.error(err)
         return message.reply('There was an error, please try again in a few minutes')
       })

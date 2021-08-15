@@ -27,7 +27,7 @@ module.exports = {
             .setDescription(description)
             .setImage(imageURL)
             .setColor(45055);
-          return message.channel.send({ embed });
+          return message.channel.send({ embeds: [embed] });
         }
 
         // Sends the embed with the randomly generated image/gif.

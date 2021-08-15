@@ -3,21 +3,23 @@ const fs = require("fs");
 const config = require("./settings/config.json");
 const { RolesDB } = require("./modules/dbObjects");
 
-let intents = ["GUILDS", "GUILD_MEMBERS", "GUILD_BANS", "GUILD_EMOJIS", "GUILD_VOICE_STATES", "GUILD_PRESENCES",
-    "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS"];
+let intents = [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_BANS,
+    Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Discord.Intents.FLAGS.GUILD_VOICE_STATES,
+    Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.GUILD_PRESENCES];
 // Creates a new client and a commands collection.
 const ayanami = new Discord.Client({
     presence: {
-        activity: {
+        activities: [{
             type: "PLAYING",
             name: "Use //help"
-        }
+        }]
     },
-    messageCacheMaxSize: 50,
-    messageEditHistoryMaxSize: 2,
-    ws: {
-        intents
-    }
+    intents: intents,
+    partials: ["CHANNEL"],
+    makeCache: Discord.Options.cacheWithLimits({
+        MessageManager: 50
+    })
 });
 
 ayanami.commands = new Discord.Collection();

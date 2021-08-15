@@ -1,11 +1,27 @@
 const config = require("../settings/config.json");
 const { AyanamiCute, AyanamiThanks } = require("../settings/text.json");
+const {Client, Message} = require("discord.js")
 
+/**
+ * 
+ * @param {Client} ayanami 
+ * @param {Message} message 
+ * @returns 
+ */
 module.exports = async (ayanami, message) => {
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
-    
+    // Fetch channel if partial
+    if (message.channel.partial) {
+        try {
+            await message.channel.commands.fetch()
+        } catch (err) {
+            ayanami.logger.error("Failed to fetch DM channel.");
+            console.error("Failed to fetch DM channel");
+        }
+    }  
+
     // Responds when saying "Thanks ayanami"
     if ((/(^|\s)THANKS?(\s|$)/gi).test(message.content)
         && /(^|\s)AYANAMI(\s|$)/gi.test(message.content)) {

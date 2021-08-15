@@ -1,4 +1,5 @@
 const { ownerID } = require("../settings/config.json");
+const {Message} = require("discord.js")
 
 function clean(text) {
     if (typeof (text) === "string")
@@ -13,6 +14,13 @@ module.exports = {
     category: "admin",
     description: "**BOT OWNER ONLY** Execute code through discord",
     usage: "<Code>",
+    /**
+     * 
+     * @param {*} ayanami 
+     * @param {Message} message 
+     * @param {*} args 
+     * @returns 
+     */
     async execute(ayanami, message, args) {
         if (message.author.id !== ownerID) return message.reply("You're not my owner!");
 
