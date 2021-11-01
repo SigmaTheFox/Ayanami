@@ -11,8 +11,7 @@ module.exports = {
     const RandomOrg = require("random-org");
     const random = new RandomOrg({ apiKey: randomKey });
 
-    //let imageURL = Gifs.lick[Math.floor(Math.random() * Gifs.lick.length)];
-    const user = `**${args.join(' ')}**` || `<@${message.mentions.users.first().id}>`;
+    const user = args.join(' ');
 
     random.generateIntegers({ min: 0, max: Gifs.lick.length - 1, n: 1 })
       .then(function (r) {
@@ -29,11 +28,11 @@ module.exports = {
         }
 
         // Sends the embed with the randomly generated image/gif.
-        if (user === "****" || !user) {
+        if (user.length == 0 || !user) {
           var description = `You taste delicious. [Source](${imageURL})`
           sendEmbed();
         } else {
-          var description = `<@${message.author.id}> Licks ${user} [Source](${imageURL})`
+          var description = `<@${message.author.id}> Licks **${user}** [Source](${imageURL})`
           sendEmbed();
         }
       }).catch(err => {

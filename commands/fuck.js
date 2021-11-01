@@ -17,8 +17,7 @@ module.exports = {
             return message.reply("Commander... I know that you like exhibitionism... But please go have sex in the NSFW channel.");
         }
 
-        //let imageURL = Gifs.fuck[Math.floor(Math.random() * Gifs.fuck.length)];
-        const user = `**${args.join(' ')}**` || `<@${message.mentions.users.first().id}>`;
+        const user = args.join(' ');
 
         random.generateIntegers({ min: 0, max: Gifs.fuck.length - 1, n: 1 })
             .then(function (r) {
@@ -35,14 +34,14 @@ module.exports = {
                 }
 
                 // Sends the embed with the randomly generated image/gif.
-                if (user === "****" || !user) {
+                if (user.length == 0 || !user) {
                     var description = `<@${message.author.id}> seems to be fucking a ghost. [Source](${imageURL})`
                     sendEmbed();
                 } else if (user === message.author.id) {
                     var description = `<@${message.author.id}> fucked... themselves? I feel bad for you. [Source](${imageURL})`
                     sendEmbed();
                 } else {
-                    var description = `<@${message.author.id}> fucks ${user}. [Source](${imageURL})`
+                    var description = `<@${message.author.id}> fucks **${user}**. [Source](${imageURL})`
                     sendEmbed();
                 }
             }).catch(err => {

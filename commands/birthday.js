@@ -13,7 +13,7 @@ module.exports = {
     const RandomOrg = require("random-org");
     const random = new RandomOrg({ apiKey: randomKey });
 
-    const user = `**${args.join(' ')}**` || `<@${message.mentions.users.first().id}>`;
+    const user = args.join(' ');
 
     random.generateIntegers({ min: 0, max: birthday.length - 1, n: 1 })
       .then(function (r) {
@@ -30,15 +30,15 @@ module.exports = {
         }
 
         // Sends the embed with the randomly generated image/gif.
-        if (user === "****" || !user) {
+        if (user.length == 0 || !user) {
           var description = `Happy birthday!!! ${heart}. [Source](${imageURL})`
           sendEmbed();
         }
-        else if (user === "497318136895242240") {
+        else if (user === "<@497318136895242240>") {
           var description = `Thank you very much for the birthday wishes <@${message.author.id}>. I'm very happy to be here with you all!`
           sendEmbed();
         } else {
-          var description = `Happy birthday ${user}!!! ${heart} Make sure to eat lots of cake! [Source](${imageURL})`
+          var description = `Happy birthday **${user}**!!! ${heart} Make sure to eat lots of cake! [Source](${imageURL})`
           sendEmbed();
         }
       }).catch(err => {

@@ -12,8 +12,6 @@ module.exports = {
     const RandomOrg = require("random-org");
     const random = new RandomOrg({ apiKey: randomKey });
 
-    //let imageURL = Gifs.lewd[Math.floor(Math.random() * Gifs.lewd.length)];
-
     random.generateIntegers({ min: 0, max: Gifs.lewd.length - 1, n: 1 })
       .then(function (r) {
         let imageURL = Gifs.lewd[r.random.data];
