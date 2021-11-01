@@ -24,7 +24,7 @@ module.exports = {
             }
 
             if (!activity || !Object.keys(list).includes(activity)) return message.channel.send(`The provided activity isnis invalid.\nValid activities:\n${Object.keys(list).map(name => `\`${name}\``).join(", ")}`);
-            if (channel.isVoice()) return message.channel.send("You have to provide a VC ID.");
+            if (!channel.isVoice()) return message.channel.send("You have to provide a VC ID.");
 
             let res = await ayanami.api.channels(id).invites.post({
                 data: {
