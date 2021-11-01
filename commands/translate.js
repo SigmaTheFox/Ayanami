@@ -23,7 +23,7 @@ module.exports = {
                 .addField("Input Sentence", input)
                 .addField("Translation", text);
 
-            return message.channel.send({ embed: embed });
+            return message.channel.send({ embeds: [embed] });
         } catch (err) {
             console.log(err)
             return message.channel.send("There was an error while translating. Try again later.");

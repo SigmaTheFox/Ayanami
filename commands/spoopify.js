@@ -9,7 +9,7 @@ module.exports = {
   locked: true,
   event: "Halloween",
   async execute(ayanami, message, args) {
-    message.channel.startTyping();
+    message.channel.sendTyping();
 
     const canvas = Canvas.createCanvas(500, 500);
     const ctx = canvas.getContext('2d');
@@ -25,10 +25,9 @@ module.exports = {
     ctx.drawImage(cobWebs, 0, 0, 209, 220);
 
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'spoopy.jpg');
-    message.reply(`You're very spoopy now!`, { files: [attachment] })
+    message.reply({ content: `You're very spoopy now!`, files: [attachment] })
       .then(result => {
-         ayanami.logger.info(`${message.author.username} requested a spoop image`);
-        message.channel.stopTyping();
+        ayanami.logger.info(`${message.author.username} requested a spoop image`);
       })
   }
 }

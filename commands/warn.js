@@ -7,8 +7,8 @@ module.exports = {
     args: true,
     usage: "<@User or User ID> <reason>",
     async execute(ayanami, message, args) {
-        if (message.channel.type !== "text") return message.reply("This command can't be used in DMs.")
-        if (!message.member.hasPermission("KICK_MEMBERS")) return message.reply("You don't have permission to use this command.")
+        if (message.channel.type !== "GUILD_TEXT") return message.reply("This command can't be used in DMs.")
+        if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You don't have permission to use this command.")
 
         let target = message.mentions.members.first() || await message.guild.members.fetch(args[0]);
         let reason = args.splice(1, args.length).join(" ") || "Unspecified";
@@ -23,12 +23,12 @@ module.exports = {
             .setTimestamp()
 
         try {
-            await target.user.send("You received a warning on Sigma's Den for reason: " + reason);
+            await target.user.send(`You received a warning on Sigma's Den.\n Reason: **${reason}**`);
         } catch (err) {
-            console.log(`${user.username || user.id || user} has the DMs blocked. Couldn't send warn message.`);
-            ayanami.logger.log(`${user.username || user.id || user} has the DMs blocked. Couldn't send warn message.`);
+            console.log(`${user.username || user.id || user.toString()} has the DMs blocked. Couldn't send warn message.`);
+            ayanami.logger.log(`${user.username || user.id || user.toString()} has the DMs blocked. Couldn't send warn message.`);
         } finally {
-            channel.send({ embed: embed })
+            channel.send({ embeds: [embed] })
                 .then(() => {
                     message.react("✅");
                     ayanami.logger.log(`Warned ${target.user.tag} - ${target.user.id}`);

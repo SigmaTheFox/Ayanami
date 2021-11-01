@@ -57,7 +57,7 @@ module.exports = {
                 )
                 .setFooter("Data received from OpenWeatherMap")
 
-            return message.channel.send({ embed })
+            return message.channel.send({ embeds: [embed] })
         } catch (error) {
             message.reply("I couldn't find the specified location.")
              ayanami.logger.error(error)

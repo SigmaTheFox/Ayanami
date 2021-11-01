@@ -3,49 +3,46 @@ const fs = require("fs");
 const config = require("./settings/config.json");
 const { RolesDB } = require("./modules/dbObjects");
 
-let intents = ["GUILDS", "GUILD_MEMBERS", "GUILD_BANS", "GUILD_EMOJIS", "GUILD_VOICE_STATES", "GUILD_PRESENCES",
-    "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "DIRECT_MESSAGES", "DIRECT_MESSAGE_REACTIONS"];
+let intents = [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_BANS,
+    Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Discord.Intents.FLAGS.GUILD_VOICE_STATES,
+    Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.GUILD_PRESENCES];
 // Creates a new client and a commands collection.
 const ayanami = new Discord.Client({
     presence: {
-        activity: {
+        activities: [{
             type: "PLAYING",
             name: "Use //help"
-        }
+        }]
     },
-    messageCacheMaxSize: 50,
-    messageEditHistoryMaxSize: 2,
-    ws: {
-        intents
-    }
+    intents: intents,
+    partials: ["CHANNEL"],
+    makeCache: Discord.Options.cacheWithLimits({
+        MessageManager: 50
+    })
 });
 
 ayanami.commands = new Discord.Collection();
 ayanami.logger = require('./modules/logger');
 
 // Reads the commands directory and filters out everything that does not end with '.js'.
-const commandFile = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for (const file of commandFile) {
-    const command = require(`./commands/${file}`);
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+for (const file of commandFiles) {
+    let command = require(`./commands/${file}`);
     ayanami.commands.set(command.name, command);
 }
 
-// This loop reads the /events/ folder and attaches each event file to the appropriate event.
-fs.readdir("./events/", (err, files) => {
-    if (err) return ayanami.logger.error(err);
-    files.forEach(file => {
-        if (!file.endsWith(".js")) return;
+// Require and attach each event file to the appropriate event
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith(".js"));
+for (const file of eventFiles) {
+    let event = require(`./events/${file}`);
+    let eventName = file.split(".")[0];
 
-        let event = require(`./events/${file}`);
-        let eventName = file.split(".")[0];
+    // Load events and require the client name before the event outputs
+    ayanami.on(eventName, event.bind(null, ayanami));
+    delete require.cache[require.resolve(`./events/${file}`)];
+}
 
-        // Loads event files and requires the client name before the event outputs
-        ayanami.on(eventName, event.bind(null, ayanami));
-        delete require.cache[require.resolve(`./events/${file}`)]
-    });
-});
-
-// Obviously the bot login.
 ayanami.login(config.token).catch(err => {
     console.error(err);
     ayanami.logger.error(err);

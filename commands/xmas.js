@@ -9,7 +9,7 @@ module.exports = {
     locked: true,
     event: "Christmas",
     async execute(ayanami, message, args) {
-        message.channel.startTyping();
+        message.channel.sendTyping();
 
         const canvas = Canvas.createCanvas(500, 500);
         const ctx = canvas.getContext('2d');
@@ -33,10 +33,9 @@ module.exports = {
 
 
         const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'xmas.jpg');
-        message.reply(`Merry Christmas Commander!!!`, { files: [attachment] })
+        message.reply({ content: `Merry Christmas Commander!!!`, files: [attachment] })
             .then(result => {
-                 ayanami.logger.info(`${message.author.username} requested a xmas image`);
-                message.channel.stopTyping();
+                ayanami.logger.info(`${message.author.username} requested a xmas image`);
             });
     }
 }

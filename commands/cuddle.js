@@ -14,8 +14,7 @@ module.exports = {
     const RandomOrg = require("random-org");
     const random = new RandomOrg({ apiKey: randomKey });
 
-    //let imageURL = Gifs.cuddle[Math.floor(Math.random() * Gifs.cuddle.length)];
-    const user = `**${args.join(' ')}**` || `<@${message.mentions.users.first().id}>`;
+    const user = args.join(' ');
 
     random.generateIntegers({ min: 0, max: Gifs.cuddle.length - 1, n: 1 })
       .then(function (result) {
@@ -29,15 +28,15 @@ module.exports = {
             .setDescription(description)
             .setImage(imageURL)
             .setColor(45055);
-          return message.channel.send({ embed });
+          return message.channel.send({ embeds: [embed] });
         }
 
         // Sends the embed with the randomly generated image/gif.
-        if (user === "****" || !user) {
+        if (user.length == 0 || !user) {
           var description = `Cuddly snuggly!!! ${heart} [Source](${imageURL})`
           sendEmbed();
         } else {
-          var description = `<@${message.author.id}> Cuddles with ${user} ${heart} [Source](${imageURL})`
+          var description = `<@${message.author.id}> Cuddles with **${user}** ${heart} [Source](${imageURL})`
           sendEmbed();
         }
       }).catch(err => {

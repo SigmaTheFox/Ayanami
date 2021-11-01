@@ -33,7 +33,7 @@ module.exports = {
                         .setDescription(`[Image URL](${image.booruURL})`)
                         .setImage(image.URL)
                         .setColor(45055);
-                    return message.channel.send({ embed });
+                    return message.channel.send({ embeds: [embed] });
                 }
 
                 // Catches errors and responds to them (sometimes).

@@ -25,15 +25,15 @@ module.exports = {
             .setDescription(description)
             .setImage(imageURL)
             .setColor(45055);
-          return message.channel.send({ embed });
+          return message.channel.send({ embeds: [embed] });
         }
 
         // Sends the embed with the randomly generated image/gif.
-        if (user === "****" || !user) {
+        if (user.length == 0 || !user) {
           var description = `Hehehe [Source](${imageURL})`
           sendEmbed();
         } else {
-          var description = `<@${message.author.id}> Pokes ${user} [Source](${imageURL})`
+          var description = `<@${message.author.id}> Pokes **${user}** [Source](${imageURL})`
           sendEmbed();
         }
       }).catch(err => {

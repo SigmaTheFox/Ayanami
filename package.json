@@ -1,6 +1,6 @@
 {
   "name": "ayanami",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,13 +9,11 @@
   "author": "Sigma The Arctic Fox",
   "license": "ISC",
   "dependencies": {
-    "canvas": "^2.6.1",
-    "discord.js": "^12.5.1",
-    "discord.js-menu": "^2.3.1",
+    "canvas": "^2.8.0",
+    "discord.js": "^13.3.0",
     "log4js": "^5.3.0",
     "node-osu": "^2.2.0",
     "random-org": "^2.1.0",
-    "random-puppy": "^1.1.0",
     "sagiri": "^3.1.1",
     "sequelize": "^5.22.3",
     "sqlite3": "^5.0.0"

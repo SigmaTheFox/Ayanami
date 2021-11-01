@@ -14,7 +14,7 @@ module.exports = {
         ayanami.user.setAvatar(avatarURL)
             .then(user => message.reply("Successfully changed avatar."))
             .catch((err) => {
-                 ayanami.logger.error(err);
+                ayanami.logger.error(err);
                 message.reply("You're trying to change the avatar too quickly.")
             });
     }

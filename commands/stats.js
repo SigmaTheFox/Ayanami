@@ -20,19 +20,19 @@ module.exports = {
      * @param {String[]} args 
      */
     async execute(ayanami, message, args) {
-        let guild = ayanami.guilds.cache.get("724873614104461322");
+        let guild = ayanami.guilds.cache.get("724873614104461322") || message.guild;
         let { heapTotal, heapUsed, rss } = process.memoryUsage()
         heapTotal = heapTotal / 1000000;
         heapUsed = heapUsed / 1000000;
         rss = rss / 1000000;
 
-        let userCount = ayanami.users.cache.filter(u => !u.bot).size,
-            commandCount = ayanami.commands.size;
+        let userCount = ayanami.users.cache.filter(u => !u.bot).size.toString(),
+            commandCount = ayanami.commands.size.toString();
 
-        let serverCreated = guild.createdAt,
-            channelCount = guild.channels.cache.size,
-            emoteCount = guild.emojis.cache.size,
-            roleCount = guild.roles.cache.size,
+        let serverCreated = guild.createdAt.toString(),
+            channelCount = guild.channels.cache.size.toString(),
+            emoteCount = guild.emojis.cache.size.toString(),
+            roleCount = guild.roles.cache.size.toString(),
             permaLink = "https://discord.gg/gXnaWhm"
 
         const embed = new Discord.MessageEmbed()
@@ -52,6 +52,6 @@ module.exports = {
                 { name: "•\u2000\Server Creation Date", value: serverCreated, inline: true }
             ])
             .setFooter(`Permanent server invite link: ${permaLink}`)
-        message.channel.send(embed)
+        message.channel.send({ embeds: [embed] })
     }
 }
