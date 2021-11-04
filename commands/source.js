@@ -71,7 +71,7 @@ module.exports = {
         }
 
 
-        const Embed = new MessageEmbed()
+        const embed = new MessageEmbed()
             .setAuthor(message.author.username, message.author.displayAvatarURL({ format: 'png', dynamic: true }))
             .setDescription(`[[View full results]](${sauceLink})`)
             .setColor(45055)
@@ -92,6 +92,6 @@ module.exports = {
             .setThumbnail(img)
             .setFooter("Powered by Saucenao")
 
-        message.channel.send(Embed)
+        message.channel.send({ embeds: [embed] })
     }
 }
