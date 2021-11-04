@@ -15,7 +15,7 @@ function CommandList(client, channel) {
 
   let contentArray = Util.splitMessage(content.join(""), { append: "```", prepend: "```JSON\n" })
   contentArray.forEach(msg => {
-    channel.send({content: msg })
+    channel.send({ content: msg })
   })
 }
 
@@ -46,12 +46,7 @@ module.exports = {
       if (cmd.description) embed.addField("Description", cmd.description);
       if (cmd.usage) embed.addField("Usage", `${prefix}${cmd.name} ${cmd.usage}`)
 
-      return message.author.send({ embeds: [embed] })
-        .then(() => {
-          if (message.channel.type === "DM") return;
-          message.channel.send("Ok Commander. Check your DMs.")
-        })
-        .catch(() => message.reply("Your DMs seem to be blocked."))
+      return message.reply({ embeds: [embed] })
     }
 
     return CommandList(ayanami, message.channel);
