@@ -18,7 +18,7 @@ module.exports = {
     random.generateIntegers({ min: 0, max: birthday.length - 1, n: 1 })
       .then(function (r) {
         let imageURL = birthday[r.random.data];
-         ayanami.logger.info(`Generated number for birthday command: ${r.random.data}`);
+        ayanami.logger.info(`Generated number for birthday command: ${r.random.data}`);
 
         function sendEmbed() {
           const embed = new Discord.MessageEmbed()
@@ -30,19 +30,21 @@ module.exports = {
         }
 
         // Sends the embed with the randomly generated image/gif.
+        let regex = new RegExp("<@!?&?" + ayanami.user.id + ">");
         if (user.length == 0 || !user) {
           var description = `Happy birthday!!! ${heart}. [Source](${imageURL})`
           sendEmbed();
         }
-        else if (user === "<@497318136895242240>") {
+        else if (regex.test(user)) {
           var description = `Thank you very much for the birthday wishes <@${message.author.id}>. I'm very happy to be here with you all!`
           sendEmbed();
-        } else {
+        }
+        else {
           var description = `Happy birthday **${user}**!!! ${heart} Make sure to eat lots of cake! [Source](${imageURL})`
           sendEmbed();
         }
       }).catch(err => {
-         ayanami.logger.error(err)
+        ayanami.logger.error(err)
         console.error(err)
         return message.reply('There was an error, please try again in a few minutes')
       })
