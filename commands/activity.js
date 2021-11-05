@@ -6,7 +6,7 @@ module.exports = {
     aliases: ["activities"],
     args: true,
     category: "utility",
-    description: "Get an invite link to a Discord VC activity.\nVery unstable as it's not fully implemented yet, might not always work as intended.",
+    description: "Get an invite link to a Discord VC activity. (Very unstable as it's not fully implemented yet, might not always work as intended.)",
     usage: "<activity> (VC ID)\nUse `//activity list` to see all valid activities.",
     async execute(ayanami, message, args) {
         if (message.channel.type !== "GUILD_TEXT") return message.channel.send("You can only use this command in the server.");

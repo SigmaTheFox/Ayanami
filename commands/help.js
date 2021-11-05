@@ -2,18 +2,17 @@ const { Client, Message, MessageEmbed, Util } = require("discord.js");
 const { prefix } = require("../settings/config.json");
 
 /**
- * 
- * @param {*} client 
+ * @param {Client} client 
  * @param {GuildChannel} channel 
  */
 function CommandList(client, channel) {
   let content = [];
 
-  content.push("Here are all my commands, Commander:");
-  content.push("```JSON\n" + client.commands.map(cmd => `${cmd.name}: ${cmd.description}`).join("\n") + "```");
-  content.push(`To get further information about a command, you can use \`${prefix}help [command name]!\``);
+  content.push("Here are all my commands:\n\n");
+  content.push(client.commands.map(cmd => `> 「${cmd.name}」:\t\t${cmd.description}`).join("\n"));
+  content.push(`\n\nTo get further information about a command, you can use \`${prefix}help [command name]\`!`);
 
-  let contentArray = Util.splitMessage(content.join(""), { append: "```", prepend: "```JSON\n" })
+  let contentArray = Util.splitMessage(content.join(""))
   contentArray.forEach(msg => {
     channel.send({ content: msg })
   })
