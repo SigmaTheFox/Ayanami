@@ -41,7 +41,7 @@ module.exports = class Booru {
                 if (this.APIKey === '') throw new TypeError("API Key must be defined in Constructor."); // Check if API key got defined
                 if (typeof this.APIKey !== 'string') throw new TypeError("API Key must be a String."); // Check if API key is a String
 
-                URL = `https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1${this.APIKey}&tags=sort:random+${query}`;
+                URL = `https://gelbooru.com/index.php?page=dapi&s=post&q=index&limit=2&json=1${this.APIKey}&tags=sort:random+${query}`;
                 break;
             case 'db':
             case 'danbooru':
@@ -73,9 +73,9 @@ module.exports = class Booru {
 
             // Based on the site parameter, set the imageURL, rating, character and artist values
             if (Gelbooru.includes(site.toLowerCase())) {
-                imageURL = json[0]['file_url'];
-                booruURL = `https://gelbooru.com/index.php?page=post&s=view&id=${json[0].id}`
-                rating = json[0].rating;
+                imageURL = json.post[0]['file_url'];
+                booruURL = `https://gelbooru.com/index.php?page=post&s=view&id=${json.post[0].id}`
+                rating = json.post[0].rating;
                 character = undefined;
                 artist = undefined;
             }
