@@ -10,7 +10,7 @@ module.exports = {
         if (message.channel.type !== "GUILD_TEXT") return message.reply("This command can't be used in DMs.")
         if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You don't have permission to use this command.")
 
-        let target = message.mentions.members.first() || await message.guild.members.fetch(args[0]);
+        let target = message.mentions.members.first() || await message.guild.members.cache.get(args[0]);
         let reason = args.splice(1, args.length).join(" ") || "Unspecified";
         let channel = ayanami.channels.cache.get("783733205114421309");
 
