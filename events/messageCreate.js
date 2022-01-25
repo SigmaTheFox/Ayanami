@@ -1,14 +1,23 @@
 const config = require("../settings/config.json");
 const { AyanamiCute, AyanamiThanks } = require("../settings/text.json");
 const {Client, Message} = require("discord.js")
+const { scamLinks } = require("../json/scamLinks.json")
 
 /**
- * 
  * @param {Client} ayanami 
  * @param {Message} message 
  * @returns 
  */
 module.exports = async (ayanami, message) => {
+    // Scam link detection
+    scamLinks.some(link => {
+        let scamLinkRegex = new RegExp("https?://" + link, "gi")
+        if(scamLinkRegex.test(message.content)) {
+            message.channel.send(`${message.author.toString()} the URL you sent is blacklisted. To prevent scams your message has been deleted.`)
+            message.delete()
+        }
+    })
+
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 

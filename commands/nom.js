@@ -6,7 +6,7 @@ module.exports = {
   usage: "(@User)",
   execute(ayanami, message, args) {
     const Discord = require('discord.js');
-    const Gifs = require("../gifs.json");
+    const Gifs = require("../json/gifs.json");
     const { randomKey } = require('../settings/config.json');
     const RandomOrg = require("random-org");
     const random = new RandomOrg({ apiKey: randomKey });

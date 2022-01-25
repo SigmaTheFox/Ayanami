@@ -1,11 +1,16 @@
 const { ownerID } = require("../settings/config.json");
-const {Message} = require("discord.js")
+const { Message } = require("discord.js")
 
-function clean(text) {
-    if (typeof (text) === "string")
-        return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
-    else
-        return text;
+async function clean(client, text) {
+    // If the input is a promise, await it first
+    if (text && text.constructor.name == "Promise") text = await text;
+    // Safely stringify response if it isn't a string
+    if (typeof text !== "string") text = require("util").inspect(text, { depth: 1 });
+    // Replace symbols
+    text = text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+    // Hide token in output
+    text = text.replaceAll(client.token, "[REDACTED]");
+    return text;
 }
 
 module.exports = {
@@ -25,15 +30,12 @@ module.exports = {
         if (message.author.id !== ownerID) return message.reply("You're not my owner!");
 
         try {
-            const code = args.join(" ");
-            let evaled = eval(code);
-
-            if (typeof evaled !== "string")
-                evaled = require("util").inspect(evaled);
-
-            message.channel.send(clean(evaled), { code: "xl", split: true });
+            const evaled = eval(args.join(" "));
+            const cleaned = await clean(ayanami, evaled);
+            
+            message.channel.send(`\`\`\`js\n${cleaned}\n\`\`\``);
         } catch (err) {
-            message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+            message.channel.send(`\`ERROR\` \`\`\`xl\n${cleaned}\n\`\`\``);
         }
     }
 }

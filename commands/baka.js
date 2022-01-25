@@ -4,10 +4,10 @@ module.exports = {
   description: "It's not like I... Whatever.",
   usage: "(@User)",
   execute(ayanami, message, args) {
-    const Gifs = require("../gifs.json");
+    const Gifs = require("../json/gifs.json");
     const Discord = require('discord.js');
     const { randomKey } = require('../settings/config.json');
-    const { baka } = require("../emojis.json");
+    const { baka } = require("../json/emojis.json");
     const RandomOrg = require("random-org");
     const random = new RandomOrg({ apiKey: randomKey });
 

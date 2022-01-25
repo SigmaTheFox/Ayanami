@@ -24,7 +24,7 @@ module.exports = {
             || /\bSHOTA\b/gi.test(message.content)) return message.reply("… I don't really want to come close to you, Commander. Lolis, Shota and Gore are not allowed...");
 
         // Searches the booru using the arguments provided by the message author.
-        booru.search('gb', args.concat(["-loli*", "-shota*", "-young", "-gore", "-amputee", "-furry", "-anthro", "-rating:safe"]))
+        booru.search('gb', args.concat(["-loli*", "-shota*", "-young", "-gore", "-amputee", "-furry", "-anthro"]))
             .then(image => {
                 // Creates an embed that sends the image.
                 if (image.URL.includes('webm') || image.URL.includes('mp4')) {

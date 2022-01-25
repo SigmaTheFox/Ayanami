@@ -1,5 +1,5 @@
 const { Invite } = require("discord.js");
-const list = require("../settings/activities.json");
+const list = require("../json/activities.json");
 
 module.exports = {
     name: "activity",

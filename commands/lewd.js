@@ -4,9 +4,9 @@ module.exports = {
   description: "NOOO! This is too lewd!",
   execute(ayanami, message, args) {
     // Imports the emojis database file and gives them a name used to call them.
-    const Gifs = require("../gifs.json");
+    const Gifs = require("../json/gifs.json");
     const Discord = require('discord.js');
-    const Emote = require("../emojis.json");
+    const Emote = require("../json/emojis.json");
     const { randomKey } = require('../settings/config.json');
     const lewd = ayanami.emojis.cache.get(Emote.vampirelewd);
     const RandomOrg = require("random-org");

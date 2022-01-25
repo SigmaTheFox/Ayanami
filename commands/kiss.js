@@ -6,8 +6,8 @@ module.exports = {
   usage: "(@User)",
   execute(ayanami, message, args) {
     const Discord = require('discord.js');
-    const Gifs = require("../gifs.json");
-    const Emote = require("../emojis.json");
+    const Gifs = require("../json/gifs.json");
+    const Emote = require("../json/emojis.json");
     const { randomKey } = require('../settings/config.json');
     const heart = ayanami.emojis.cache.get(Emote.ayanamiheart);
     const RandomOrg = require("random-org");
