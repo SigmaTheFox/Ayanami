@@ -1,4 +1,4 @@
-const { Invite } = require("discord.js");
+const { Invite, Message } = require("discord.js");
 const list = require("../json/activities.json");
 
 module.exports = {
@@ -8,8 +8,15 @@ module.exports = {
     category: "utility",
     description: "Get an invite link to a Discord VC activity. (Very unstable as it's not fully implemented yet, might not always work as intended.)",
     usage: "<activity> (VC ID)\nUse `//activity list` to see all valid activities.",
+    /**
+     * 
+     * @param {*} ayanami 
+     * @param {Message} message 
+     * @param {*} args 
+     * @returns 
+     */
     async execute(ayanami, message, args) {
-        if (message.channel.type !== "GUILD_TEXT") return message.channel.send("You can only use this command in the server.");
+        if (message.channel.type !== "GUILD_TEXT" && message.channel.type !== "GUILD_VOICE") return message.channel.send("You can only use this command in the server.");
 
         try {
             let [activity, id] = args;

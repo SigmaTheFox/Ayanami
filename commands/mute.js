@@ -12,7 +12,7 @@ module.exports = {
      * @param {*} args 
      */
     async execute(ayanami, message, args) {
-        if (message.channel.type !== "GUILD_TEXT") return message.reply("This command can't be used in DMs.")
+        if (message.channel.type !== "GUILD_TEXT" && message.channel.type !== "GUILD_VOICE") return message.reply("This command can't be used in DMs.")
         if (!message.member.permissions.has("MODERATE_MEMBERS")) return message.reply("You don't have permission to use this command.")
 
         let target = message.mentions.members.first() || message.guild.members.cache.get(args[0]);

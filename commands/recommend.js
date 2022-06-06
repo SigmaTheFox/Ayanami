@@ -71,7 +71,7 @@ module.exports = {
                 await msg.react("✅");
                 await msg.react("❎");
             }
-            if (message.channel.type === "GUILD_TEXT") return message.delete();
+            if (message.channel.type === "GUILD_TEXT" && message.channel.type !== "GUILD_VOICE") return message.delete();
             else return message.react("👍");
         } catch (err) {
             console.error(err);
