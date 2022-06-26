@@ -13,9 +13,9 @@ module.exports = {
      * @param {Array} args 
      */
     execute(ayanami, message, args) {
-        let report_channel = ayanami.channels.cache.get("693069041996267550"),
+        let report_channel = ayanami.channels.cache.get("990429948445622272"),
         reporter = message.author,
-        mod_role = "<@&421708736478969866>";
+        mod_role = "<@&724878371401760778>";
 
         if (message.channel.type === "DM") {
             let offender = args.join(" ");
