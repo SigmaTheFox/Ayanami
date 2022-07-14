@@ -30,8 +30,16 @@ module.exports = async (ayanami, message) => {
         for (let tweet of tweets) {
             msgContent += `${tweet.toLowerCase().replace("twitter", "vxtwitter")}\n`;
         }
-        message.channel.send(msgContent);
+        let msg = await message.channel.send(msgContent);
+        await msg.react("❌");
         message.delete();
+        let filter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id;
+        let collector = msg.createReactionCollector({ filter, time: 60000 });
+        collector.on("collect", r => msg.delete());
+        collector.on("end", r => {
+            msg.reactions.removeAll().catch(e => { });
+        })
+
     }
 
     // Fetch channel if partial
