@@ -1,6 +1,6 @@
 const config = require("../settings/config.json");
 const { AyanamiCute, AyanamiThanks } = require("../settings/text.json");
-const {Client, Message} = require("discord.js")
+const { Client, Message } = require("discord.js")
 const { scamLinks } = require("../json/scamLinks.json")
 
 /**
@@ -12,7 +12,7 @@ module.exports = async (ayanami, message) => {
     // Scam link detection
     scamLinks.some(link => {
         let scamLinkRegex = new RegExp("https?://" + link, "gi")
-        if(scamLinkRegex.test(message.content)) {
+        if (scamLinkRegex.test(message.content)) {
             message.channel.send(`${message.author.toString()} the URL you sent is blacklisted. To prevent scams your message has been deleted.`)
             message.delete()
         }
@@ -20,6 +20,19 @@ module.exports = async (ayanami, message) => {
 
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
+
+    // vxTwitter
+    let twitterRegex = /https?:\/\/(mobile\.|www\.)?twitter.com\/\w+\/status\/\d+/gi,
+        ignore = /<https?:\/\/(mobile\.|www\.)?twitter.com/gi;
+    if (twitterRegex.test(message.content) && !ignore.test(message.content)) {
+        let tweets = message.content.match(twitterRegex),
+            msgContent = `VX-ed **${message.author.tag}**'s twitter link(s)\n`;
+        for (let tweet of tweets) {
+            msgContent += `${tweet.toLowerCase().replace("twitter", "vxtwitter")}\n`;
+        }
+        message.channel.send(msgContent);
+        message.delete();
+    }
 
     // Fetch channel if partial
     if (message.channel.partial) {
@@ -29,7 +42,7 @@ module.exports = async (ayanami, message) => {
             ayanami.logger.error("Failed to fetch DM channel.");
             console.error("Failed to fetch DM channel");
         }
-    }  
+    }
 
     // Responds when saying "Thanks ayanami"
     if ((/(^|\s)THANKS?(\s|$)/gi).test(message.content)
