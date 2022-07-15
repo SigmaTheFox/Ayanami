@@ -21,25 +21,33 @@ module.exports = async (ayanami, message) => {
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
-    // vxTwitter
+    // auto-vxTwitter
     let twitterRegex = /https?:\/\/(mobile\.|www\.)?twitter.com\/\w+\/status\/\d+/gi,
         ignore = /<https?:\/\/(mobile\.|www\.)?twitter.com/gi;
+
     if (twitterRegex.test(message.content) && !ignore.test(message.content)) {
         let tweets = message.content.match(twitterRegex),
+            args = message.content.split(/\s+/),
+            text = args.filter(i => !/https?:\/\/(mobile\.|www\.)?twitter.com/gi.test(i)).join(" "),
             msgContent = `VX-ed **${message.author.tag}**'s twitter link(s)\n`;
+
+        if (text || text.length > 0) msgContent += `Additional Text: *${text}*\n`;
+        
         for (let tweet of tweets) {
-            msgContent += `${tweet.toLowerCase().replace("twitter", "vxtwitter")}\n`;
+            if (tweet.includes("vxtwitter.com")) return;
+            msgContent += `\n${tweet.toLowerCase().replace("twitter", "vxtwitter")}`;
         }
+
         let msg = await message.channel.send(msgContent);
-        await msg.react("❌");
         message.delete();
+
+        await msg.react("❌");
         let filter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id;
         let collector = msg.createReactionCollector({ filter, time: 60000 });
-        collector.on("collect", r => msg.delete());
-        collector.on("end", r => {
-            msg.reactions.removeAll().catch(e => { });
+        collector.on("collect", () => msg.delete());
+        collector.on("end", () => {
+            msg.reactions.removeAll().catch(() => { });
         })
-
     }
 
     // Fetch channel if partial
