@@ -10,44 +10,48 @@ const { scamLinks } = require("../json/scamLinks.json")
  */
 module.exports = async (ayanami, message) => {
     // Scam link detection
-    scamLinks.some(link => {
-        let scamLinkRegex = new RegExp("https?://" + link, "gi")
-        if (scamLinkRegex.test(message.content)) {
-            message.channel.send(`${message.author.toString()} the URL you sent is blacklisted. To prevent scams your message has been deleted.`)
-            message.delete()
-        }
-    })
+    if (message.channel.type === "GUILD_TEXT") {
+        scamLinks.some(link => {
+            let scamLinkRegex = new RegExp("https?://" + link, "gi")
+            if (scamLinkRegex.test(message.content)) {
+                message.channel.send(`${message.author.toString()} the URL you sent is blacklisted. To prevent scams your message has been deleted.`)
+                message.delete()
+            }
+        })
+    }
 
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
     // auto-vxTwitter
-    let twitterRegex = /https?:\/\/(mobile\.|www\.)?twitter.com\/\w+\/status\/\d+/gi,
-        ignore = /<https?:\/\/(mobile\.|www\.)?twitter.com/gi;
+    if (config.vxEnabled === true && message.channel.type === "GUILD_TEXT") {
+        let twitterRegex = /https?:\/\/(mobile\.|www\.)?twitter.com\/\w+\/status\/\d+/gi,
+            ignore = /<https?:\/\/(mobile\.|www\.)?twitter.com/gi;
 
-    if (twitterRegex.test(message.content) && !ignore.test(message.content)) {
-        let tweets = message.content.match(twitterRegex),
-            args = message.content.split(/\s+/),
-            text = args.filter(i => !/https?:\/\/(mobile\.|www\.)?twitter.com/gi.test(i)).join(" "),
-            msgContent = `VX-ed **${message.author.tag}**'s twitter link(s)\n`;
+        if (twitterRegex.test(message.content) && !ignore.test(message.content)) {
+            let tweets = message.content.match(twitterRegex),
+                args = message.content.split(/\s+/),
+                text = args.filter(i => !/https?:\/\/(mobile\.|www\.)?twitter.com/gi.test(i)).join(" "),
+                msgContent = `VX-ed **${message.author.tag}**'s twitter link(s)\n`;
 
-        if (text || text.length > 0) msgContent += `Additional Text: *${text}*\n`;
-        
-        for (let tweet of tweets) {
-            if (tweet.includes("vxtwitter.com")) return;
-            msgContent += `\n${tweet.toLowerCase().replace("twitter", "vxtwitter")}`;
+            if (text || text.length > 0) msgContent += `Additional Text: *${text}*\n`;
+
+            for (let tweet of tweets) {
+                if (tweet.includes("vxtwitter.com")) return;
+                msgContent += `\n${tweet.toLowerCase().replace("twitter", "vxtwitter")}`;
+            }
+
+            let msg = await message.channel.send(msgContent);
+            message.delete();
+
+            await msg.react("❌");
+            let filter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id;
+            let collector = msg.createReactionCollector({ filter, time: 60000 });
+            collector.on("collect", () => msg.delete());
+            collector.on("end", () => {
+                msg.reactions.removeAll().catch(() => { });
+            })
         }
-
-        let msg = await message.channel.send(msgContent);
-        message.delete();
-
-        await msg.react("❌");
-        let filter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id;
-        let collector = msg.createReactionCollector({ filter, time: 60000 });
-        collector.on("collect", () => msg.delete());
-        collector.on("end", () => {
-            msg.reactions.removeAll().catch(() => { });
-        })
     }
 
     // Fetch channel if partial
