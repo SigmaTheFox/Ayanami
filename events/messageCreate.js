@@ -23,7 +23,7 @@ module.exports = async (ayanami, message) => {
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
-    // auto-vxTwitter
+    // auto-fxTwitter
     if (config.vxEnabled === true && message.channel.type === "GUILD_TEXT") {
         let twitterRegex = /https?:\/\/(mobile\.|www\.)?twitter.com\/\w+\/status\/\d+/gi,
             ignore = /<https?:\/\/(mobile\.|www\.)?twitter.com/gi;
@@ -32,13 +32,13 @@ module.exports = async (ayanami, message) => {
             let tweets = message.content.match(twitterRegex),
                 args = message.content.split(/\s+/),
                 text = args.filter(i => !/https?:\/\/(mobile\.|www\.)?twitter.com/gi.test(i)).join(" "),
-                msgContent = `VX-ed **${message.author.tag}**'s twitter link(s)\n`;
+                msgContent = `FX-ed **${message.author.tag}**'s twitter link(s)\n`;
 
             if (text || text.length > 0) msgContent += `Additional Text: *${text}*\n`;
 
             for (let tweet of tweets) {
-                if (tweet.includes("vxtwitter.com")) return;
-                msgContent += `\n${tweet.toLowerCase().replace("twitter", "vxtwitter")}`;
+                if (tweet.includes("fxtwitter.com") || tweet.includes("vxtwitter.com")) continue;
+                msgContent += `\n${tweet.toLowerCase().replace("twitter", "fxtwitter")}`;
             }
 
             let msg = await message.channel.send(msgContent);
