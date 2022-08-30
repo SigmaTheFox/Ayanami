@@ -1,14 +1,13 @@
-const Discord = require("discord.js");
+const { Client, Options, Collection, GatewayIntentBits } = require("discord.js");
 const fs = require("fs");
 const config = require("./settings/config.json");
 const { RolesDB } = require("./modules/dbObjects");
 
-let intents = [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_BANS,
-    Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Discord.Intents.FLAGS.GUILD_VOICE_STATES,
-    Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Discord.Intents.FLAGS.DIRECT_MESSAGES, Discord.Intents.FLAGS.GUILD_PRESENCES];
+let intents = [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildBans,
+    GatewayIntentBits.GuildEmojisAndStickers , GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildPresences];
 // Creates a new client and a commands collection.
-const ayanami = new Discord.Client({
+const ayanami = new Client({
     presence: {
         activities: [{
             type: "PLAYING",
@@ -17,19 +16,19 @@ const ayanami = new Discord.Client({
     },
     intents: intents,
     partials: ["CHANNEL"],
-    makeCache: Discord.Options.cacheWithLimits({
+    makeCache: Options.cacheWithLimits({
         MessageManager: 50
     })
 });
 
-ayanami.commands = new Discord.Collection();
 ayanami.logger = require('./modules/logger');
+ayanami.commands = new Collection();
 
 // Reads the commands directory and filters out everything that does not end with '.js'.
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     let command = require(`./commands/${file}`);
-    ayanami.commands.set(command.name, command);
+    ayanami.commands.set(command.data.name, command);
 }
 
 // Require and attach each event file to the appropriate event

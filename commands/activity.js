@@ -1,54 +1,61 @@
-const { Invite, Message } = require("discord.js");
-const list = require("../json/activities.json");
+const { ComponentType, ActionRowBuilder, SelectMenuBuilder, Invite, SlashCommandBuilder, Client, CommandInteraction } = require("discord.js");
+const list = Object.entries(require("../json/activities.json"));
 
 module.exports = {
-    name: "activity",
-    aliases: ["activities"],
-    args: true,
-    category: "utility",
-    description: "Get an invite link to a Discord VC activity. (Very unstable as it's not fully implemented yet, might not always work as intended.)",
-    usage: "<activity> (VC ID)\nUse `//activity list` to see all valid activities.",
+    data: new SlashCommandBuilder()
+        .setName("activity")
+        .setDescription("Get an invite link to a Discord VC activity. Unstable and might not always work.")
+        .setDMPermission(false),
     /**
-     * 
-     * @param {*} ayanami 
-     * @param {Message} message 
-     * @param {*} args 
-     * @returns 
-     */
-    async execute(ayanami, message, args) {
-        if (message.channel.type !== "GUILD_TEXT" && message.channel.type !== "GUILD_VOICE") return message.channel.send("You can only use this command in the server.");
-
-        try {
-            let [activity, id] = args;
-            if (activity.toLowerCase() === "list") return message.channel.send(Object.keys(list).map(name => `\`${name}\``).join(", "));
-            if (!id && message.member?.voice?.channel) id = message.member.voice.channel.id
-
-            let channel;
-            try {
-                channel = await ayanami.channels.fetch(id);
-            } catch {
-                return message.channel.send("The provided ID is invalid.\nJoin a VC before using this command or enable `Developer Mode` in the Behavior settings to copy a VC ID.");
+     * @param {Client} ayanami
+     * @param {CommandInteraction} interaction
+    */
+    async execute(ayanami, interaction) {
+        let id,
+            filter = (i) => {
+                i.deferUpdate();
+                return i.customId === "activity" && i.user.id === interaction.user.id
             }
+        // Create select menu
+        const row = new ActionRowBuilder()
+            .addComponents(
+                new SelectMenuBuilder()
+                    .setCustomId("activity")
+                    .setPlaceholder("Select an activity"));
 
-            if (!activity || !Object.keys(list).includes(activity)) return message.channel.send(`The provided activity isnis invalid.\nValid activities:\n${Object.keys(list).map(name => `\`${name}\``).join(", ")}`);
-            if (!channel.isVoice()) return message.channel.send("You have to provide a VC ID.");
+        // Loop through activity list and add each one to the select menu options
+        for (let i of list) {
+            if (i[0].toLowerCase().includes("game")) break;
+            row.components[0].addOptions({ label: i[0], description: i[1].name, value: i[1].id })
+        }
 
-            let res = await ayanami.api.channels(id).invites.post({
-                data: {
+        // If the member using the interaction isn't in a VC, tell them to join one first
+        if (!interaction.member?.voice?.channel) return interaction.reply("You must join a VC before using this command.");
+        else id = interaction.member.voice.channel.id;
+
+        // Send the select menu
+        let m = await interaction.reply({ content: "Select an activity:", components: [row] })
+
+        // Create a component collector that lasts 1 minute. Once a user has selected an activity, edit the reply to give the invite.
+        let collector = m.createMessageComponentCollector({ filter, componentType: ComponentType.SelectMenu, time: 60000 });
+        collector.on("collect", async i => {
+            let activity = i.values[0];
+
+            let res = await ayanami.rest.post(`/channels/${id}/invites`, {
+                body: {
                     "max_age": 604800,
                     "max_uses": 0,
-                    "target_application_id": list[activity].id,
+                    "target_application_id": activity,
                     "target_type": 2,
                     "temporary": false
                 }
             });
             let inv = new Invite(ayanami, res);
-
-            message.channel.send(`**${list[activity].name}:**${inv.url}`);
-        } catch (err) {
-            console.error(err);
-            ayanami.logger.error(err);
-            return message.channel.send("There was an error, try again later. If the issue persists, contact Sigma.")
-        }
+            interaction.editReply({ content: inv.url, components: [] });
+            collector.stop();
+        });
+        collector.on("end", collected => {
+            if (collected.size === 0) interaction.editReply({ content: "No activity was selected", components: [] })
+        })
     }
 }
