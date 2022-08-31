@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, CLient, CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder, Client, CommandInteraction } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
