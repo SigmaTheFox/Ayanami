@@ -1,4 +1,4 @@
-const { ComponentType, ActionRowBuilder, SelectMenuBuilder, Invite, SlashCommandBuilder, Client, CommandInteraction } = require("discord.js");
+const { ComponentType, ActionRowBuilder, SelectMenuBuilder, SlashCommandBuilder, Client, CommandInteraction } = require("discord.js");
 const list = Object.entries(require("../json/activities.json"));
 
 module.exports = {
