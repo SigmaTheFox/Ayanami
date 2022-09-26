@@ -26,7 +26,51 @@ module.exports = {
         .addSubcommand(cmd =>
             cmd
                 .setName("cuddle")
-                .setDescription("You might think cudding is lewd, but no, cuddling is our energy source!")
+                .setDescription("You might think cuddling is lewd, but no, cuddling is our energy source!")
+                .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false)))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("fuck")
+                .setDescription("Fuck someone either out of love or because you're feeling horny")
+                .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false)))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("hug")
+                .setDescription("Give someone a hug")
+                .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false)))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("kiss")
+                .setDescription("Give someone a big ol' smooch")
+                .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false)))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("lewd")
+                .setDescription("NOOO! This is too lewd!"))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("lick")
+                .setDescription("Lick your friends")
+                .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false)))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("nom")
+                .setDescription("Wanna have a bite?")
+                .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false)))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("pat")
+                .setDescription("Pat and everything's find again")
+                .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false)))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("poke")
+                .setDescription("Squishy :3")
+                .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false)))
+        .addSubcommand(cmd =>
+            cmd
+                .setName("tickle")
+                .setDescription("Bully someone with tickles!")
                 .addUserOption(opt => opt.setName("user").setDescription("The user").setRequired(false))),
     /**
      * @param {Client} ayanami
@@ -74,8 +118,59 @@ module.exports = {
             case "cuddle":
                 imageURL = await getGif("cuddle");
                 emote = ayanami.emojis.cache.get(require("../json/emojis.json").ayanamiheart);
-                if (user) sendEmbed(`${interaction.user} Cuddles with **${user}** ${emote} [Source](${imageURL})`, imageURL);
+                if (user) sendEmbed(`${interaction.user} cuddles with **${user}** ${emote} [Source](${imageURL})`, imageURL);
                 else sendEmbed(`Cuddly snuggly!!! ${emote} [Source](${imageURL})`, imageURL);
+                break;
+            case "fuck":
+                if (interaction.inGuild() && !interaction.channel.nsfw) return interaction.reply("Commander... I know that you like exhibitionism... But please go have sex in the NSFW channels.");
+                imageURL = await getGif("fuck");
+                if (user && user.id === interaction.user.id) sendEmbed(`${interaction.user} fucked... themselves? I feel bad for you. [Source](${imageURL})`, imageURL);
+                else if (user) sendEmbed(`${interaction.user} fucks **${user}**. [Source](${imageURL})`, imageURL);
+                else sendEmbed(`${interaction.user} seems to be fucking a ghost. [Source](${imageURL})`, imageURL);
+                break;
+            case "hug":
+                imageURL = await getGif("hug");
+                emote = ayanami.emojis.cache.get(require("../json/emojis.json").ayanamiheart);
+                if (user) sendEmbed(`${interaction.user} hugs **${user}** [Source](${imageURL})`, imageURL);
+                else sendEmbed(`Huggies!!! ${emote} [Source](${imageURL})`, imageURL);
+                break;
+            case "kiss":
+                imageURL = await getGif("kiss");
+                emote = ayanami.emojis.cache.get(require("../json/emojis.json").ayanamiheart);
+                if (user) sendEmbed(`${interaction.user} kisses ${emote} **${user}** [Source](${imageURL})`, imageURL);
+                else sendEmbed(`You deserve a kiss :3 ${emote}. [Source](${imageURL})`, imageURL);
+                break;
+            case "lewd":
+                imageURL = await getGif("lewd");
+                emote = ayanami.emojis.cache.get(require("../json/emojis.json").vampirelewd);
+                sendEmbed(`NO!!! This is too lewd!!! ${emote} [Source](${imageURL})`, imageURL);
+                break;
+            case "lick":
+                imageURL = await getGif("lick");
+                if (user) sendEmbed(`${interaction.user} licks **${user}** [Source](${imageURL})`, imageURL);
+                else sendEmbed(`You taste delicious. [Source](${imageURL})`, imageURL);
+                break;
+            case "nom":
+                imageURL = await getGif("nom");
+                if (user) sendEmbed(`${interaction.user} noms on **${user}** [Source](${imageURL})`, imageURL);
+                else sendEmbed(`Mmmh yummy. [Source](${imageURL})`, imageURL);
+                break;
+            case "pat":
+                imageURL = await getGif("pat");
+                emote = ayanami.emojis.cache.get(require("../json/emojis.json").dvapatpat);
+                if (user) sendEmbed(`${interaction.user} pats **${user}** ${emote} [Source](${imageURL})`, imageURL);
+                else sendEmbed(`Pat pat pat ${emote} [Source](${imageURL})`, imageURL);
+                break;
+            case "poke":
+                imageURL = await getGif("poke");
+                if (user) sendEmbed(`${interaction.user} pokes **${user}** [Source](${imageURL})`, imageURL);
+                else sendEmbed(`Hehehe [Source](${imageURL})`, imageURL);
+                break;
+            case "tickle":
+                imageURL = await getGif("tickle");
+                emote = ayanami.emojis.cache.get(require("../json/emojis.json").surebully);
+                if (user) sendEmbed(`${interaction.user} tickles **${user}** ${emote} [Source](${imageURL})`, imageURL);
+                else sendEmbed(`Tickle tickle tickle!!! ${emote} [Source](${imageURL})`, imageURL);
                 break;
         }
     }
