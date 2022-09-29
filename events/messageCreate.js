@@ -11,6 +11,7 @@ const { scamLinks } = require("../json/scamLinks.json")
 module.exports = async (ayanami, message) => {
     // Scam link detection
     if (message.channel.type === "GUILD_TEXT") {
+        if (/sigmathefox.com/gi.test(message.content)) return; // ignore my domain
         scamLinks.some(link => {
             let scamLinkRegex = new RegExp("https?://" + link, "gi")
             if (scamLinkRegex.test(message.content)) {
@@ -19,7 +20,7 @@ module.exports = async (ayanami, message) => {
             }
         })
     }
-
+    
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
