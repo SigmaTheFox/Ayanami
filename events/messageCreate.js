@@ -20,12 +20,12 @@ module.exports = async (ayanami, message) => {
             }
         })
     }
-    
+
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
     // auto-fxTwitter
-    if (config.vxEnabled === true && message.channel.type === "GUILD_TEXT") {
+    if (message.member?.roles?.cache.find(r => r.name === "fxtwitter") && message.channel.type === "GUILD_TEXT") {
         let twitterRegex = /https?:\/\/(mobile\.|www\.)?twitter.com\/\w+\/status\/\d+/gi,
             ignore = /<https?:\/\/(mobile\.|www\.)?twitter.com/gi;
 
