@@ -9,10 +9,8 @@ module.exports = {
      * @param {CommandInteraction} interaction
      **/
     async execute(ayanami, interaction) {
-        await interaction.reply({ content: "pong...", ephemeral: true, fetchReply: true })
-            .then(m => {
-                let ping = m.createdTimestamp - interaction.createdTimestamp;
-                interaction.editReply(`Pong! My ping is: ${ping}, API Latency: ${Math.round(ayanami.ws.ping)}`)
-            })
+        let m = await interaction.reply({ content: "pong...", ephemeral: true, fetchReply: true });
+        let ping = m.createdTimestamp - interaction.createdTimestamp;
+        interaction.editReply(`Pong! My ping is: ${ping}, API Latency: ${Math.round(ayanami.ws.ping)}`);
     }
 }
