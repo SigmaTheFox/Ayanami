@@ -20,7 +20,7 @@ module.exports = async (ayanami, message) => {
             }
         })
     }
-
+    
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
