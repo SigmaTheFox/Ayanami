@@ -3,9 +3,16 @@ const fs = require("fs");
 const config = require("./settings/config.json");
 const { RolesDB } = require("./modules/dbObjects");
 
-let intents = [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildBans,
-    GatewayIntentBits.GuildEmojisAndStickers , GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildPresences];
+let intents = [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildBans,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.GuildPresences
+];
 // Creates a new client and a commands collection.
 const ayanami = new Client({
     presence: {

@@ -99,13 +99,13 @@ module.exports = {
         switch (interaction.options.getSubcommand()) {
             case "baka":
                 imageURL = await getGif("baka");
-                emote = ayanami.emojis.cache.get(require("../json/emojis.json").baka);
+                emote = require("../json/emojis.json").baka;
                 if (user) sendEmbed(`**${user}** wa baka! ${emote} [Source](${imageURL})`, imageURL);
                 else sendEmbed(`Baka baka baaaka!!! ${emote} [Source](${imageURL})`, imageURL);
                 break;
             case "birthday":
                 imageURL = await getGif("birthday");
-                emote = ayanami.emojis.cache.get(require("../json/emojis.json").ayanamiheart);
+                emote = require("../json/emojis.json").ayanamiheart;
                 if (user && user.id === ayanami.user.id) sendEmbed(`Thank you very much for the birthday wishes ${interaction.user}. I'm very happy to be here with you all!`, imageURL);
                 else if (user) sendEmbed(`Happy birthday **${user}**!!! ${emote} Make sure to eat lots of cake! [Source](${imageURL})`, imageURL);
                 else sendEmbed(`Happy birthday!!! ${emote}. [Source](${imageURL})`, imageURL);
@@ -117,7 +117,7 @@ module.exports = {
                 break;
             case "cuddle":
                 imageURL = await getGif("cuddle");
-                emote = ayanami.emojis.cache.get(require("../json/emojis.json").ayanamiheart);
+                emote = require("../json/emojis.json").ayanamiheart;
                 if (user) sendEmbed(`${interaction.user} cuddles with **${user}** ${emote} [Source](${imageURL})`, imageURL);
                 else sendEmbed(`Cuddly snuggly!!! ${emote} [Source](${imageURL})`, imageURL);
                 break;
@@ -130,19 +130,19 @@ module.exports = {
                 break;
             case "hug":
                 imageURL = await getGif("hug");
-                emote = ayanami.emojis.cache.get(require("../json/emojis.json").ayanamiheart);
+                emote = require("../json/emojis.json").ayanamiheart;
                 if (user) sendEmbed(`${interaction.user} hugs **${user}** [Source](${imageURL})`, imageURL);
                 else sendEmbed(`Huggies!!! ${emote} [Source](${imageURL})`, imageURL);
                 break;
             case "kiss":
                 imageURL = await getGif("kiss");
-                emote = ayanami.emojis.cache.get(require("../json/emojis.json").ayanamiheart);
+                emote = require("../json/emojis.json").ayanamiheart;
                 if (user) sendEmbed(`${interaction.user} kisses ${emote} **${user}** [Source](${imageURL})`, imageURL);
                 else sendEmbed(`You deserve a kiss :3 ${emote}. [Source](${imageURL})`, imageURL);
                 break;
             case "lewd":
                 imageURL = await getGif("lewd");
-                emote = ayanami.emojis.cache.get(require("../json/emojis.json").vampirelewd);
+                emote = require("../json/emojis.json").vampirelewd;
                 sendEmbed(`NO!!! This is too lewd!!! ${emote} [Source](${imageURL})`, imageURL);
                 break;
             case "lick":
@@ -157,7 +157,7 @@ module.exports = {
                 break;
             case "pat":
                 imageURL = await getGif("pat");
-                emote = ayanami.emojis.cache.get(require("../json/emojis.json").dvapatpat);
+                emote = require("../json/emojis.json").dvapatpat;
                 if (user) sendEmbed(`${interaction.user} pats **${user}** ${emote} [Source](${imageURL})`, imageURL);
                 else sendEmbed(`Pat pat pat ${emote} [Source](${imageURL})`, imageURL);
                 break;
@@ -168,9 +168,8 @@ module.exports = {
                 break;
             case "tickle":
                 imageURL = await getGif("tickle");
-                emote = ayanami.emojis.cache.get(require("../json/emojis.json").surebully);
-                if (user) sendEmbed(`${interaction.user} tickles **${user}** ${emote} [Source](${imageURL})`, imageURL);
-                else sendEmbed(`Tickle tickle tickle!!! ${emote} [Source](${imageURL})`, imageURL);
+                if (user) sendEmbed(`${interaction.user} tickles **${user}** [Source](${imageURL})`, imageURL);
+                else sendEmbed(`Tickle tickle tickle!!! [Source](${imageURL})`, imageURL);
                 break;
         }
     }

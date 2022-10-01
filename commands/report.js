@@ -29,7 +29,7 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     async execute(ayanami, interaction) {
-        let report_channel = ayanami.channels.cache.get("693069041996267550"),
+        let report_channel = ayanami.channels.cache.get("990429948445622272"),
             reporter = interaction.user;
 
         if (interaction.options.getSubcommand() === "dm") {
