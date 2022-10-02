@@ -1,6 +1,12 @@
+function verifyString(data) {
+    if (typeof data === "string") return data;
+    if (Array.isArray(data)) return data.join("\n");
+    return String(data);
+}
+
 module.exports = {
-    splitMessage: (text, { maxLength = 2_000, char = '\n', prepend = '', append = '' } = {}) => {
-        text = Util.verifyString(text);
+    splitMessage(text, { maxLength = 2_000, char = '\n', prepend = '', append = '' } = {}) {
+        text = verifyString(text);
         if (text.length <= maxLength) return [text];
         let splitText = [text];
         if (Array.isArray(char)) {

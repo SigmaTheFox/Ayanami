@@ -1,6 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction, Routes } = require("discord.js");
-const { REST } = require("@discordjs/rest");
-const { clientID, guildID, token } = require("../settings/config.json");
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require("discord.js");
 
 function secondsToHms(t) {
     t = Number(t);
@@ -26,10 +24,7 @@ module.exports = {
         heapUsed = heapUsed / 1000000;
         rss = rss / 1000000;
         let userCount = ayanami.users.cache.filter(u => !u.bot).size.toString(),
-            rest = new REST({ version: "10" }).setToken(token),
-            globalCommands = await rest.get(Routes.applicationCommands(clientID)),
-            guildCommands = await rest.get(Routes.applicationGuildCommands(clientID, guildID)),
-            totalCommands = `${globalCommands.length + guildCommands.length}`;
+            totalCommands = String(ayanami.commands.size);
 
         let serverCreated = guild.createdAt.toString(),
             channelCount = guild.channels.cache.size.toString(),

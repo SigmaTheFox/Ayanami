@@ -11,7 +11,8 @@ let intents = [
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.GuildPresences
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.MessageContent
 ];
 // Creates a new client and a commands collection.
 const ayanami = new Client({
@@ -30,12 +31,20 @@ const ayanami = new Client({
 
 ayanami.logger = require('./modules/logger');
 ayanami.commands = new Collection();
+ayanami.msgCommands = new Collection();
 
-// Reads the commands directory and filters out everything that does not end with '.js'.
+// Handle SlashCommands
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     let command = require(`./commands/${file}`);
     ayanami.commands.set(command.data.name, command);
+}
+
+// Handle Message Commands
+const msgCommandFiles = fs.readdirSync('./msgCommands').filter(file => file.endsWith('.js'));
+for (const file of msgCommandFiles) {
+    let command = require(`./msgCommands/${file}`);
+    ayanami.msgCommands.set(command.name, command);
 }
 
 // Require and attach each event file to the appropriate event

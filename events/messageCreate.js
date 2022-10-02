@@ -1,6 +1,5 @@
 const config = require("../settings/config.json");
-const { AyanamiCute, AyanamiThanks } = require("../settings/text.json");
-const { Client, Message } = require("discord.js")
+const { Client, Message, ChannelType } = require("discord.js")
 const { scamLinks } = require("../json/scamLinks.json")
 
 /**
@@ -10,7 +9,7 @@ const { scamLinks } = require("../json/scamLinks.json")
  */
 module.exports = async (ayanami, message) => {
     // Scam link detection
-    if (message.channel.type === "GUILD_TEXT") {
+    if (message.channel.type === ChannelType.GuildText) {
         if (/sigmathefox.com/gi.test(message.content)) return; // ignore my domain
         scamLinks.some(link => {
             let scamLinkRegex = new RegExp("https?://" + link, "gi")
@@ -25,7 +24,7 @@ module.exports = async (ayanami, message) => {
     if (message.author.bot) return;
 
     // auto-fxTwitter
-    if (message.member?.roles?.cache.find(r => r.name === "fxtwitter") && message.channel.type === "GUILD_TEXT") {
+    if (message.member?.roles?.cache.find(r => r.name === "fxtwitter") && message.channel.type === ChannelType.GuildText) {
         let twitterRegex = /https?:\/\/(mobile\.|www\.)?twitter.com\/\w+\/status\/\d+/gi,
             ignore = /<https?:\/\/(mobile\.|www\.)?twitter.com/gi;
 
@@ -45,12 +44,12 @@ module.exports = async (ayanami, message) => {
             let msg = await message.channel.send(msgContent);
             message.delete();
 
-            await msg.react("❌");
+            let reaction = await msg.react("❌");
             let filter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id;
             let collector = msg.createReactionCollector({ filter, time: 60000 });
             collector.on("collect", () => msg.delete());
             collector.on("end", () => {
-                msg.reactions.removeAll().catch(() => { });
+                reaction.remove().catch(() => { });
             })
         }
     }
@@ -65,18 +64,6 @@ module.exports = async (ayanami, message) => {
         }
     }
 
-    // Responds when saying "Thanks ayanami"
-    if ((/(^|\s)THANKS?(\s|$)/gi).test(message.content)
-        && /(^|\s)AYANAMI(\s|$)/gi.test(message.content)) {
-        message.channel.send(AyanamiThanks);
-    }
-    // Responds when saying that ayanami is cute
-    if (/(^|\s)AYANAMI(\s|$)/gi.test(message.content)
-        && /(^|\s)CUTE(\s|$)/gi.test(message.content)) {
-        message.channel.send(AyanamiCute);
-    }
-
-
     // Checks if the command starts with the prefix.
     if (!message.content.startsWith(config.prefix)) return;
 
@@ -85,8 +72,8 @@ module.exports = async (ayanami, message) => {
     const commandName = args.shift().toLowerCase();
 
     // Gets the command names and aliases.
-    const command = ayanami.commands.get(commandName)
-        || ayanami.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    const command = ayanami.msgCommands.get(commandName)
+        || ayanami.msgCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     // Returns if there is no command with that name.
     if (!command) return message.reply(`There is no command called **${commandName}**. Make sure you typed the command correctly or ask Commander Sigma if he can add it.`);
@@ -102,21 +89,9 @@ module.exports = async (ayanami, message) => {
         return message.channel.send(reply);
     }
 
-    // Check if the command is active or not
-    if (command.locked) {
-        let reply = `This command isn't currently active, ${message.author}.`
-
-        if (command.event) {
-            reply += `\nIt will be active on ${command.event}.`
-        }
-        return message.channel.send(reply)
-    }
-
     // This will execute the command and if there was an error it'll tell the user.
     try {
         command.execute(ayanami, message, args);
-        console.log(`[${message.author.id} - ${message.author.tag}] used command: "${command.name}"`);
-        ayanami.logger.info(`[${message.author.id} - ${message.author.tag}] used command: "${command.name}"`);
     } catch (err) {
         ayanami.logger.error(err);
         message.reply('There was an error trying to execute that command!');
