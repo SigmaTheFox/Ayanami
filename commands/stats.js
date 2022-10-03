@@ -10,6 +10,7 @@ function secondsToHms(t) {
 }
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("stats")
         .setDescription("Get server and bot stats"),

@@ -43,6 +43,7 @@ function sendEmbed(interaction, source, imgURL) {
 let source;
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("source")
         .setDescription("Get the source of an image")

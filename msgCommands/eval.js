@@ -25,8 +25,6 @@ async function clean(client, text) {
 module.exports = {
     name: "eval",
     args: true,
-    category: "admin",
-    description: "**BOT OWNER ONLY** Execute code through discord",
     usage: "<Code>",
     /**
      * @param {*} ayanami 

@@ -1,6 +1,7 @@
-const { SlashCommandBuilder, CLient, CommandInteraction } = require("discord.js");
+const { SlashCommandBuilder, CLient, CommandInteraction, ChannelType } = require("discord.js");
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("avatar")
         .setDescription("Get someone else's or your own profile picture")
@@ -19,12 +20,13 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     async execute(ayanami, interaction) {
-        const target = interaction.options.getMember("user") || interaction.member;
-
         if (interaction.options.getSubcommand() === "user") {
-            await interaction.reply(target.user.displayAvatarURL({ format: "png", dynamic: true, size: 4096 }));
+            let target = interaction.options.getUser("user") || interaction.user;
+            await interaction.reply(target.displayAvatarURL({ format: "png", dynamic: true, size: 4096 }));
         }
         else if (interaction.options.getSubcommand() === "server") {
+            if (interaction.channel.type !== ChannelType.DM) return interaction.reply("This command only works in servers");
+            let target = interaction.options.getMember("user") || interaction.member;
             await interaction.reply(target.displayAvatarURL({ format: "png", dynamic: true, size: 4096 }));
         }
     }

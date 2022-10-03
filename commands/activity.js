@@ -2,10 +2,10 @@ const { ComponentType, ActionRowBuilder, SelectMenuBuilder, SlashCommandBuilder,
 const list = Object.entries(require("../json/activities.json"));
 
 module.exports = {
+    global: false,
     data: new SlashCommandBuilder()
         .setName("activity")
-        .setDescription("Get an invite link to a Discord VC activity. Unstable and might not always work.")
-        .setDMPermission(false),
+        .setDescription("Get an invite link to a Discord VC activity. Unstable and might not always work."),
     /**
      * @param {Client} ayanami
      * @param {CommandInteraction} interaction

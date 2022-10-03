@@ -2,6 +2,7 @@ const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits } =
 const { RolesDB } = require("../modules/dbObjects.js");
 
 module.exports = {
+    global: false,
     data: new SlashCommandBuilder()
         .setName("role")
         .setDescription("Add or remove a reaction role on the server")

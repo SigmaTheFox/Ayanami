@@ -51,6 +51,7 @@ async function sendEmbed(interaction, user) {
 }
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("osu")
         .setDescription("View your or someone else's OSU! stats.")

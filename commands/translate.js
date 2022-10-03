@@ -4,6 +4,7 @@ const DeepL = require("../modules/DeepL.js");
 const deepl = new DeepL(DeepLToken);
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("translate")
         .setDescription("Translate text from one language to anther")

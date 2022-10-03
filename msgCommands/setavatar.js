@@ -1,7 +1,5 @@
 module.exports = {
     name: 'setavatar',
-    category: "admin",
-    description: "**BOT OWNER ONLY** Change Ayanami's profile picture.",
     args: true,
     usage: '<image link>',
     execute(ayanami, message, args) {

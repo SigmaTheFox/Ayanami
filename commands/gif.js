@@ -5,6 +5,7 @@ const RandomOrg = require("random-org");
 const random = new RandomOrg({ apiKey: randomKey });
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("gif")
         .setDescription("Send a reaction gif of a specific theme")
@@ -92,7 +93,7 @@ module.exports = {
             return gif[randomInt.random.data];
         }
 
-        const user = interaction.options.getMember("user");
+        const user = interaction.options.getUser("user");
         let imageURL,
             emote;
 

@@ -14,6 +14,7 @@ function sendEmbed(interaction, booruURL, imageURL) {
 }
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("gelbooru")
         .setDescription("Search for an image using tags")

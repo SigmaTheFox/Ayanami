@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, Client, CommandInteraction } = require("discord.js");
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("ping")
         .setDescription("Pong!"),

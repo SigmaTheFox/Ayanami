@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 const { OpenWeather } = require("../settings/config.json");
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("weather")
         .setDescription("Get the current weather data for the specified location")

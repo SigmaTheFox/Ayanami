@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, Client, CommandInteraction } = require("discord.js");
 
 module.exports = {
+    global: false,
     data: new SlashCommandBuilder()
         .setName("togglefx")
         .setDescription("Toggle fxtwitter on/off"),

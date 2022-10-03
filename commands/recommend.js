@@ -1,12 +1,13 @@
 const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require("discord.js");
 
-let channel, member, embed, anonymity, type, recommendation, attachment, roleCheck,
+let channel, member, embed, anonymity, type, recommendation, attachment,
     typeTitle = {
         "s": "Server Recommendation",
         "r": "Render Recommendation"
     }
 
 module.exports = {
+    global: true,
     data: new SlashCommandBuilder()
         .setName("recommend")
         .setDescription("Recommend a change to the server or a new render")
@@ -39,7 +40,6 @@ module.exports = {
      */
     async execute(ayanami, interaction) {
         member = ayanami.guilds.cache.get("724873614104461322").members.cache.get(interaction.user.id);
-        roleCheck = member.roles.cache;
         type = interaction.options.getString("type");
         anonymity = interaction.options.getString("anonymity");
         recommendation = interaction.options.getString("recommendation");

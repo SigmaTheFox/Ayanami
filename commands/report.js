@@ -3,6 +3,7 @@ const { Client, CommandInteraction, SlashCommandBuilder, EmbedBuilder } = requir
 let mod_role = "<@&724878371401760778>";
 
 module.exports = {
+    gloal: false,
     data: new SlashCommandBuilder()
         .setName("report")
         .setDescription("Report a user to the mods. Only mods can see it. Abuse will result in an insta-ban")
