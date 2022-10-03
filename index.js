@@ -19,7 +19,7 @@ const ayanami = new Client({
     presence: {
         activities: [{
             type: "PLAYING",
-            name: "Use //help"
+            name: "Real life is a shit-tier game"
         }]
     },
     intents: intents,
