@@ -18,7 +18,6 @@ let intents = [
 const ayanami = new Client({
     presence: {
         activities: [{
-            type: "PLAYING",
             name: "Real life is a shit-tier game"
         }]
     },
