@@ -6,7 +6,7 @@ function splitText(text, type) {
     let splitMsg;
 
     if (type === "text") splitMsg = splitMessage(text, { prepend: "\`\`\`js\n", append: "\n\`\`\`" });
-    else if (type === "error") splitMsg = splitMessage(text, { prepend: "\`ERROR\`\n\`\`\`xl\n", append: "\n\`\`\`" });
+    else  splitMsg = splitMessage(text, { prepend: "\`\`\`xl\n", append: "\n\`\`\`" });
     return splitMsg;
 }
 
@@ -35,19 +35,20 @@ module.exports = {
     async execute(ayanami, message, args) {
         if (message.author.id !== ownerID) return message.reply("You're not my owner!");
 
-        let evaled, cleaned;
-
         try {
-            evaled = eval(args.join(" "));
-            cleaned = await clean(ayanami, evaled);
-            let split = splitText(cleaned, "text");
+            const evaled = eval(args.join(" "));
+            const cleaned = await clean(ayanami, evaled);
+            const split = splitText(`\`\`\`js\n${cleaned}\n\`\`\``, "text");
 
+            if (typeof split === "string") return message.channel.send(split);
             for (msg of split) {
                 message.channel.send(msg);
             }
         } catch (err) {
-            let split = splitText(cleaned, "error");
+            const cleaned = await clean(ayanami, err);
+            const split = splitText(`\`ERROR\`\n\`\`\`xl\n${cleaned}\n\`\`\``, "error");
 
+            if (typeof split === "string") return message.channel.send(split);
             for (msg of split) {
                 message.channel.send(msg)
             }
