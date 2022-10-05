@@ -22,6 +22,7 @@ async function getSource(client, imgURL) {
         return "There was an error";
     }
 
+    if (!filteredResults || filteredResults.length === 0) return output.results.push({ name: "Nothing Found", value: "\u200b" });
     for (item of filteredResults) {
         output.results.push({ name: `**${item.site}**`, value: item.url });
     }
