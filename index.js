@@ -7,7 +7,6 @@ let intents = [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildBans,
-    GatewayIntentBits.GuildVoiceStates,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.DirectMessages,
@@ -24,7 +23,7 @@ const ayanami = new Client({
     intents: intents,
     partials: ["CHANNEL"],
     makeCache: Options.cacheWithLimits({
-        MessageManager: 50
+        MessageManager: 25
     })
 });
 

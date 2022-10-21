@@ -27,6 +27,7 @@ async function getSource(client, imgURL) {
     }
     else {
         for (item of filteredResults) {
+            if (output.results.length === 25) break;
             output.results.push({ name: `**${item.site}**`, value: item.url });
         }
     }
