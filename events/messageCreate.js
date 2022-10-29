@@ -22,7 +22,7 @@ module.exports = async (ayanami, message) => {
 
     // Automatically publish free games
     if (message.channel.type === ChannelType.GuildAnnouncement
-        && (message.channel.name === "free-games" && /https?:\/\//gi.test(message.content)) message.crosspost();
+        && (message.channel.name === "free-games" && /https?:\/\//gi.test(message.content))) return message.crosspost();
 
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
