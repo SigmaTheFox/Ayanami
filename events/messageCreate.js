@@ -10,7 +10,7 @@ const { scamLinks } = require("../json/scamLinks.json")
 module.exports = async (ayanami, message) => {
     // Scam link detection
     if (message.channel.type === ChannelType.GuildText) {
-        if (/sigmathefox.com/gi.test(message.content)) return; // ignore my domain
+        if (/sigmathefox\.com/gi.test(message.content)) return; // ignore my domain
         scamLinks.some(link => {
             let scamLinkRegex = new RegExp("https?://" + link, "gi")
             if (scamLinkRegex.test(message.content)) {
@@ -19,7 +19,11 @@ module.exports = async (ayanami, message) => {
             }
         })
     }
-    
+
+    // Automatically publish free games
+    if (message.channel.type === ChannelType.GuildAnnouncement
+        && (message.channel.name === "free-games" && /https?:\/\//gi.test(message.content)) return message.crosspost();
+
     // Checks if message was sent by a bot.
     if (message.author.bot) return;
 
