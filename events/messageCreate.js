@@ -38,7 +38,7 @@ module.exports = async (ayanami, message) => {
                 text = args.filter(i => !/https?:\/\/(mobile\.|www\.)?twitter.com/gi.test(i)).join(" "),
                 msgContent = `FX-ed **${message.author.tag}**'s twitter link(s)\n`;
 
-            if (text || text.length > 0) msgContent += `Additional Text: *${text}*\n`;
+            if (text || text.length > 0) msgContent += `**Additional Text**:\n> ${text}\n`;
 
             for (let tweet of tweets) {
                 if (tweet.includes("fxtwitter.com") || tweet.includes("vxtwitter.com")) continue;
