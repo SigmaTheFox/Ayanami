@@ -1,5 +1,5 @@
 const config = require("../settings/config.json");
-const { Client, Message, ChannelType } = require("discord.js")
+const { Client, Message, ChannelType, ActionRowBuilder, ButtonBuilder } = require("discord.js")
 const { scamLinks } = require("../json/scamLinks.json")
 
 /**
@@ -45,15 +45,22 @@ module.exports = async (ayanami, message) => {
                 msgContent += `\n${tweet.toLowerCase().replace("twitter", "fxtwitter")}`;
             }
 
-            let msg = await message.channel.send(msgContent);
+            let row = new ActionRowBuilder()
+                .addComponents([
+                    new ButtonBuilder()
+                        .setLabel("Delete")
+                        .setStyle("Danger")
+                        .setCustomId("delete")
+                ]);
+
+            let msg = await message.channel.send({ content: msgContent, components: [row] });
             message.delete();
 
-            let reaction = await msg.react("❌");
-            let filter = (reaction, user) => reaction.emoji.name === "❌" && user.id === message.author.id;
-            let collector = msg.createReactionCollector({ filter, time: 60000 });
+            let filter = (interaction) => interaction.customId === "delete" && interaction.user.id === message.author.id;
+            let collector = msg.createMessageComponentCollector({ filter, time: 60000 });
             collector.on("collect", () => msg.delete());
             collector.on("end", () => {
-                reaction.remove().catch(() => { });
+                msg.edit({ components: [] }).catch(() => { });
             })
         }
     }
