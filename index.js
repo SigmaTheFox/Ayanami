@@ -1,12 +1,11 @@
 const { Client, Options, Collection, GatewayIntentBits } = require("discord.js");
 const fs = require("fs");
 const config = require("./settings/config.json");
-const { RolesDB } = require("./modules/dbObjects");
 
 let intents = [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildBans,
+    GatewayIntentBits.GuildModeration,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.DirectMessages,
@@ -52,7 +51,8 @@ for (const file of eventFiles) {
     let eventName = file.split(".")[0];
 
     // Load events and require the client name before the event outputs
-    ayanami.on(eventName, event.bind(null, ayanami));
+    if (eventName !== "ready") ayanami.on(eventName, event.bind(null, ayanami));
+    else ayanami.once(eventName, event.bind(null, ayanami));
     delete require.cache[require.resolve(`./events/${file}`)];
 }
 
@@ -61,38 +61,3 @@ ayanami.login(config.token).catch(err => {
     ayanami.logger.error(err);
 });
 
-ayanami.once('ready', async () => {
-    ayanami.channels.cache.filter(c => c.name === "roles").each(channel => channel.messages.fetch())
-    console.log(`Taste the power of the demon...!`);
-    ayanami.logger.trace(`Taste the power of the demon...!`);
-});
-
-ayanami.on("messageReactionAdd", async (react, user) => {
-    if (user.bot) return;
-
-    if (react.message.channel.name === "roles") {
-        const member = await react.message.guild.members.fetch(user.id);
-        const findRole = react.message.guild.roles.cache;
-
-        RolesDB.findOne({ where: { emote: react.emoji.name } })
-            .then(Role => {
-                if (!Role) return;
-                member.roles.add(findRole.find(r => r.name === Role.role))
-            })
-    }
-})
-
-ayanami.on("messageReactionRemove", async (react, user) => {
-    if (user.bot) return;
-
-    if (react.message.channel.name === "roles") {
-        const member = await react.message.guild.members.fetch(user.id);
-        const findRole = react.message.guild.roles.cache;
-
-        RolesDB.findOne({ where: { emote: react.emoji.name } })
-            .then(Role => {
-                if (!Role) return;
-                member.roles.remove(findRole.find(r => r.name === Role.role))
-            })
-    }
-})
