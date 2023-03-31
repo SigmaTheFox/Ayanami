@@ -32,7 +32,7 @@ module.exports = async (client) => {
       let username = client.users.cache.get(leap.get('discord_id')).username
 
       if (today === '2-28' && !isValidDate(29, 2, todayDate.getUTCFullYear())) {
-        msg.push(`Happy fake Birthday **${username}**!`)
+        msg.push(`Happy fake Birthday **${username}**!\n`)
         break
       }
 
