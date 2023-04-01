@@ -1,5 +1,4 @@
 const cron = require('node-cron')
-const getBirthdays = require('../modules/getBirthdays')
 
 module.exports = (ayanami) => {
   ayanami.channels.cache
@@ -11,10 +10,7 @@ module.exports = (ayanami) => {
   cron.schedule(
     '0 0 * * *',
     () => {
-      getBirthdays(ayanami)
-    },
-    {
-      timezone: 'Etc/UTC',
+      require('../modules/getBirthdays')(ayanami)
     }
   )
 }
