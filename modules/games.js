@@ -40,12 +40,12 @@ module.exports = async (channel, role) => {
 			)
 				continue;
 			else
-				msg.push(`* [${game.game.title}](${game.url}) (${game.store?.name})`);
+				msg.push(`> * [${game.game.title}](${game.url}) (${game.store?.name})`);
 		}
 
 		if (msg.length === 0) return console.log('No new free games');
 
-		msg.unshift(role);
+		msg.unshift(`${role}\n`);
 		return channel.send(msg.join('\n'));
 	};
 };
