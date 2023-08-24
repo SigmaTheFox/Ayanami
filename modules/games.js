@@ -23,10 +23,13 @@ module.exports = async (channel, role) => {
 	});
 
 	const listGames = () => {
-		const freeGames = require(`${fileDir}/gameList.json`);
+		let freeGamesRaw = fs.readFileSync(`${fileDir}/gameList.json`);
+		let freeGames = JSON.parse(freeGamesRaw);
 		let freeGamesOld = [];
-		if (fs.existsSync(`${fileDir}/gameList-old.json`))
-			freeGamesOld = require(`${fileDir}/gameList-old.json`);
+		if (fs.existsSync(`${fileDir}/gameList-old.json`)) {
+			let freeGamesOldRaw = fs.readFileSync(`${fileDir}/gameList-old.json`);
+			freeGamesOld = JSON.parse(freeGamesOldRaw);
+		}
 
 		let msg = [];
 
@@ -37,11 +40,11 @@ module.exports = async (channel, role) => {
 			if (
 				freeGamesOld.length !== 0 &&
 				freeGamesOld.some((g) => g.game.title === game.game.title)
-			)
+			) {
 				continue;
-			else
+			} else {
 				msg.push(`> * [${game.game.title}](${game.url}) (${game.store?.name})`);
-		}
+		}}
 
 		if (msg.length === 0) return console.log('No new free games');
 
