@@ -9,7 +9,7 @@
   "author": "Sigma The Arctic Fox",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/rest": "^1.6.0",
+    "@discordjs/rest": "^2.0.1",
     "discord.js": "^14.8.0",
     "log4js": "^6.9.1",
     "node-cron": "^3.0.2",
