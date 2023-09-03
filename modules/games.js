@@ -1,13 +1,12 @@
 const { warn } = require('console');
 
-module.exports = async (channel, role) => {
+module.exports = async (channels) => {
 	const fs = require('fs');
 	const fetch = require('node-fetch');
 	const homeDir = require('os').homedir();
 	const fileDir = `${homeDir}/.config/free-games`;
 
-	if (!fs.existsSync(`${homeDir}/.config/free-games`))
-		fs.mkdirSync(`${fileDir}`);
+	if (!fs.existsSync(fileDir)) fs.mkdirSync(fileDir);
 	if (fs.existsSync(`${fileDir}/gameList.json`))
 		fs.renameSync(`${fileDir}/gameList.json`, `${fileDir}/gameList-old.json`);
 
@@ -47,9 +46,18 @@ module.exports = async (channel, role) => {
 				msg.push(`> * [${game.game.title}](${game.url}) (${game.store?.name})`);
 		}
 
-		if (msg.length === 0) return console.log('No new free games');
+		if (msg.length === 0) {
+			ayanami.logger.log('No new free games');
+			return console.log('No new free games');
+		}
 
-		msg.unshift(`${role}\n`);
-		return channel.send(msg.join('\n'));
+		channels.each((channel) => {
+			let free_games_role = channel.guild.roles.cache.find(
+				(r) => r.name.toLowerCase() === 'free games'
+			).id;
+
+			msg.unshift(`<@&${free_games_role}>`);
+			channel.send(msg.join('\n'));
+		});
 	};
 };
