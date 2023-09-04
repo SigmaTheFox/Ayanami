@@ -1,18 +1,16 @@
-const { warn } = require('console');
-
 module.exports = async (channels) => {
+	const { EmbedBuilder } = require('discord.js');
 	const fs = require('fs');
 	const fetch = require('node-fetch');
 	const homeDir = require('os').homedir();
 	const fileDir = `${homeDir}/.config/free-games`;
+	const URL = 'https://gamerpower.com/api/giveaways?platform=pc';
 
 	if (!fs.existsSync(fileDir)) fs.mkdirSync(fileDir);
 	if (fs.existsSync(`${fileDir}/gameList.json`))
 		fs.renameSync(`${fileDir}/gameList.json`, `${fileDir}/gameList-old.json`);
 
-	fetch(
-		'https://proxy.gxcorner.games/content/free-games?_limit=50&_sort=order:ASC'
-	).then((res) => {
+	fetch(URL).then((res) => {
 		new Promise((resolve, reject) => {
 			const file = fs.createWriteStream(`${fileDir}/gameList.json`);
 			res.body.pipe(file);
@@ -31,33 +29,40 @@ module.exports = async (channels) => {
 			);
 		}
 
-		let msg = [];
+		let game_embeds = [];
 
 		for (game of freeGames) {
-			if (game.store?.id === 3 || game.store?.id == 4 || game.store?.id === 11)
-				continue;
+			if (game_embeds.length === 5) break;
 
 			if (
 				freeGamesOld.length !== 0 &&
-				freeGamesOld.some((g) => g.game.title === game.game.title)
+				freeGamesOld.some((g) => g.id === game.id)
 			)
 				continue;
 			else
-				msg.push(`> * [${game.game.title}](${game.url}) (${game.store?.name})`);
+				game_embeds.push(
+					new EmbedBuilder()
+						.setTitle(game.title)
+						.setURL(game['open_giveaway'])
+						.setImage(game.image)
+						.setDescription(game.description)
+						.addFields([
+							{ name: 'Type', value: game.type },
+							{ name: 'Worth', value: game.worth },
+							{ name: 'Platforms', value: game.platforms },
+							{ name: 'Instructions', value: game.instructions },
+						])
+				);
 		}
 
-		if (msg.length === 0) {
-			ayanami.logger.log('No new free games');
-			return console.log('No new free games');
-		}
+		if (game_embeds.length === 0) return console.log('No new free games');
 
 		channels.each((channel) => {
 			let free_games_role = channel.guild.roles.cache.find(
 				(r) => r.name.toLowerCase() === 'free games'
 			).id;
 
-			msg.unshift(`<@&${free_games_role}>`);
-			channel.send(msg.join('\n'));
+			channel.send({ content: `<@&${free_games_role}>`, embeds: game_embeds });
 		});
 	};
 };

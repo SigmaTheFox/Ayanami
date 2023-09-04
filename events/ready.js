@@ -14,7 +14,7 @@ module.exports = (ayanami) => {
 	let free_games_channels = ayanami.channels.cache.filter(
 		(c) => c.name === 'free-games'
 	);
-	cron.schedule('15 15 * * *', () => {
+	cron.schedule('* */2 * * *', () => {
 			require('../modules/games')(free_games_channels);
 		});
 };
