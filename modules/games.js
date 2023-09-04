@@ -57,12 +57,16 @@ module.exports = async (channels) => {
 
 		if (game_embeds.length === 0) return console.log('No new free games');
 
-		channels.each((channel) => {
+		channels.each(async (channel) => {
 			let free_games_role = channel.guild.roles.cache.find(
 				(r) => r.name.toLowerCase() === 'free games'
 			).id;
 
-			channel.send({ content: `<@&${free_games_role}>`, embeds: game_embeds });
+			let msg = await channel.send({
+				content: `<@&${free_games_role}>`,
+				embeds: game_embeds,
+			});
+			msg.crosspost();
 		});
 	};
 };
