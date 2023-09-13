@@ -29,20 +29,20 @@ module.exports = async (ayanami, message) => {
 
     // auto-fxTwitter
     if (message.member?.roles?.cache.find(r => r.name === "fxtwitter") && message.channel.type === ChannelType.GuildText) {
-        let twitterRegex = /https?:\/\/(mobile\.|www\.)?twitter.com\/\w+\/status\/\d+/gi,
-            ignore = /<https?:\/\/(mobile\.|www\.)?twitter.com/gi;
+        let twitterRegex = /https?:\/\/(mobile\.|www\.)?(twitter|x).com\/\w+\/status\/\d+/gi,
+            ignore = /<https?:\/\/(mobile\.|www\.)?(twitter|x).com/gi;
 
         if (twitterRegex.test(message.content) && !ignore.test(message.content)) {
             let tweets = message.content.match(twitterRegex),
                 args = message.content.split(/\s+/),
-                text = args.filter(i => !/https?:\/\/(mobile\.|www\.)?twitter.com/gi.test(i)).join(" "),
-                msgContent = `FX-ed **${message.author.tag}**'s twitter link(s)\n`;
+                text = args.filter(i => !twitterRegex.test(i)).join(" "),
+                msgContent = `FX-ed **${message.author.tag}**'s X(Twitter) link(s)\n`;
 
             if (text || text.length > 0) msgContent += `**Additional Text**:\n> ${text}\n`;
 
             for (let tweet of tweets) {
-                if (tweet.includes("fxtwitter.com") || tweet.includes("vxtwitter.com")) continue;
-                msgContent += `\n${tweet.toLowerCase().replace("twitter", "fxtwitter")}`;
+                if ( /(fxtwitter.com|vxtwitter.com|fixupx.com)/.test(tweet)) continue;
+                msgContent += `\n${tweet.toLowerCase().replace(/(mobile\.|www\.)?(twitter|x)/i, "fxtwitter")}`;
             }
 
             let row = new ActionRowBuilder()
