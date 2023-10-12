@@ -4,6 +4,8 @@ const { EmbedBuilder, Client, GuildBan } = require('discord.js');
  * @param {GuildBan} ban
  */
 module.exports = async (ayanami, ban) => {
+	await ban.fetch();
+
 	let target = ban.user,
 		reason = ban.reason ? ban.reason : 'Unspecified',
 		channel = ayanami.channels.cache.get('783733205114421309');
