@@ -1,7 +1,5 @@
 'use strict';
 
-const fetch = require('node-fetch');
-
 var Gelbooru = ['gb', 'gelbooru', 'gelb', 'gbooru'];
 var Danbooru = ['db', 'danbooru', 'danb', 'dbooru'];
 var Rule34 = ['r34', 'rule34'];

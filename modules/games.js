@@ -2,7 +2,6 @@ module.exports = async (channels) => {
 	const { EmbedBuilder, ChannelType } = require('discord.js');
 	const ColorThief = require('colorthief');
 	const fs = require('fs');
-	const fetch = require('node-fetch');
 	const homeDir = require('os').homedir();
 	const fileDir = `${homeDir}/.config/free-games`;
 	const URL = 'https://gamerpower.com/api/giveaways?platform=pc';

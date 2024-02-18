@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require("discord.js");
-const fetch = require("node-fetch");
 const { OpenWeather } = require("../settings/config.json");
 
 module.exports = {
