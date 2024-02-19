@@ -8,7 +8,7 @@ async function getSource(client, imgURL) {
     let min_sim = 60,
         filteredResults,
         output = {
-            link: `https://saucenao.com/search.php?db=999&url=${imgURL}`,
+            link: `https://saucenao.com/search.php?db=999&url=${encodeURIComponent(imgURL)}`,
             results: []
         };
 
