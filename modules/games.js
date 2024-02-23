@@ -1,9 +1,10 @@
 module.exports = async (channels) => {
 	const { EmbedBuilder, ChannelType } = require('discord.js');
 	const ColorThief = require('colorthief');
+	const { Readable } = require("stream");
+	const { finished } = require("stream/promises");
 	const fs = require('fs');
-	const homeDir = require('os').homedir();
-	const fileDir = `${homeDir}/.config/free-games`;
+	const fileDir = `./json/free-games`;
 	const URL = 'https://gamerpower.com/api/giveaways?platform=pc';
 
 	// Create the free games directory and rename the old games list if it exists
@@ -12,13 +13,10 @@ module.exports = async (channels) => {
 		fs.renameSync(`${fileDir}/gameList.json`, `${fileDir}/gameList-old.json`);
 
 	// Fetch the new free games
-	fetch(URL).then((res) => {
-		new Promise((resolve, reject) => {
-			const file = fs.createWriteStream(`${fileDir}/gameList.json`);
-			res.body.pipe(file);
-			res.body.on('end', () => resolve(listGames()));
-			file.on('error', reject);
-		});
+	fetch(URL).then(async (res) => {
+		const file = fs.createWriteStream(`${fileDir}/gameList.json`);
+		await finished(Readable.fromWeb(res.body).pipe(file))
+		file.on('error', (err) => console.error(err));
 	});
 
 	const listGames = async () => {
