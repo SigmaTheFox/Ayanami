@@ -12,14 +12,15 @@ module.exports = async (channels) => {
 	if (fs.existsSync(`${fileDir}/gameList.json`))
 		fs.renameSync(`${fileDir}/gameList.json`, `${fileDir}/gameList-old.json`);
 
-	// Fetch the new free games
-	fetch(URL).then(async (res) => {
-		const file = fs.createWriteStream(`${fileDir}/gameList.json`);
-		await finished(Readable.fromWeb(res.body).pipe(file))
-		file.on('error', (err) => console.error(err));
-	});
 
-	const listGames = async () => {
+	// Fetch the new free games
+	const file = fs.createWriteStream(`${fileDir}/gameList.json`);
+	const { body } = await fetch(URL);
+	await finished(Readable.fromWeb(body).pipe(file));
+	file.close();
+	listGames();
+
+	async function listGames() {
 		let freeGames = JSON.parse(fs.readFileSync(`${fileDir}/gameList.json`));
 		let freeGamesOld = [];
 
