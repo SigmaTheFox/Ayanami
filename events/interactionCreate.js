@@ -16,6 +16,10 @@ module.exports = async (ayanami, interaction) => {
     } catch (e) {
         ayanami.logger.error(e);
         console.error(e);
-        await interaction.reply({ content: "There was an error trying to execute this command!", ephemeral: true })
-    } 
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+        } else {
+            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+        }
+    }
 }
