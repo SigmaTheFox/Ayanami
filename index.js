@@ -1,4 +1,4 @@
-const { Client, Options, Collection, GatewayIntentBits } = require("discord.js");
+const { Client, Options, Collection, GatewayIntentBits, Partials } = require("discord.js");
 const fs = require("fs");
 const config = require("./settings/config.json");
 
@@ -20,7 +20,7 @@ const ayanami = new Client({
         }]
     },
     intents: intents,
-    partials: ["CHANNEL"],
+    partials: [Partials.Channel],
     makeCache: Options.cacheWithLimits({
         MessageManager: 25
     })
