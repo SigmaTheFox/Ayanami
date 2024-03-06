@@ -6,9 +6,7 @@ const { Client, Interaction } = require("discord.js");
  */
 module.exports = async (ayanami, interaction) => {
 	if (interaction.isChatInputCommand()) {
-		const command = interaction.client.commands.get(
-			interaction.commandName
-		);
+		const command = interaction.client.commands.get(interaction.commandName);
 
 		if (!command) return;
 
@@ -30,9 +28,7 @@ module.exports = async (ayanami, interaction) => {
 			}
 		}
 	} else if (interaction.isAutocomplete) {
-		const command = interaction.client.commands.get(
-			interaction.commandName
-		);
+		const command = interaction.client.commands.get(interaction.commandName);
 
 		if (!command) return;
 

@@ -1,9 +1,4 @@
-const {
-	SlashCommandBuilder,
-	Client,
-	CommandInteraction,
-	EmbedBuilder,
-} = require("discord.js");
+const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require("discord.js");
 const { waifuKey } = require("../settings/config.json");
 const gifs = require("../json/gifs.json");
 const { waifuTypes } = require("../json/waifuTypes.json");
@@ -16,27 +11,17 @@ module.exports = {
 		.setName("gif")
 		.setDescription("Send a reaction gif of a specific theme")
 		.addStringOption((opt) =>
-			opt
-				.setName("gif")
-				.setDescription("The gif theme")
-				.setAutocomplete(true)
-				.setRequired(true)
+			opt.setName("gif").setDescription("The gif theme").setAutocomplete(true).setRequired(true)
 		)
-		.addUserOption((opt) =>
-			opt.setName("user").setDescription("The user").setRequired(false)
-		),
+		.addUserOption((opt) => opt.setName("user").setDescription("The user").setRequired(false)),
 	/**
 	 *
 	 * @param {CommandInteraction} interaction
 	 */
 	async autocomplete(interaction) {
 		const focused = interaction.options.getFocused();
-		const filtered = validGifTypes
-			.filter((choice) => choice.startsWith(focused))
-			.slice(0, 24);
-		await interaction.respond(
-			filtered.map((choice) => ({ name: choice, value: choice }))
-		);
+		const filtered = validGifTypes.filter((choice) => choice.startsWith(focused)).slice(0, 24);
+		await interaction.respond(filtered.map((choice) => ({ name: choice, value: choice })));
 	},
 	/**
 	 * @param {Client} ayanami
@@ -80,9 +65,7 @@ module.exports = {
 					interaction.editReply({ embeds: [embed] });
 					break;
 				} else {
-					embed.setDescription(
-						ReplaceText(gif.textSolo, { emote: gif.emote })
-					);
+					embed.setDescription(ReplaceText(gif.textSolo, { emote: gif.emote }));
 					interaction.editReply({ embeds: [embed] });
 					break;
 				}
@@ -115,9 +98,7 @@ module.exports = {
 					break;
 				}
 			case "lewd":
-				embed.setDescription(
-					ReplaceText(gif.textSolo, { emote: gif.emote })
-				);
+				embed.setDescription(ReplaceText(gif.textSolo, { emote: gif.emote }));
 				interaction.editReply({ embeds: [embed] });
 				break;
 			default:
@@ -151,8 +132,7 @@ module.exports = {
 };
 
 function ReplaceText(text, { user = "", emote = "", interactionUser = "" }) {
-	if (/{{interactionUser}}/gi.test(text))
-		text = text.replace("{{interactionUser}}", interactionUser);
+	if (/{{interactionUser}}/gi.test(text)) text = text.replace("{{interactionUser}}", interactionUser);
 	if (/{{user}}/gi.test(text)) text = text.replace("{{user}}", user);
 	if (/{{emote}}/gi.test(text)) text = text.replace("{{emote}}", emote);
 	return text;

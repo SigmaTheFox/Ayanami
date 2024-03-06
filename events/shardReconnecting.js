@@ -1,4 +1,4 @@
 module.exports = (ayanami) => {
-    ayanami.logger.error(`Reconnecting...`);
-    console.log(`Reconnecting...`);
-}
+	ayanami.logger.error(`Reconnecting...`);
+	console.log(`Reconnecting...`);
+};
