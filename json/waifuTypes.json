@@ -1,0 +1,117 @@
+{
+	"waifuTypes": {
+		"angry": {},
+		"baka": {
+			"textSolo": "Baka baka baaaka!!! {{emote}}",
+			"textUser": "**{{user}}** wa baka! {{emote}}",
+			"emote": "<:baka:612895381487091712>"
+		},
+		"bite": {},
+		"birthday": {
+			"textSolo": "Happy birthday!!! {{emote}}.",
+			"textUser": "Happy birthday **{{user}}**!!! {{emote}} Make sure to eat lots of cake!",
+			"emote": "<:ayanamiheart:467783742057086976>"
+		},
+		"blush": {},
+		"bonk": {
+			"textSolo": "Get bonked!",
+			"textUser": "{{interactionUser}} bonks **{{user}}**"
+		},
+		"bored": {},
+		"bully": {},
+		"bye": {},
+		"chase": {},
+		"cheer": {},
+		"cringe": {},
+		"cry": {},
+		"cuddle": {
+			"textSolo": "Cuddly snuggly!!! {{emote}}",
+			"textUser": "{{interactionUser}} cuddles with **{{user}}** {{emote}}",
+			"emote": "<:ayanamiheart:467783742057086976>"
+		},
+		"dab": {},
+		"dance": {},
+		"die": {},
+		"disgust": {},
+		"facepalm": {},
+		"feed": {},
+		"fuck": {
+			"textSelf": "{{interactionUser}} fucked... themselves? I feel bad for you.",
+			"textSolo": "{{interactionUser}} seems to be fucking a ghost.",
+			"textUser": "{{interactionUser}} fucks **{{user}}**."
+		},
+		"glomp": {},
+		"happy": {},
+		"hi": {},
+		"highfive": {},
+		"hold": {},
+		"hug": {
+			"textSolo": "Huggies!!! {{emote}}",
+			"textUser": "{{interactionUser}} hugs **{{user}}**",
+			"emote": "<:ayanamiheart:467783742057086976>"
+		},
+		"kick": {},
+		"kill": {},
+		"kiss": {
+			"textSolo": "You deserve a kiss :3 {{emote}}",
+			"textUser": "{{interactionUser}} kisses {{emote}}",
+			"emote": "<:ayanamiheart:467783742057086976>"
+		},
+		"laugh": {},
+		"lewd": {
+			"textSolo": "NO!!! This is too lewd!!! {{emote}}",
+			"emote": "<:vampirelewd:431100080859119626>"
+		},
+		"lick": {
+			"textSolo": "You taste delicious",
+			"textUser": "{{interactionUser}} licks **{{user}}**"
+		},
+		"love": {},
+		"lurk": {},
+		"midfing": {},
+		"nervous": {},
+		"nom": {
+			"textSolo": "Mmmh yummy",
+			"textUser": "{{interactionUser}} noms on **{{user}}**"
+		},
+		"nope": {},
+		"nuzzle": {},
+		"panic": {},
+		"pat": {
+			"textSolo": "Pat pat pat {{emote}}",
+			"textUser": "{{interactionUser}} pats **{{user}}** {{emote}}",
+			"emote": "<:dvapatpat:484132141660241920>"
+		},
+		"peck": {},
+		"poke": {
+			"textSolo": "Hehehe",
+			"textUser": "{{interactionUser}} pokes **{{user}}**"
+		},
+		"pout": {},
+		"punch": {},
+		"run": {},
+		"sad": {},
+		"shoot": {},
+		"shrug": {},
+		"sip": {},
+		"slap": {},
+		"sleepy": {},
+		"smile": {},
+		"smug": {},
+		"stab": {},
+		"stare": {},
+		"suicide": {},
+		"tease": {},
+		"think": {},
+		"thumbsup": {},
+		"tickle": {
+			"textSolo": "Tickle tickle tickle!!!",
+			"textUser": "{{interactionUser}} tickles **{{user}}**"
+		},
+		"triggered": {},
+		"wag": {},
+		"wave": {},
+		"wink": {},
+		"yes": {}
+	}
+}

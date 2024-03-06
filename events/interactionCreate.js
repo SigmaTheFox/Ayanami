@@ -5,21 +5,42 @@ const { Client, Interaction } = require("discord.js");
  * @param {Interaction} interaction
  */
 module.exports = async (ayanami, interaction) => {
-    if (!interaction.isChatInputCommand()) return;
+	if (interaction.isChatInputCommand()) {
+		const command = interaction.client.commands.get(
+			interaction.commandName
+		);
 
-    const command = interaction.client.commands.get(interaction.commandName);
+		if (!command) return;
 
-    if (!command) return;
+		try {
+			await command.execute(ayanami, interaction);
+		} catch (err) {
+			ayanami.logger.error(err);
+			console.error(err);
+			if (interaction.replied || interaction.deferred) {
+				await interaction.followUp({
+					content: "There was an error while executing this command!",
+					ephemeral: true,
+				});
+			} else {
+				await interaction.reply({
+					content: "There was an error while executing this command!",
+					ephemeral: true,
+				});
+			}
+		}
+	} else if (interaction.isAutocomplete) {
+		const command = interaction.client.commands.get(
+			interaction.commandName
+		);
 
-    try {
-        await command.execute(ayanami, interaction);
-    } catch (e) {
-        ayanami.logger.error(e);
-        console.error(e);
-        if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-        } else {
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-        }
-    }
-}
+		if (!command) return;
+
+		try {
+			await command.autocomplete(interaction);
+		} catch (err) {
+			ayanami.logger.error(err);
+			console.error(err);
+		}
+	}
+};
