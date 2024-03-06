@@ -1,47 +1,53 @@
-const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require("discord.js");
-const { waifuKey } = require("../settings/config.json");
-const gifs = require("../json/gifs.json");
-const { waifuTypes } = require("../json/waifuTypes.json");
+const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
+const { waifuKey } = require('../settings/config.json');
+const gifs = require('../json/gifs.json');
+const { waifuTypes } = require('../json/waifuTypes.json');
 
 const validGifTypes = Object.keys(waifuTypes);
 
 module.exports = {
 	global: true,
 	data: new SlashCommandBuilder()
-		.setName("gif")
-		.setDescription("Send a reaction gif of a specific theme")
-		.addStringOption((opt) =>
-			opt.setName("gif").setDescription("The gif theme").setAutocomplete(true).setRequired(true)
+		.setName('gif')
+		.setDescription('Send a reaction gif of a specific theme')
+		.addStringOption(opt =>
+			opt
+				.setName('gif')
+				.setDescription('The gif theme')
+				.setAutocomplete(true)
+				.setRequired(true)
 		)
-		.addUserOption((opt) => opt.setName("user").setDescription("The user").setRequired(false)),
+		.addUserOption(opt => opt.setName('user').setDescription('The user').setRequired(false)),
 	/**
 	 *
 	 * @param {CommandInteraction} interaction
 	 */
 	async autocomplete(interaction) {
 		const focused = interaction.options.getFocused();
-		const filtered = validGifTypes.filter((choice) => choice.startsWith(focused)).slice(0, 24);
-		await interaction.respond(filtered.map((choice) => ({ name: choice, value: choice })));
+		const filtered = validGifTypes.filter(choice => choice.startsWith(focused)).slice(0, 24);
+		await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
 	},
 	/**
 	 * @param {Client} ayanami
 	 * @param {CommandInteraction} interaction
 	 */
 	async execute(ayanami, interaction) {
-		const user = interaction.options.getUser("user"),
-			gifType = interaction.options.getString("gif");
+		const user = interaction.options.getUser('user'),
+			gifType = interaction.options.getString('gif');
 
 		if (!validGifTypes.includes(gifType))
 			return await interaction.reply({
 				content: `**${gifType}** isn't a valid gif type.\n## Here's a list of valid types:\n${validGifTypes
-					.map((gif) => `${gif}`)
-					.join(",   ")}`,
+					.map(gif => `${gif}`)
+					.join(',   ')}`,
 				ephemeral: true,
 			});
 
-		await interaction.deferReply({ ephemeral: false });
+		if (!interaction.channel.nsfw && gifType === 'fuck')
+			await interaction.deferReply({ ephemeral: true });
+		else await interaction.deferReply({ ephemeral: false });
 
-		let imageURL = await getGif(interaction.options.getString("gif")),
+		let imageURL = await getGif(interaction.options.getString('gif')),
 			gif = waifuTypes[gifType];
 
 		const embed = new EmbedBuilder()
@@ -53,7 +59,7 @@ module.exports = {
 			.setColor(45055);
 
 		switch (gifType) {
-			case "birthday":
+			case 'birthday':
 				if (user) {
 					embed.setDescription(
 						ReplaceText(gif.textUser, {
@@ -69,7 +75,12 @@ module.exports = {
 					interaction.editReply({ embeds: [embed] });
 					break;
 				}
-			case "fuck":
+			case 'fuck':
+				if (!interaction.channel.nsfw)
+					return interaction.editReply({
+						content: 'Please use NSFW commands in the NSFW channels...',
+						ephemeral: true,
+					});
 				if (user === interaction.user) {
 					embed.setDescription(
 						ReplaceText(gif.textSelf, {
@@ -97,7 +108,7 @@ module.exports = {
 					interaction.editReply({ embeds: [embed] });
 					break;
 				}
-			case "lewd":
+			case 'lewd':
 				embed.setDescription(ReplaceText(gif.textSolo, { emote: gif.emote }));
 				interaction.editReply({ embeds: [embed] });
 				break;
@@ -131,10 +142,11 @@ module.exports = {
 	},
 };
 
-function ReplaceText(text, { user = "", emote = "", interactionUser = "" }) {
-	if (/{{interactionUser}}/gi.test(text)) text = text.replace("{{interactionUser}}", interactionUser);
-	if (/{{user}}/gi.test(text)) text = text.replace("{{user}}", user);
-	if (/{{emote}}/gi.test(text)) text = text.replace("{{emote}}", emote);
+function ReplaceText(text, { user = '', emote = '', interactionUser = '' }) {
+	if (/{{interactionUser}}/gi.test(text))
+		text = text.replace('{{interactionUser}}', interactionUser);
+	if (/{{user}}/gi.test(text)) text = text.replace('{{user}}', user);
+	if (/{{emote}}/gi.test(text)) text = text.replace('{{emote}}', emote);
 	return text;
 }
 
@@ -144,11 +156,11 @@ async function getGif(gifName) {
 	}
 
 	try {
-		const res = await fetch("https://waifu.it/api/v4/" + gifName, {
+		const res = await fetch('https://waifu.it/api/v4/' + gifName, {
 			headers: { Authorization: waifuKey },
 		});
 		const json = await res.json();
-		return json["url"];
+		return json['url'];
 	} catch (err) {
 		console.error(err);
 	}
