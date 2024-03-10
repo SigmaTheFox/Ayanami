@@ -1,5 +1,3 @@
-const FormData = require("form-data");
-
 module.exports = class DeepL {
 	constructor(token) {
 		this.token = token;
@@ -8,10 +6,10 @@ module.exports = class DeepL {
 	async translate(input, target_lang) {
 		try {
 			const form = new FormData();
-			form.append("text", input);
-			form.append("target_lang", target_lang);
-			let res = await fetch("https://api-free.deepl.com/v2/translate", {
-				method: "post",
+			form.append('text', [input]);
+			form.append('target_lang', target_lang);
+			let res = await fetch('https://api-free.deepl.com/v2/translate', {
+				method: 'post',
 				headers: { Authorization: `DeepL-Auth-Key ${this.token}` },
 				body: form,
 			});
