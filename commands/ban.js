@@ -65,34 +65,38 @@ module.exports = {
 		interaction.showModal(modal);
 
 		// Wait for the modal to be submitted
-		const modalFilter = interaction => interaction.customId === 'ban';
-		const modalSubmit = await interaction.awaitModalSubmit({ modalFilter, time: 60_000 });
-
-		const reason = modalSubmit.fields.getTextInputValue('reason') || 'Unspecified',
-			time = parseInt(modalSubmit.fields.getTextInputValue('msg_delete_days'));
-
-		// If the user to ban has DMs unlocked, send them a message telling them they have been banned with the reason for the ban
 		try {
-			await target.send(`You have been banned from Sigma's Den.\nReason: **${reason}**`);
-		} catch (err) {
-			console.log(
-				`${
-					target.user.globalName || target.id || target
-				} has the DMs blocked. Couldn't send ban message.`
-			);
-			ayanami.logger.log(
-				`${
-					target.user.globalName || target.id || target
-				} has the DMs blocked. Couldn't send ban message.`
-			);
-		} finally {
-			// Finally send the user to the shadow realm
-			target.ban({ reason: reason, deleteMessageSeconds: 60 * 60 * 24 * time }).then(
-				modalSubmit.reply({
-					content: `Banned ${target.user.globalName}`,
-					ephemeral: true,
-				})
-			);
+			const modalFilter = interaction => interaction.customId === 'ban';
+			const modalSubmit = await interaction.awaitModalSubmit({ modalFilter, time: 60_000 });
+
+			const reason = modalSubmit.fields.getTextInputValue('reason') || 'Unspecified',
+				time = parseInt(modalSubmit.fields.getTextInputValue('msg_delete_days'));
+
+			// If the user to ban has DMs unlocked, send them a message telling them they have been banned with the reason for the ban
+			try {
+				await target.send(`You have been banned from Sigma's Den.\nReason: **${reason}**`);
+			} catch (err) {
+				console.log(
+					`${
+						target.user.globalName || target.id || target
+					} has the DMs blocked. Couldn't send ban message.`
+				);
+				ayanami.logger.log(
+					`${
+						target.user.globalName || target.id || target
+					} has the DMs blocked. Couldn't send ban message.`
+				);
+			} finally {
+				// Finally send the user to the shadow realm
+				target.ban({ reason: reason, deleteMessageSeconds: 60 * 60 * 24 * time }).then(
+					modalSubmit.reply({
+						content: `Banned ${target.user.globalName}`,
+						ephemeral: true,
+					})
+				);
+			}
+		} catch {
+			interaction.followUp({ content: 'Ban cancelled', ephemeral: true });
 		}
 	},
 };
