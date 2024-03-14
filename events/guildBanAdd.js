@@ -1,4 +1,4 @@
-const { EmbedBuilder, Client, GuildBan } = require("discord.js");
+const { EmbedBuilder, Client, GuildBan } = require('discord.js');
 /**
  * @param {Client} ayanami
  * @param {GuildBan} ban
@@ -7,29 +7,20 @@ module.exports = async (ayanami, ban) => {
 	await ban.fetch();
 
 	let target = ban.user,
-		reason = ban.reason ? ban.reason : "Unspecified",
-		channel = ayanami.channels.cache.get("783733205114421309");
+		reason = ban.reason ? ban.reason : 'Unspecified',
+		channel = ban.guild.channels.cache.find(channel => channel.name === 'admin-logs');
 
 	let embed = new EmbedBuilder()
-		.setTitle("Ban")
-		.setColor("#FF0000")
+		.setTitle('Ban')
+		.setColor('#FF0000')
 		.setFields(
-			{ name: "Member", value: `**${target.tag}** (${target.id})` },
-			{ name: "Reason", value: `**${reason}**` }
+			{ name: 'Member', value: `**${target.globalName}** (${target.id})` },
+			{ name: 'Reason', value: `**${reason}**` }
 		)
 		.setTimestamp();
 
-	try {
-		await target.send(`You have been banned from Sigma's Den.\nReason: **${reason}**`);
-	} catch (err) {
-		console.log(`${user.username || user.id || user} has the DMs blocked. Couldn't send ban message.`);
-		ayanami.logger.log(
-			`${user.username || user.id || user} has the DMs blocked. Couldn't send ban message.`
-		);
-	} finally {
-		channel.send({ embeds: [embed] });
-		ayanami.users.cache.delete(target.user.id);
-		ayanami.logger.log(`Banned user ${user.username || user.id || user.toString()}`);
-		console.log(`Banned user ${user.username || user.id || user.toString()}`);
-	}
+	channel.send({ embeds: [embed] });
+	ayanami.users.cache.delete(target.id);
+	ayanami.logger.log(`Banned user ${target.globalName || target.id || target.toString()}`);
+	console.log(`Banned user ${target.globalName || target.id || target.toString()}`);
 };
