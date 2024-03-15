@@ -113,7 +113,7 @@ module.exports = {
 				interaction.editReply({ embeds: [embed] });
 				break;
 			default:
-				if (gif.size > 0) {
+				if (Object.keys(gif).length > 0) {
 					if (user) {
 						embed.setDescription(
 							ReplaceText(gif.textUser, {
