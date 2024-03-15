@@ -3,6 +3,7 @@ const {
 	Client,
 	CommandInteraction,
 	PermissionFlagsBits,
+	AutocompleteInteraction,
 } = require('discord.js');
 
 module.exports = {
@@ -12,8 +13,23 @@ module.exports = {
 		.setDescription('Reloads a command')
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 		.addStringOption(opt =>
-			opt.setName('command').setDescription('The command to reload').setRequired(true)
+			opt
+				.setName('command')
+				.setDescription('The command to reload')
+				.setRequired(true)
+				.setAutocomplete(true)
 		),
+	/**
+	 * @param {Client} ayanami
+	 * @param {AutocompleteInteraction} interaction
+	 */
+	async autocomplete(ayanami, interaction) {
+		const focused = interaction.options.getFocused();
+		const filtered = Array.from(
+			ayanami.commands.filter(choice => choice.data.name.startsWith(focused)).keys()
+		).slice(0, 24);
+		await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+	},
 	/**
 	 *
 	 * @param {Client} ayanami
