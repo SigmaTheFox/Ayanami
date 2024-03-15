@@ -1,4 +1,10 @@
-const { SlashCommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
+const {
+	SlashCommandBuilder,
+	Client,
+	CommandInteraction,
+	EmbedBuilder,
+	AutocompleteInteraction,
+} = require('discord.js');
 const { waifuKey } = require('../settings/config.json');
 const gifs = require('../json/gifs.json');
 const { waifuTypes } = require('../json/waifuTypes.json');
@@ -19,10 +25,10 @@ module.exports = {
 		)
 		.addUserOption(opt => opt.setName('user').setDescription('The user').setRequired(false)),
 	/**
-	 *
-	 * @param {CommandInteraction} interaction
+	 * @param {Client} ayanami
+	 * @param {AutocompleteInteraction} interaction
 	 */
-	async autocomplete(interaction) {
+	async autocomplete(ayanami, interaction) {
 		const focused = interaction.options.getFocused();
 		const filtered = validGifTypes.filter(choice => choice.startsWith(focused)).slice(0, 24);
 		await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));

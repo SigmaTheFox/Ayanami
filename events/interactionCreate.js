@@ -60,7 +60,7 @@ module.exports = async (ayanami, interaction) => {
 		if (!command) return;
 
 		try {
-			await command.autocomplete(interaction);
+			await command.autocomplete(ayanami, interaction);
 		} catch (err) {
 			ayanami.logger.error(err);
 			console.error(err);
