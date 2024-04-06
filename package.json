@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/rest": "^2.0.1",
+    "@sigmathefox/palwrapper": "^1.0.4",
     "colorthief": "^2.4.0",
     "discord.js": "^14.8.0",
     "log4js": "^6.9.1",
