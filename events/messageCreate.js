@@ -1,6 +1,5 @@
-const config = require("../settings/config.json");
-const { Client, Message, ChannelType, ActionRowBuilder, ButtonBuilder } = require("discord.js");
-const { scamLinks } = require("../json/scamLinks.json");
+const config = require('../settings/config.json');
+const { Client, Message, ChannelType, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 
 /**
  * @param {Client} ayanami
@@ -8,24 +7,10 @@ const { scamLinks } = require("../json/scamLinks.json");
  * @returns
  */
 module.exports = async (ayanami, message) => {
-	// Scam link detection
-	if (message.channel.type === ChannelType.GuildText) {
-		if (/sigmathefox\.com/gi.test(message.content)) return; // ignore my domain
-		scamLinks.some((link) => {
-			let scamLinkRegex = new RegExp("https?://" + link, "gi");
-			if (scamLinkRegex.test(message.content)) {
-				message.channel.send(
-					`${message.author.toString()} the URL you sent is blacklisted. To prevent scams your message has been deleted.`
-				);
-				message.delete();
-			}
-		});
-	}
-
 	// Automatically publish free games
 	if (
 		message.channel.type === ChannelType.GuildAnnouncement &&
-		message.channel.name === "free-games" &&
+		message.channel.name === 'free-games' &&
 		/https?:\/\//gi.test(message.content)
 	)
 		return message.crosspost();
@@ -35,7 +20,7 @@ module.exports = async (ayanami, message) => {
 
 	// auto-fxTwitter
 	if (
-		message.member?.roles?.cache.find((r) => r.name === "fxtwitter") &&
+		message.member?.roles?.cache.find(r => r.name === 'fxtwitter') &&
 		message.channel.type === ChannelType.GuildText
 	) {
 		let twitterRegex = /https?:\/\/(mobile\.|www\.)?(twitter|x).com\/\w+\/status\/\d+/gi,
@@ -44,7 +29,7 @@ module.exports = async (ayanami, message) => {
 		if (twitterRegex.test(message.content) && !ignore.test(message.content)) {
 			let tweets = message.content.match(twitterRegex),
 				args = message.content.split(/\s+/),
-				text = args.filter((i) => !twitterRegex.test(i)).join(" "),
+				text = args.filter(i => !twitterRegex.test(i)).join(' '),
 				msgContent = `FX-ed **${message.author.tag}**'s X(Twitter) link(s)\n`;
 
 			if (text || text.length > 0) msgContent += `**Additional Text**:\n> ${text}\n`;
@@ -53,11 +38,11 @@ module.exports = async (ayanami, message) => {
 				if (/(fxtwitter.com|vxtwitter.com|fixupx.com)/.test(tweet)) continue;
 				msgContent += `\n${tweet
 					.toLowerCase()
-					.replace(/(mobile\.|www\.)?(twitter|x)/i, "fxtwitter")}`;
+					.replace(/(mobile\.|www\.)?(twitter|x)/i, 'fxtwitter')}`;
 			}
 
 			let row = new ActionRowBuilder().addComponents([
-				new ButtonBuilder().setLabel("Delete").setStyle("Danger").setCustomId("delete"),
+				new ButtonBuilder().setLabel('Delete').setStyle('Danger').setCustomId('delete'),
 			]);
 
 			let msg = await message.channel.send({
@@ -66,14 +51,14 @@ module.exports = async (ayanami, message) => {
 			});
 			message.delete();
 
-			let filter = (interaction) =>
-				interaction.customId === "delete" && interaction.user.id === message.author.id;
+			let filter = interaction =>
+				interaction.customId === 'delete' && interaction.user.id === message.author.id;
 			let collector = msg.createMessageComponentCollector({
 				filter,
 				time: 60000,
 			});
-			collector.on("collect", () => msg.delete());
-			collector.on("end", () => {
+			collector.on('collect', () => msg.delete());
+			collector.on('end', () => {
 				msg.edit({ components: [] }).catch(() => {});
 			});
 		}
@@ -84,8 +69,8 @@ module.exports = async (ayanami, message) => {
 		try {
 			await message.channel.commands.fetch();
 		} catch (err) {
-			ayanami.logger.error("Failed to fetch DM channel.");
-			console.error("Failed to fetch DM channel");
+			ayanami.logger.error('Failed to fetch DM channel.');
+			console.error('Failed to fetch DM channel');
 		}
 	}
 
@@ -99,7 +84,7 @@ module.exports = async (ayanami, message) => {
 	// Gets the command names and aliases.
 	const command =
 		ayanami.msgCommands.get(commandName) ||
-		ayanami.msgCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+		ayanami.msgCommands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	// Returns if there is no command with that name.
 	if (!command)
@@ -123,6 +108,6 @@ module.exports = async (ayanami, message) => {
 		command.execute(ayanami, message, args);
 	} catch (err) {
 		ayanami.logger.error(err);
-		message.reply("There was an error trying to execute that command!");
+		message.reply('There was an error trying to execute that command!');
 	}
 };
