@@ -76,7 +76,7 @@ module.exports = {
 			let messageURL = interaction.options.getString('message');
 
 			if (
-				!/https?:\/\/(\w.*\.)?discord\.com\/channels\/[0-9].*\/[0-9].*\/[0-9].*\/?/i.test(
+				!/^https?:\/\/(\w.*\.)?discord\.com\/channels\/[0-9].*\/[0-9].*\/[0-9].*\/?$/i.test(
 					messageURL
 				)
 			)
