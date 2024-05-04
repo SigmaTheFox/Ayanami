@@ -11,7 +11,7 @@ module.exports = async (ayanami, message) => {
 	if (
 		message.channel.type === ChannelType.GuildAnnouncement &&
 		message.channel.name === 'free-games' &&
-		/https?:\/\//gi.test(message.content)
+		/https?:\/\//i.test(message.content)
 	)
 		return message.crosspost();
 

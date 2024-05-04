@@ -149,15 +149,15 @@ module.exports = {
 };
 
 function ReplaceText(text, { user = '', emote = '', interactionUser = '' }) {
-	if (/{{interactionUser}}/gi.test(text))
+	if (/{{interactionUser}}/i.test(text))
 		text = text.replace('{{interactionUser}}', interactionUser);
-	if (/{{user}}/gi.test(text)) text = text.replace('{{user}}', user);
-	if (/{{emote}}/gi.test(text)) text = text.replace('{{emote}}', emote);
+	if (/{{user}}/i.test(text)) text = text.replace('{{user}}', user);
+	if (/{{emote}}/i.test(text)) text = text.replace('{{emote}}', emote);
 	return text;
 }
 
 async function getGif(gifName) {
-	if (/(birthday|fuck|lewd)/.test(gifName)) {
+	if (/(birthday|fuck|lewd)/i.test(gifName)) {
 		return gifs[gifName][Math.floor(Math.random() * gifs[gifName].length)];
 	}
 
