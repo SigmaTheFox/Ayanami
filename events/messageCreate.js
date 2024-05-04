@@ -23,34 +23,45 @@ module.exports = async (ayanami, message) => {
 		message.member?.roles?.cache.find(r => r.name === 'fxtwitter') &&
 		message.channel.type === ChannelType.GuildText
 	) {
-		let twitterRegex = /https?:\/\/(mobile\.|www\.)?(twitter|x).com\/\w+\/status\/\d+/gi,
-			ignore = /<https?:\/\/(mobile\.|www\.)?(twitter|x).com/gi;
+		let twitterRegex =
+			/https?:\/\/(mobile\.|www\.)?(twitter|x)\.com\/\w+\/status\/[0-9]{19}(?!>)/i;
 
-		if (twitterRegex.test(message.content) && !ignore.test(message.content)) {
-			let tweets = message.content.match(twitterRegex),
+		// Check if the message content has a tweet
+		if (twitterRegex.test(message.content)) {
+			/*
+				- Get all tweets from the message content
+				- split the message content
+				- filter out every twitter.com or x.com link from the full message content
+				- initialize the final message to be sent
+			*/
+			let tweets = message.content.match(RegExp(twitterRegex, 'gi')),
 				args = message.content.split(/\s+/),
-				text = args.filter(i => !twitterRegex.test(i)).join(' '),
-				msgContent = `FX-ed **${message.author.tag}**'s X(Twitter) link(s)\n`;
+				text = args.filter(tweet => !twitterRegex.test(tweet)).join(' '),
+				msgContent = `# FX-ed **${message.author.displayName}**'s X(Twitter) link(s)\n`;
 
-			if (text || text.length > 0) msgContent += `**Additional Text**:\n> ${text}\n`;
+			// If there is additional content, add a heading and the additional text to the message content
+			if (text || text.length > 0) msgContent += `## Additional Text:\n> ${text}\n`;
 
+			// Loop through the tweets and replace twitter and/or x with fxtwitter
 			for (let tweet of tweets) {
-				if (/(fxtwitter.com|vxtwitter.com|fixupx.com)/.test(tweet)) continue;
 				msgContent += `\n${tweet
 					.toLowerCase()
 					.replace(/(mobile\.|www\.)?(twitter|x)/i, 'fxtwitter')}`;
 			}
 
+			// Create the Delete button component
 			let row = new ActionRowBuilder().addComponents([
 				new ButtonBuilder().setLabel('Delete').setStyle('Danger').setCustomId('delete'),
 			]);
 
+			// Send final message content with the Delete button component
 			let msg = await message.channel.send({
 				content: msgContent,
 				components: [row],
 			});
 			message.delete();
 
+			// Handle the Delete button
 			let filter = interaction =>
 				interaction.customId === 'delete' && interaction.user.id === message.author.id;
 			let collector = msg.createMessageComponentCollector({
