@@ -7,7 +7,7 @@ module.exports = ayanami => {
 	console.log(`Taste the power of the demon...!`);
 	ayanami.logger.trace(`Taste the power of the demon...!`);
 
-	cron.schedule('0 0 * * *', () => {
+	cron.schedule('0 1 * * *', () => {
 		require('../modules/getBirthdays')(ayanami);
 	});
 

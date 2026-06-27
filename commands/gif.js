@@ -4,6 +4,7 @@ const {
 	CommandInteraction,
 	EmbedBuilder,
 	AutocompleteInteraction,
+	MessageFlags,
 } = require('discord.js');
 const { waifuKey } = require('../settings/config.json');
 const gifs = require('../json/gifs.json');
@@ -46,11 +47,11 @@ module.exports = {
 				content: `**${gifType}** isn't a valid gif type.\n## Here's a list of valid types:\n${validGifTypes
 					.map(gif => `${gif}`)
 					.join(',   ')}`,
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 
 		if (!interaction.channel.nsfw && gifType === 'fuck')
-			await interaction.deferReply({ ephemeral: true });
+			await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 		else await interaction.deferReply({ ephemeral: false });
 
 		let imageURL = await getGif(interaction.options.getString('gif')),
@@ -85,7 +86,7 @@ module.exports = {
 				if (!interaction.channel.nsfw)
 					return interaction.editReply({
 						content: 'Please use NSFW commands in the NSFW channels...',
-						ephemeral: true,
+						flags: MessageFlags.Ephemeral,
 					});
 				if (user === interaction.user) {
 					embed.setDescription(

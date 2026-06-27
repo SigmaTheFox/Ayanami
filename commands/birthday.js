@@ -1,42 +1,45 @@
-const { SlashCommandBuilder, Client, CommandInteraction } = require("discord.js");
-const { BirthdaysDB } = require("../modules/dbObjects");
-const isValidDate = require("../modules/isValidDate");
+const { SlashCommandBuilder, Client, CommandInteraction, MessageFlags } = require('discord.js');
+const { BirthdaysDB } = require('../modules/dbObjects');
+const isValidDate = require('../modules/isValidDate');
 
 module.exports = {
 	global: true,
 	data: new SlashCommandBuilder()
-		.setName("birthday")
+		.setName('birthday')
 		.setDescription("Set or remove your birthday to Ayanami's reminder, or get someone else's")
-		.addSubcommand((cmd) =>
+		.addSubcommand(cmd =>
 			cmd
-				.setName("set")
-				.setDescription("Set when your birthday is")
-				.addIntegerOption((opt) =>
+				.setName('set')
+				.setDescription('Set when your birthday is')
+				.addIntegerOption(opt =>
 					opt
-						.setName("month")
+						.setName('month')
 						.setRequired(true)
 						.setMinValue(1)
 						.setMaxValue(12)
-						.setDescription("The month you were born at")
+						.setDescription('The month you were born at')
 				)
-				.addIntegerOption((opt) =>
+				.addIntegerOption(opt =>
 					opt
-						.setName("day")
+						.setName('day')
 						.setRequired(true)
 						.setMinValue(1)
 						.setMaxValue(31)
-						.setDescription("The day you were born at")
+						.setDescription('The day you were born at')
 				)
 		)
-		.addSubcommand((cmd) =>
-			cmd.setName("remove").setDescription("Remove your birthday from the reminder")
+		.addSubcommand(cmd =>
+			cmd.setName('remove').setDescription('Remove your birthday from the reminder')
 		)
-		.addSubcommand((cmd) =>
+		.addSubcommand(cmd =>
 			cmd
-				.setName("get")
+				.setName('get')
 				.setDescription("Get someone else's birthday")
-				.addUserOption((opt) =>
-					opt.setName("user").setDescription("The user to get the birthday of").setRequired(true)
+				.addUserOption(opt =>
+					opt
+						.setName('user')
+						.setDescription('The user to get the birthday of')
+						.setRequired(true)
 				)
 		),
 	/**
@@ -44,10 +47,10 @@ module.exports = {
 	 * @param {CommandInteraction} interaction
 	 */
 	async execute(ayanami, interaction) {
-		if (interaction.options.getSubcommand() === "set") return setBirthday(ayanami, interaction);
-		else if (interaction.options.getSubcommand() === "remove")
+		if (interaction.options.getSubcommand() === 'set') return setBirthday(ayanami, interaction);
+		else if (interaction.options.getSubcommand() === 'remove')
 			return removeBirthday(ayanami, interaction);
-		else if (interaction.options.getSubcommand() === "get") return getBirthday(interaction);
+		else if (interaction.options.getSubcommand() === 'get') return getBirthday(interaction);
 	},
 };
 
@@ -56,8 +59,8 @@ module.exports = {
  * @param {CommandInteraction} interaction
  */
 async function setBirthday(client, interaction) {
-	let day = interaction.options.getInteger("day"),
-		month = interaction.options.getInteger("month"),
+	let day = interaction.options.getInteger('day'),
+		month = interaction.options.getInteger('month'),
 		userId = interaction.user.id;
 
 	if (isValidDate(day, month, 2020)) {
@@ -69,11 +72,11 @@ async function setBirthday(client, interaction) {
 		let created = result[1];
 
 		if (!created) {
-			let userBirthday = result[0].get("birthday");
+			let userBirthday = result[0].get('birthday');
 
 			return interaction.reply({
 				content: `You already set your birthday to ${userBirthday}. If it's incorrect, you can use \`/birthday remove\` to set it again.`,
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		}
 
@@ -82,12 +85,12 @@ async function setBirthday(client, interaction) {
 
 		return interaction.reply({
 			content: `You set your birthday to ${month}-${day}. If it's incorrect, you can use \`/birthday remove\` to set it again.`,
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 	} else
 		return interaction.reply({
 			content: `${month}-${day} isn't a valid date`,
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 }
 
@@ -109,15 +112,15 @@ async function removeBirthday(client, interaction) {
 		if (!destroyed)
 			return interaction.reply({
 				content: "You didn't set your birthday yet. use `/birthday set` to do so",
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 
 		console.log(`${interaction.user.username} removed their birthday`);
 		client.logger.log(`${interaction.user.username} removed their birthday`);
 
 		return interaction.reply({
-			content: "Successfully removed your birthday",
-			ephemeral: true,
+			content: 'Successfully removed your birthday',
+			flags: MessageFlags.Ephemeral,
 		});
 	}
 }
@@ -126,11 +129,12 @@ async function removeBirthday(client, interaction) {
  * @param {CommandInteraction} interaction
  */
 async function getBirthday(interaction) {
-	let user = interaction.options.getUser("user"),
+	let user = interaction.options.getUser('user'),
 		birthday = await BirthdaysDB.findOne({
 			where: { discord_id: user.id },
 		});
 
-	if (!birthday) return interaction.reply(`**${user.username}** doesn't have their birthday set.`);
-	return interaction.reply(`**${user.username}'s** birthday is ${birthday.get("birthday")}`);
+	if (!birthday)
+		return interaction.reply(`**${user.username}** doesn't have their birthday set.`);
+	return interaction.reply(`**${user.username}'s** birthday is ${birthday.get('birthday')}`);
 }

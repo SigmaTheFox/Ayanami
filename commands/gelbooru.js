@@ -1,5 +1,11 @@
 const Booru = require('../modules/booru.js');
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
+const {
+	SlashCommandBuilder,
+	EmbedBuilder,
+	Client,
+	CommandInteraction,
+	MessageFlags,
+} = require('discord.js');
 const booru = new Booru(require('../settings/config.json').GBKey);
 
 let tags = ['-loli*', '-shota*', '-young', '-gore', '-amputee', '-furry', '-anthro'];
@@ -38,7 +44,7 @@ module.exports = {
 				return interaction.reply({
 					content:
 						"… I don't really want to come close to you, Commander. Lolis, Shota and Gore are not allowed...",
-					ephemeral: true,
+					flags: MessageFlags.Ephemeral,
 				});
 			}
 			tags = tags.concat(interaction.options.getString('tags').split(/ +/));
@@ -55,7 +61,7 @@ module.exports = {
 				content: `I'm sorry commander... I didn't find anything${
 					intString ? ' for **' + intString + '**' : ''
 				}.`,
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		}
 	},

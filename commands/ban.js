@@ -8,6 +8,7 @@ const {
 	TextInputBuilder,
 	TextInputStyle,
 	ActionRowBuilder,
+	MessageFlags,
 } = require('discord.js');
 
 module.exports = {
@@ -26,13 +27,13 @@ module.exports = {
 	async execute(ayanami, interaction) {
 		// Check if the user is already banned or left
 		if (!interaction.guild.members.cache.some(user => user.id === interaction.targetId))
-			return interaction.reply({ content: "This user isn't in the server", ephemeral: true });
+			return interaction.reply({ content: "This user isn't in the server", flags: MessageFlags.Ephemeral });
 
 		let target = interaction.guild.members.cache.get(interaction.targetId);
 
 		// Check if the user is bannable or the interaction user themselves
 		if (!target.bannable || target.id === interaction.user.id)
-			return interaction.reply({ content: "You can't ban this user.", ephemeral: true });
+			return interaction.reply({ content: "You can't ban this user.", flags: MessageFlags.Ephemeral });
 
 		/*
             Create the ban modal
@@ -91,12 +92,12 @@ module.exports = {
 				target.ban({ reason: reason, deleteMessageSeconds: 60 * 60 * 24 * time }).then(
 					modalSubmit.reply({
 						content: `Banned ${target.user.globalName}`,
-						ephemeral: true,
+						flags: MessageFlags.Ephemeral,
 					})
 				);
 			}
 		} catch {
-			interaction.followUp({ content: 'Ban cancelled', ephemeral: true });
+			interaction.followUp({ content: 'Ban cancelled', flags: MessageFlags.Ephemeral });
 		}
 	},
 };

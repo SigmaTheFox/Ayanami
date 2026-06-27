@@ -1,4 +1,10 @@
-const { Client, CommandInteraction, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const {
+	Client,
+	CommandInteraction,
+	SlashCommandBuilder,
+	EmbedBuilder,
+	MessageFlags,
+} = require('discord.js');
 
 let mod_role = '<@&724878371401760778>';
 
@@ -70,7 +76,7 @@ module.exports = {
 			});
 			interaction.reply({
 				content: 'Successfully sent the report',
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		} else if (interaction.options.getSubcommand() === 'channel') {
 			let messageURL = interaction.options.getString('message');
@@ -82,7 +88,7 @@ module.exports = {
 			)
 				return interaction.reply({
 					content: 'Please provide a valid message URL',
-					ephemeral: true,
+					flags: MessageFlags.Ephemeral,
 				});
 
 			let embed = new EmbedBuilder()
@@ -102,7 +108,7 @@ module.exports = {
 			});
 			interaction.reply({
 				content: 'Successfully sent the report',
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		}
 	},

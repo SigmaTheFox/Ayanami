@@ -1,33 +1,39 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require("discord.js");
-const { OpenWeather } = require("../settings/config.json");
+const {
+	SlashCommandBuilder,
+	EmbedBuilder,
+	Client,
+	CommandInteraction,
+	MessageFlags,
+} = require('discord.js');
+const { OpenWeather } = require('../settings/config.json');
 
 module.exports = {
 	global: true,
 	data: new SlashCommandBuilder()
-		.setName("weather")
-		.setDescription("Get the current weather data for the specified location")
-		.addStringOption((opt) =>
-			opt.setName("city").setDescription("The city to get the weather for").setRequired(true)
+		.setName('weather')
+		.setDescription('Get the current weather data for the specified location')
+		.addStringOption(opt =>
+			opt.setName('city').setDescription('The city to get the weather for').setRequired(true)
 		)
-		.addStringOption((opt) =>
+		.addStringOption(opt =>
 			opt
-				.setName("state_code")
-				.setDescription("The state code of the city to narrow down search results")
+				.setName('state_code')
+				.setDescription('The state code of the city to narrow down search results')
 		)
-		.addStringOption((opt) =>
+		.addStringOption(opt =>
 			opt
-				.setName("country_code")
-				.setDescription("The country code of the city to narrow down search results")
+				.setName('country_code')
+				.setDescription('The country code of the city to narrow down search results')
 		),
 	/**
 	 * @param {Client} ayanami
 	 * @param {CommandInteraction} interaction
 	 */
 	async execute(ayanami, interaction) {
-		let city = interaction.options.getString("city").replace(/ +/gi, "+"),
-			state_code = interaction.options.getString("state_code"),
-			country_code = interaction.options.getString("country_code"),
-			query = `${city}${state_code ? "," + state_code : ""}${country_code ? "," + country_code : ""}`,
+		let city = interaction.options.getString('city').replace(/ +/gi, '+'),
+			state_code = interaction.options.getString('state_code'),
+			country_code = interaction.options.getString('country_code'),
+			query = `${city}${state_code ? ',' + state_code : ''}${country_code ? ',' + country_code : ''}`,
 			URL = `http://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${OpenWeather}`,
 			icon,
 			description,
@@ -49,9 +55,9 @@ module.exports = {
 			description = json.weather[0].description;
 			tempC = Math.round(json.main.temp - 273.15);
 			tempF = Math.round((tempC * 9) / 5 + 32);
-			humidity = json.main.humidity + "%";
-			windSpeedC = Math.round(json.wind.speed * 3.6) + "km/h";
-			windSpeedF = Math.round(json.wind.speed * 2.237) + "mph";
+			humidity = json.main.humidity + '%';
+			windSpeedC = Math.round(json.wind.speed * 3.6) + 'km/h';
+			windSpeedF = Math.round(json.wind.speed * 2.237) + 'mph';
 			country = json.sys.country;
 			feelsLikeC = Math.round(json.main.feels_like - 273.15);
 			feelsLikeF = Math.round((feelsLikeC * 9) / 5 + 32);
@@ -66,38 +72,38 @@ module.exports = {
 				.setTitle(`${json.name}, ${country}`)
 				.setDescription(`**${description}**`)
 				.setThumbnail(icon)
-				.setColor("Orange")
+				.setColor('Orange')
 				.addFields(
 					{
-						name: "Temperature",
+						name: 'Temperature',
 						value: `${tempC}°C (${tempF}°F)`,
 						inline: true,
 					},
 					{
-						name: "Humidity",
+						name: 'Humidity',
 						value: humidity,
 						inline: true,
 					},
 					{
-						name: "Feels Like",
+						name: 'Feels Like',
 						value: `${feelsLikeC}°C (${feelsLikeF}°F)`,
 						inline: true,
 					},
 					{
-						name: "Wind Speed",
+						name: 'Wind Speed',
 						value: `${windSpeedC} (${windSpeedF})`,
 						inline: true,
 					}
 				)
-				.setFooter({ text: "Data received from OpenWeatherMap" });
+				.setFooter({ text: 'Data received from OpenWeatherMap' });
 
-			interaction.reply({ embeds: [embed], ephemeral: true });
+			interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
 		} catch (err) {
 			ayanami.logger.error(err);
 			console.error(err);
 			interaction.reply({
 				content: "I couldn't find the specified location",
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		}
 	},
